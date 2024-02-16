@@ -41,6 +41,7 @@ namespace Garage.Controllers
             _context.Cars = Task.FromResult(new List<Car>());
             _context.ContactPersons = Task.FromResult(new List<ContactPerson>());
             _context.CarsAtService = Task.FromResult(new List<CarAtService>());
+            _context.CarServiceHistory = Task.FromResult(new List<CarServiceHistory>());
 
             _context.ContactPersons.Result.AddRange(new List<ContactPerson>() {
                 new ContactPerson { Id=1, Name = "John" },
@@ -60,27 +61,65 @@ namespace Garage.Controllers
                     Id = 1,
                     Car = _context.Cars.Result[0],
                     ContactPerson = _context.ContactPersons.Result[0],
-                    EstimatedComplexity = (int)WorkComplexityEnum.Simple,
-                    EstimatedDurationInDays = 1,
-                    WorkNeedToBeDone = "check why the car wont start"
+                    EstimatedComplexity = WorkComplexityEnum.Simple,
+                    EstimatedDurationInHours = 1,
+                    WorkNeedToBeDone = "check why the car wont start",
+                    DateOfArrival = DateTime.Now.AddDays(-10)
                 },
                 new CarAtService
-                { 
+                {
                     Id = 2,
                     Car = _context.Cars.Result[1],
                     ContactPerson =_context.ContactPersons.Result[1],
-                    EstimatedComplexity = (int)WorkComplexityEnum.Intermediate,
-                    EstimatedDurationInDays = 1,
-                    WorkNeedToBeDone = "change breaks"
+                    EstimatedComplexity = WorkComplexityEnum.Intermediate,
+                    EstimatedDurationInHours = 1,
+                    WorkNeedToBeDone = "change breaks",
+                    DateOfArrival = DateTime.Now.AddDays(-9)
                 },
                 new CarAtService
                 {
                     Id= 3,
                     Car = _context.Cars.Result[2],
                     ContactPerson = _context.ContactPersons.Result[2],
-                    EstimatedComplexity = (int)WorkComplexityEnum.High,
-                    EstimatedDurationInDays = 3,
-                    WorkNeedToBeDone = "check what is wrong with the car computer"
+                    EstimatedComplexity = WorkComplexityEnum.High,
+                    EstimatedDurationInHours = 3,
+                    WorkNeedToBeDone = "check what is wrong with the car computer",
+                    DateOfArrival = DateTime.Now.AddDays(-8)
+                }
+            });
+
+
+            _context.CarServiceHistory.Result.AddRange(new List<CarServiceHistory>()
+            {
+                new CarServiceHistory
+                {
+                    Id = 1,
+                    Car = _context.Cars.Result[0],
+                    CarStatus = CarStatusEnum.StartWorkingOnCar,
+                    DateOfStatusChange = DateTime.Now.AddDays(-9)
+                },
+                new CarServiceHistory
+                {
+                    Id = 2,
+                    Car = _context.Cars.Result[0],
+                    CarStatus = CarStatusEnum.WaitingForPart,
+                    DateOfStatusChange = DateTime.Now.AddDays(-9),
+                    Note = "We ordered new fuel pump."
+                },
+                new CarServiceHistory
+                {
+                    Id = 3,
+                    Car = _context.Cars.Result[0],
+                    CarStatus = CarStatusEnum.WorkIsDone,
+                    DateOfStatusChange = DateTime.Now.AddDays(-5)
+                },
+                new CarServiceHistory
+                {
+                    Id = 3,
+                    Car = _context.Cars.Result[0],
+                    CarStatus = CarStatusEnum.ReadyForPickUp,
+                    DateOfStatusChange = DateTime.Now.AddDays(-5),
+                    Note = "Client need to pay 150$."
                 }
             });
 

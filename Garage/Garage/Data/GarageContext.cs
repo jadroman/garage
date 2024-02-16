@@ -9,7 +9,6 @@ namespace Garage.Data
 {
     public class GarageContext : IGarageContext
     {
-        public Task<List<CarStatus>> CarStatuses { get; set; }
         public Task<List<ContactPerson>> ContactPersons { get; set; }
         public Task<List<Car>> Cars { get; set; }
         public Task<List<CarAtService>> CarsAtService { get; set; }

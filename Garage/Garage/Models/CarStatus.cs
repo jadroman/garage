@@ -3,11 +3,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Garage.Models
 {
-    public class CarStatus
+    public enum CarStatusEnum
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        public string Name { get; set; }
+        StartWorkingOnCar = 1,
+        WaitingForPart = 2,
+        WorkIsDone = 3,
+        ReadyForPickUp = 4,
+        ClientTookOverTheCar = 5
     }
 }

@@ -8,7 +8,6 @@ namespace Garage.Data
         Task<List<Car>> Cars { get; set; }
         Task<List<CarAtService>> CarsAtService { get; set; }
         Task<List<CarServiceHistory>> CarServiceHistory { get; set; }
-        Task<List<CarStatus>> CarStatuses { get; set; }
         Task<List<ContactPerson>> ContactPersons { get; set; }
     }
 }

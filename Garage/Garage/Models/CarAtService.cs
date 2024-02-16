@@ -11,7 +11,8 @@ namespace Garage.Models
         public ContactPerson ContactPerson { get; set; }
         public Car Car { get; set; }
         public string WorkNeedToBeDone { get; set; }
-        public int EstimatedDurationInDays { get; set; }
-        public int EstimatedComplexity { get; set; }
+        public int EstimatedDurationInHours { get; set; }
+        public WorkComplexityEnum EstimatedComplexity { get; set; }
+        public DateTime DateOfArrival { get; set; }
     }
 }

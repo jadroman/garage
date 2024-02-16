@@ -23,12 +23,43 @@ namespace Garage.Controllers
 
         // GET: api/CarAtServices
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CarAtService>>> GetCarAtService()
+        public async Task<ActionResult<IEnumerable<CarAtService>>> GetCarAtService([FromQuery] CarAtServiceParameters param)
         {
-            if (_context.CarsAtService != null)
-                return Ok(await _context.CarsAtService);
+            var returnValues = GetWhereWorkStarted(param.WorkStarted);
 
-            return NotFound();
+            if(returnValues == null)
+                return NotFound();
+
+            if (param.NewlyArrived)
+                return Ok(returnValues.OrderByDescending(cas => cas.DateOfArrival).ToList());
+            else if (param.LowestComplexity)
+                return Ok(returnValues.OrderBy(cas => cas.EstimatedComplexity).ToList());
+            else if (param.LowestDuration)
+                return Ok(returnValues.OrderBy(cas => cas.EstimatedDurationInHours).ToList());
+            else
+                return Ok(returnValues.OrderByDescending(cas => cas.DateOfArrival).ToList());
+        }
+
+        private List<CarAtService> GetWhereWorkStarted(bool workStarted)
+        {
+            var returnValues = new List<CarAtService>();
+
+            foreach (var cas in _context.CarsAtService.Result)
+            {
+                var lastCarHistoryEntry = _context.CarServiceHistory.Result.Where(csh=> csh.Car.Id == cas.Id).OrderByDescending(csh=>csh.DateOfStatusChange).LastOrDefault();
+
+                if (workStarted)
+                {
+                    if (lastCarHistoryEntry != null)
+                        returnValues.Add(cas);
+                }
+                else
+                {
+                    if (lastCarHistoryEntry == null)
+                        returnValues.Add(cas);
+                }
+            }
+            return returnValues;
         }
 
         // GET: api/CarAtServices/5
