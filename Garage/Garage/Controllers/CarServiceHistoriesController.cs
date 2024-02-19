@@ -14,9 +14,9 @@ namespace Garage.Controllers
     [ApiController]
     public class CarServiceHistoriesController : ControllerBase
     {
-        private readonly GarageContext _context;
+        private readonly IGarageContext _context;
 
-        public CarServiceHistoriesController(GarageContext context)
+        public CarServiceHistoriesController(IGarageContext context)
         {
             _context = context;
         }
