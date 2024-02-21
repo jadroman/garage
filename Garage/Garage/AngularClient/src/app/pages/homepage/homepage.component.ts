@@ -9,5 +9,9 @@ import { CarsAtServiceListComponent } from '../../shared/components/cars-at-serv
   styleUrl: './homepage.component.scss'
 })
 export class HomepageComponent {
+  private workStarted: boolean = false;
 
+  setWorkStarted(selected: any) {
+    this.workStarted = selected.selectedIndex === 1 ? true : false;
+  }
 }
