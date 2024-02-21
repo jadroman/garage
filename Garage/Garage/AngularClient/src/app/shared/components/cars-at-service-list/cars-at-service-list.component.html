@@ -1,1 +1,29 @@
 <p>cars-at-service-list works!</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">brand model year</th>
+            <th scope="col">arrived</th>
+            <th scope="col">complexity</th>
+            <th scope="col">duration</th>
+            <th scope="col">work to be done</th>
+            <th scope="col">contact</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (cas of carsAtService$ | async; track cas.id) {
+        <tr>
+            <td>{{cas.car.brandModelYear}}</td>
+            <td>{{cas.dateOfArrival}}</td>
+            <td>{{cas.estimatedComplexity}}</td>
+            <td>{{cas.estimatedDurationInHours}}</td>
+            <td>{{cas.workNeedToBeDone}}</td>
+            <td>{{cas.contactPerson.name}}</td>
+        </tr>
+        } @empty {
+        <tr>
+            <td colspan="4" style="text-align: center">No entries found</td>
+        </tr>
+        }
+    </tbody>
+</table>
