@@ -20,6 +20,12 @@ export enum WorkComplexityEnum {
     VeryHigh = 5
 }
 
+export enum WorkStartedEnum {
+    notStarted = 0,
+    started = 1,
+    both = 2,
+}
+
 export interface CarAtService {
     id: number,
     contactPerson: ContactPerson,

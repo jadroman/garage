@@ -1,4 +1,3 @@
-<p>cars-at-service-list works!</p>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -11,19 +10,25 @@
         </tr>
     </thead>
     <tbody>
-        @for (cas of carsAtService$ | async; track cas.id) {
-        <tr>
-            <td>{{cas.car.brandModelYear}}</td>
-            <td>{{cas.dateOfArrival}}</td>
-            <td>{{cas.estimatedComplexity}}</td>
-            <td>{{cas.estimatedDurationInHours}}</td>
-            <td>{{cas.workNeedToBeDone}}</td>
-            <td>{{cas.contactPerson.name}}</td>
-        </tr>
-        } @empty {
-        <tr>
-            <td colspan="4" style="text-align: center">No entries found</td>
-        </tr>
-        }
+        <ng-container *ngIf="(loading$ | async) else tableData">
+            <div class="spinner-border" role="status">
+            </div>
+        </ng-container>
+        <ng-template #tableData>
+            @for (cas of carsAtService$ | async; track cas.id) {
+            <tr>
+                <td>{{cas.car.brandModelYear}}</td>
+                <td>{{cas.dateOfArrival}}</td>
+                <td>{{cas.estimatedComplexity}}</td>
+                <td>{{cas.estimatedDurationInHours}}</td>
+                <td>{{cas.workNeedToBeDone}}</td>
+                <td>{{cas.contactPerson.name}}</td>
+            </tr>
+            } @empty {
+            <tr>
+                <td colspan="6" style="text-align: center">No entries found</td>
+            </tr>
+            }
+        </ng-template>
     </tbody>
 </table>

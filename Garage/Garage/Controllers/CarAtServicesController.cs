@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Garage.Data;
+﻿using Garage.Data;
 using Garage.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Garage.Controllers
 {
@@ -27,7 +21,7 @@ namespace Garage.Controllers
         {
             var returnValues = GetWhereWorkStarted(param.WorkStarted);
 
-            if(returnValues == null)
+            if (returnValues == null)
                 return NotFound();
 
             if (param.NewlyArrived)
@@ -40,23 +34,29 @@ namespace Garage.Controllers
                 return Ok(returnValues.OrderByDescending(cas => cas.DateOfArrival).ToList());
         }
 
-        private List<CarAtService> GetWhereWorkStarted(bool workStarted)
+        private List<CarAtService> GetWhereWorkStarted(WorkStartedEnum workStarted)
         {
             var returnValues = new List<CarAtService>();
-
-            foreach (var cas in _context.CarsAtService.Result)
+            if (_context.CarsAtService != null)
             {
-                var lastCarHistoryEntry = _context.CarServiceHistory.Result.Where(csh=> csh.Car.Id == cas.Id).OrderByDescending(csh=>csh.DateOfStatusChange).LastOrDefault();
+                foreach (var cas in _context.CarsAtService.Result)
+                {
+                    var lastCarHistoryEntry = _context.CarServiceHistory.Result.Where(csh => csh.Car.Id == cas.Id).OrderByDescending(csh => csh.DateOfStatusChange).LastOrDefault();
 
-                if (workStarted)
-                {
-                    if (lastCarHistoryEntry != null)
+                    if (workStarted == WorkStartedEnum.started)
+                    {
+                        if (lastCarHistoryEntry != null)
+                            returnValues.Add(cas);
+                    }
+                    else if (workStarted == WorkStartedEnum.notStarted)
+                    {
+                        if (lastCarHistoryEntry == null)
+                            returnValues.Add(cas);
+                    }
+                    else
+                    {
                         returnValues.Add(cas);
-                }
-                else
-                {
-                    if (lastCarHistoryEntry == null)
-                        returnValues.Add(cas);
+                    }
                 }
             }
             return returnValues;
@@ -88,7 +88,7 @@ namespace Garage.Controllers
 
             return NoContent();
         }
-        
+
         // POST: api/CarAtServices
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -103,7 +103,7 @@ namespace Garage.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCarAtService(int id)
         {
-            var carAtService =  _context.CarsAtService.Result.FirstOrDefault(cas=>cas.Id == id);
+            var carAtService = _context.CarsAtService.Result.FirstOrDefault(cas => cas.Id == id);
 
             _context.CarsAtService.Result.Remove(carAtService);
 

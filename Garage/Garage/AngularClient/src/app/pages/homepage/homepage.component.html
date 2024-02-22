@@ -1,12 +1,12 @@
-<p>homepage works!</p>
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Cars at the service</h1>
 </div>
 <div>
     <select name="cars" id="cars" (change)="setWorkStarted($event.target)">
-        <option selected value="0">work not started</option>
+        <option value="0">work not started</option>
         <option value="1">work started</option>
+        <option selected value="2">All</option>
     </select>
 </div>
 
-<app-cars-at-service-list />
+<app-cars-at-service-list [workStarted]="workStarted" />
