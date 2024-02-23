@@ -26,6 +26,20 @@ export enum WorkStartedEnum {
     both = 2,
 }
 
+export enum SortCarsByEnum {
+    newlyArrived = 0,
+    lowestDuration = 1,
+    lowestComplexity = 2,
+}
+
+export enum CarStatusEnum {
+    StartWorkingOnCar = 1,
+    WaitingForPart = 2,
+    WorkIsDone = 3,
+    ReadyForPickUp = 4,
+    ClientTookOverTheCar = 5
+}
+
 export interface CarAtService {
     id: number,
     contactPerson: ContactPerson,
@@ -34,4 +48,12 @@ export interface CarAtService {
     estimatedDurationInHours: number,
     estimatedComplexity: WorkComplexityEnum,
     dateOfArrival: Date
+}
+
+export interface CarHistory {
+    id: number,
+    car: Car,
+    carStatus: CarStatusEnum,
+    dateOfStatusChange: Date,
+    note: string
 }

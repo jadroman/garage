@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CarsAtServiceListComponent } from '../../shared/components/cars-at-service-list/cars-at-service-list.component';
-import { WorkStartedEnum } from '../../core/models/garage.model';
+import { SortCarsByEnum, WorkStartedEnum } from '../../core/models/garage.model';
 
 
 @Component({
@@ -12,6 +12,7 @@ import { WorkStartedEnum } from '../../core/models/garage.model';
 })
 export class HomepageComponent {
   public workStarted: WorkStartedEnum = WorkStartedEnum.both;
+  public sortCarsBy: SortCarsByEnum = SortCarsByEnum.newlyArrived;
 
   setWorkStarted(selected: any) {
     if (selected.selectedIndex === 0)
@@ -20,9 +21,15 @@ export class HomepageComponent {
       this.workStarted = WorkStartedEnum.started
     else
       this.workStarted = WorkStartedEnum.both;
-
-    console.log(this.workStarted);
   }
 
+  setSortCarBy(selected: any) {
+    if (selected.selectedIndex === 0)
+      this.sortCarsBy = SortCarsByEnum.newlyArrived
+    else if (selected.selectedIndex === 1)
+      this.sortCarsBy = SortCarsByEnum.lowestDuration
+    else if (selected.selectedIndex === 2)
+      this.sortCarsBy = SortCarsByEnum.lowestComplexity
+  }
 
 }

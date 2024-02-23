@@ -4,6 +4,6 @@
     {
         notStarted = 0,
         started = 1,
-        both = 2,
+        both = 2
     }
 }

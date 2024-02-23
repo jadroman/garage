@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Garage.Data;
+﻿using Garage.Data;
 using Garage.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Garage.Controllers
 {
@@ -20,29 +14,14 @@ namespace Garage.Controllers
         {
             _context = context;
         }
-        
+
         // GET: api/CarServiceHistories
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<CarServiceHistory>>> GetCarServiceHistory()
+        [HttpGet("car/{carId}")]
+        public async Task<ActionResult<IEnumerable<CarServiceHistory>>> GetCarServiceHistory(int carId)
         {
-            if (_context.CarServiceHistory != null)
-                return Ok(await _context.CarServiceHistory);
+            return Ok(_context.CarServiceHistory.Result.Where(csh => csh.Car.Id == carId));
 
-            return NotFound();
-        }
-
-        // GET: api/CarServiceHistories/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CarServiceHistory>> GetCarServiceHistory(int id)
-        {
-            var carServiceHistory = _context.CarServiceHistory.Result.FirstOrDefault(csh => csh.Id == id);
-
-            if (carServiceHistory == null)
-            {
-                return NotFound();
-            }
-
-            return carServiceHistory;
+            //return NotFound();
         }
 
         // PUT: api/CarServiceHistories/5

@@ -24,11 +24,11 @@ namespace Garage.Controllers
             if (returnValues == null)
                 return NotFound();
 
-            if (param.NewlyArrived)
+            if (param.SortCarsBy == SortCarsByEnum.newlyArrived)
                 return Ok(returnValues.OrderByDescending(cas => cas.DateOfArrival).ToList());
-            else if (param.LowestComplexity)
+            else if (param.SortCarsBy == SortCarsByEnum.lowestComplexity)
                 return Ok(returnValues.OrderBy(cas => cas.EstimatedComplexity).ToList());
-            else if (param.LowestDuration)
+            else if (param.SortCarsBy == SortCarsByEnum.lowestDuration)
                 return Ok(returnValues.OrderBy(cas => cas.EstimatedDurationInHours).ToList());
             else
                 return Ok(returnValues.OrderByDescending(cas => cas.DateOfArrival).ToList());

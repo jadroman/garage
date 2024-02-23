@@ -1,1 +1,28 @@
-<p>car-history works!</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">date</th>
+            <th scope="col">status</th>
+            <th scope="col">note</th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngIf="(loading$ | async) else tableData">
+            <div class="spinner-border" role="status">
+            </div>
+        </ng-container>
+        <ng-template #tableData>
+            @for (ch of carHistory$ | async; track ch.id) {
+            <tr>
+                <td>{{ch.dateOfStatusChange}}</td>
+                <td>{{ch.carStatus}}</td>
+                <td>{{ch.note}}</td>
+            </tr>
+            } @empty {
+            <tr>
+                <td colspan="3" style="text-align: center">No entries found</td>
+            </tr>
+            }
+        </ng-template>
+    </tbody>
+</table>

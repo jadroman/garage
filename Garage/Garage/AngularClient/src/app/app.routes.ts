@@ -8,7 +8,7 @@ export const routes: Routes = [
         component: HomepageComponent
     },
     {
-        path: 'carhistory',
+        path: 'carhistory/:carId',
         component: CarHistoryComponent
     }
 ];

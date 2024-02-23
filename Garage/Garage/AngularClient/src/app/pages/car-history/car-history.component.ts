@@ -1,16 +1,30 @@
-import { AsyncPipe } from '@angular/common';
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild, viewChild } from '@angular/core';
-import { Observable, of, fromEvent, interval } from 'rxjs';
-import { delay, first, map, takeLast } from 'rxjs/operators'
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { GarageService } from '../../core/services/garage.service';
+import { CarHistory } from '../../core/models/garage.model';
+import { Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-car-history',
   standalone: true,
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, CommonModule],
   templateUrl: './car-history.component.html',
   styleUrl: './car-history.component.scss'
 })
-export class CarHistoryComponent {
-  constructor() {
+export class CarHistoryComponent implements OnInit {
+  carId!: string | null;
+  carHistory$!: Observable<CarHistory[]>;
+  loading$!: Observable<boolean>;
+
+  constructor(private route: ActivatedRoute, private service: GarageService) {
+    this.loading$ = this.service.loadingCarHistory$;
+  }
+
+  ngOnInit(): void {
+    this.carId = this.route.snapshot.paramMap.get("carId");
+
+    if (this.carId)
+      this.carHistory$ = this.service.carHistory$(+this.carId);
   }
 }

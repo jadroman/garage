@@ -2,11 +2,16 @@
     <h1 class="h2">Cars at the service</h1>
 </div>
 <div>
-    <select name="cars" id="cars" (change)="setWorkStarted($event.target)">
+    <select class="me-2" name="workStarted" id="workStarted" (change)="setWorkStarted($event.target)">
         <option value="0">work not started</option>
         <option value="1">work started</option>
         <option selected value="2">All</option>
     </select>
+    <select name="sortCarBy" id="sortBy" (change)="setSortCarBy($event.target)">
+        <option selected value="0">newly arrived</option>
+        <option value="1">lowest duration</option>
+        <option value="2">lowest complexity</option>
+    </select>
 </div>
 
-<app-cars-at-service-list [workStarted]="workStarted" />
+<app-cars-at-service-list [workStarted]="workStarted" [sortCarsBy]="sortCarsBy" />
