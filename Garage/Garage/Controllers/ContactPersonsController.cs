@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Garage.Data;
+﻿using Garage.Data;
 using Garage.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Garage.Controllers
 {
@@ -14,13 +8,13 @@ namespace Garage.Controllers
     [ApiController]
     public class ContactPersonsController : ControllerBase
     {
-        private readonly GarageContext _context;
+        private readonly IGarageContext _context;
 
-        public ContactPersonsController(GarageContext context)
+        public ContactPersonsController(IGarageContext context)
         {
             _context = context;
         }
-        
+
         // GET: api/ContactPersons
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ContactPerson>>> GetContactPerson()

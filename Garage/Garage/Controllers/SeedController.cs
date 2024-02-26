@@ -42,10 +42,10 @@ namespace Garage.Controllers
             _context.CarServiceHistory = Task.FromResult(new List<CarServiceHistory>());
 
             _context.ContactPersons.Result.AddRange(new List<ContactPerson>() {
-                new ContactPerson { Id=1, Name = "John" },
-                 new ContactPerson { Id=2, Name = "Jack" },
-                 new ContactPerson { Id=3 ,Name = "Bob" },
-                 new ContactPerson { Id=4, Name = "Stipe" }});
+                new ContactPerson { Id=1, Name = "John", Surname = "Denver", Phone="4423442" },
+                 new ContactPerson { Id=2, Name = "Jack", Surname =  "Floppy", Phone="874365"},
+                 new ContactPerson { Id=3 ,Name = "Bob", Surname = "Saget", Phone="197747" },
+                 new ContactPerson { Id=4, Name = "Stipe", Surname = "The Rock", Phone="48857874" }});
 
             _context.Cars.Result.AddRange(new List<Car>() {
                 new Car { Id=1, LicensePlate = "RI-123EN", BrandModelYear = "Ford Fiesta 2002", VehicleIdNumber = "4845151515" },

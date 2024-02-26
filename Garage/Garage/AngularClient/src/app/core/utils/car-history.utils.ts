@@ -16,8 +16,8 @@ export function getCarStatusLabel(carStatus: CarStatusEnum): string {
         case CarStatusEnum.WorkIsDone:
             label = 'Work Is Done'
             break;
-        case CarStatusEnum.ReadyForPickUp:
-            label = 'Ready For Pick Up'
+        case CarStatusEnum.ReadyToPickUp:
+            label = 'Car Ready To Pick Up'
             break;
         default:
             label = "Unknown status";
