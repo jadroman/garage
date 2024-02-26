@@ -10,9 +10,11 @@ export class GarageService {
   private _carsAtService$ = new BehaviorSubject<CarAtService[]>([]);
   private _contacts$ = new BehaviorSubject<ContactPerson[]>([]);
   private _carHistory$ = new BehaviorSubject<CarHistory[]>([]);
+  private _contact$ = new BehaviorSubject<ContactPerson>(null!);
   private _loadingCarsAtService$ = new BehaviorSubject<boolean>(false);
   private _loadingCarHistory$ = new BehaviorSubject<boolean>(false);
   private _loadingContacts$ = new BehaviorSubject<boolean>(false);
+  private _loadingContact$ = new BehaviorSubject<boolean>(false);
   private params: any;
 
   constructor(private http: HttpClient) { }
@@ -55,6 +57,18 @@ export class GarageService {
     })
   }
 
+  private getContact = (id: number) => {
+    this.http.get<any>(`http://localhost:5067/api/ContactPersons/${id}`, {
+      observe: 'response'
+    }).pipe(
+      tap(() => this._loadingContact$.next(true)),
+      delay(500)
+    ).subscribe((res: any) => {
+      this._loadingContact$.next(false);
+      this._contact$.next(res.body);
+    })
+  }
+
   public carsAtService$ = (params: any) => {
     this.params = params;
     this.getCarsAtService(this.params);
@@ -71,9 +85,14 @@ export class GarageService {
     return this._carHistory$.asObservable();
   }
 
+  public contact$ = (id: number) => {
+    this.getContact(id);
+    return this._contact$.asObservable();
+  }
 
   public loadingCarsAtService$ = this._loadingCarsAtService$.asObservable();
   public loadingCarHistory$ = this._loadingCarHistory$.asObservable();
   public loadingContacts$ = this._loadingContacts$.asObservable();
+  public loadingContact$ = this._loadingContact$.asObservable();
 
 }

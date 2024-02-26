@@ -18,8 +18,6 @@
             @for (cas of carsAtService$ | async; track cas.id) {
             <tr>
                 <td>
-
-
                     <a [routerLink]="['/carhistory', cas.car.id]">
                         {{cas.car.brandModelYear}}
                     </a>

@@ -1,6 +1,11 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Contacts</h1>
 </div>
+<div class="mb-3">
+    <a class="btn btn-primary" [routerLink]="['/contact/new']">
+        Add New
+    </a>
+</div>
 <div class="card">
     <div class="card-body">
         <table class="table table-striped">
@@ -19,7 +24,12 @@
                 <ng-template #tableData>
                     @for (c of contacts$ | async; track c.id) {
                     <tr>
-                        <td>{{ c.name }}</td>
+                        <td>
+
+                            <a [routerLink]="['/contact', c.id]">
+                                {{ c.name }}
+                            </a>
+                        </td>
                         <td>{{ c.surname }}</td>
                         <td>{{ c.phone }}</td>
                     </tr>

@@ -3,23 +3,27 @@
 </div>
 <div class="card mb-3">
     <div class="card-body">
+        <ng-container *ngIf="(loading$ | async) else carDetails">
+            <div class="spinner-border" role="status">
+            </div>
+        </ng-container>
+        <ng-template #carDetails>
+            @if(carHistory$ | async; as carHistory){
 
-        @if(carHistory$ | async; as carHistory){
+            @if(carHistory.length>0){
 
-        @if(carHistory.length>0){
-
-        <div class="card-text">
-            <b>Brand-Model-Year:</b> {{carHistory[0].car.brandModelYear ?? "no data"}}
-        </div>
-        <div class="card-text">
-            <b>Vehicle Id Number:</b> {{carHistory[0].car.vehicleIdNumber ?? "no data"}}
-        </div>
-        <div class="card-text">
-            <b>Licence Plate:</b> {{carHistory[0].car.licencePlate ?? "no data"}}
-        </div>
-        }
-        }
-
+            <div class="card-text">
+                <b>Brand-Model-Year:</b> {{carHistory[0].car.brandModelYear ?? "no data"}}
+            </div>
+            <div class="card-text">
+                <b>Vehicle Id Number:</b> {{carHistory[0].car.vehicleIdNumber ?? "no data"}}
+            </div>
+            <div class="card-text">
+                <b>Licence Plate:</b> {{carHistory[0].car.licencePlate ?? "no data"}}
+            </div>
+            }
+            }
+        </ng-template>
     </div>
 </div>
 <div class="card">

@@ -1,1 +1,29 @@
-<p>contact-edit works!</p>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Edit Contact</h1>
+</div>
+<div class="card">
+    <div class="card-body">
+        <ng-container *ngIf="(loading$ | async) else contactForm">
+            <div class="spinner-border" role="status">
+            </div>
+        </ng-container>
+        <ng-template #contactForm>
+            <form [formGroup]="form">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Name" formControlName="name">
+                </div>
+                <div class="mb-3">
+                    <label for="surname" class="form-label">Surname</label>
+                    <input type="text" class="form-control" id="surname" placeholder="Surname"
+                        formControlName="surname">
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone</label>
+                    <input type="tel" class="form-control" id="phone" placeholder="Phone" formControlName="phone">
+                </div>
+                <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Save</button>
+            </form>
+        </ng-template>
+    </div>
+</div>
