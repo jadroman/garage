@@ -1,28 +1,56 @@
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th scope="col">date</th>
-            <th scope="col">status</th>
-            <th scope="col">note</th>
-        </tr>
-    </thead>
-    <tbody>
-        <ng-container *ngIf="(loading$ | async) else tableData">
-            <div class="spinner-border" role="status">
-            </div>
-        </ng-container>
-        <ng-template #tableData>
-            @for (ch of carHistory$ | async; track ch.id) {
-            <tr>
-                <td>{{ch.dateOfStatusChange}}</td>
-                <td>{{ch.carStatus}}</td>
-                <td>{{ch.note}}</td>
-            </tr>
-            } @empty {
-            <tr>
-                <td colspan="3" style="text-align: center">No entries found</td>
-            </tr>
-            }
-        </ng-template>
-    </tbody>
-</table>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Car service history</h1>
+</div>
+<div class="card mb-3">
+    <div class="card-body">
+
+        @if(carHistory$ | async; as carHistory){
+
+        @if(carHistory.length>0){
+
+        <div class="card-text">
+            <b>Brand-Model-Year:</b> {{carHistory[0].car.brandModelYear ?? "no data"}}
+        </div>
+        <div class="card-text">
+            <b>Vehicle Id Number:</b> {{carHistory[0].car.vehicleIdNumber ?? "no data"}}
+        </div>
+        <div class="card-text">
+            <b>Licence Plate:</b> {{carHistory[0].car.licencePlate ?? "no data"}}
+        </div>
+        }
+        }
+
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">date</th>
+                    <th scope="col">status</th>
+                    <th scope="col">note</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngIf="(loading$ | async) else tableData">
+                    <div class="spinner-border" role="status">
+                    </div>
+                </ng-container>
+                <ng-template #tableData>
+                    @for (ch of carHistory$ | async; track ch.id) {
+                    <tr>
+                        <td>{{ch.dateOfStatusChange | date}}</td>
+                        <td>{{ getCarStatusLabel(ch.carStatus)}}</td>
+                        <td>{{ch.note}}</td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="3" style="text-align: center">No entries found</td>
+                    </tr>
+                    }
+                </ng-template>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,9 +1,10 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { GarageService } from '../../core/services/garage.service';
-import { CarHistory } from '../../core/models/garage.model';
+import { GarageService } from '@services/garage.service';
+import { CarHistory, CarStatusEnum } from '@models/garage.model';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { getCarStatusLabel } from '@utils/car-history.utils'
 
 @Component({
   selector: 'app-car-history',
@@ -26,5 +27,9 @@ export class CarHistoryComponent implements OnInit {
 
     if (this.carId)
       this.carHistory$ = this.service.carHistory$(+this.carId);
+  }
+
+  getCarStatusLabel(carStatus: CarStatusEnum): string {
+    return getCarStatusLabel(carStatus);
   }
 }

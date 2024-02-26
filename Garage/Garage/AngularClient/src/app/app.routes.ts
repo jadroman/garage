@@ -8,6 +8,10 @@ export const routes: Routes = [
         component: HomepageComponent
     },
     {
+        path: '',
+        component: HomepageComponent
+    },
+    {
         path: 'carhistory/:carId',
         component: CarHistoryComponent
     }

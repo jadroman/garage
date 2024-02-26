@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Cars at the service</h1>
 </div>
-<div>
+<div class="mb-3">
     <select class="me-2" name="workStarted" id="workStarted" (change)="setWorkStarted($event.target)">
         <option value="0">work not started</option>
         <option value="1">work started</option>
@@ -14,4 +14,9 @@
     </select>
 </div>
 
-<app-cars-at-service-list [workStarted]="workStarted" [sortCarsBy]="sortCarsBy" />
+
+<div class="card">
+    <div class="card-body">
+        <app-cars-at-service-list [workStarted]="workStarted" [sortCarsBy]="sortCarsBy" />
+    </div>
+</div>

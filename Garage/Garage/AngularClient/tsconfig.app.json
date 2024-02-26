@@ -8,13 +8,16 @@
     ],
     "baseUrl": "src",
     "paths": {
-      "app": [
-        "app/"
+      "@utils/*": [
+        "app/core/utils/*"
       ],
-      "components": [
-        "components/"
+      "@services/*": [
+        "app/core/services/*"
+      ],
+      "@models/*": [
+        "app/core/models/*"
       ]
-    }
+    },
   },
   "files": [
     "src/main.ts"

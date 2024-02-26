@@ -1,8 +1,6 @@
 ﻿using Garage.Data;
 using Garage.Models;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Packaging;
-using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -120,6 +118,20 @@ namespace Garage.Controllers
                     CarStatus = CarStatusEnum.ReadyForPickUp,
                     DateOfStatusChange = DateTime.Now.AddDays(-5),
                     Note = "Client need to pay 150$."
+                },
+                new CarServiceHistory
+                {
+                    Id = 4,
+                    Car = _context.Cars.Result[1],
+                    CarStatus = CarStatusEnum.CarCheckedIn,
+                    DateOfStatusChange = DateTime.Now.AddDays(-11),
+                },
+                new CarServiceHistory
+                {
+                    Id = 5,
+                    Car = _context.Cars.Result[2],
+                    CarStatus = CarStatusEnum.CarCheckedIn,
+                    DateOfStatusChange = DateTime.Now.AddDays(-10),
                 }
             });
 
