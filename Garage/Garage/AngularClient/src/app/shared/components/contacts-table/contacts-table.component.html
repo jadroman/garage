@@ -1,0 +1,32 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">name</th>
+            <th scope="col">surname</th>
+            <th scope="col">phone</th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngIf="(loading$ | async) else tableData">
+            <div class="spinner-border" role="status">
+            </div>
+        </ng-container>
+        <ng-template #tableData>
+            @for (c of contacts$ | async; track c.id) {
+            <tr>
+                <td>
+                    <a [routerLink]="['/contact', c.id]">
+                        {{ c.name }}
+                    </a>
+                </td>
+                <td>{{ c.surname }}</td>
+                <td>{{ c.phone }}</td>
+            </tr>
+            } @empty {
+            <tr>
+                <td colspan="3" style="text-align: center">No entries found</td>
+            </tr>
+            }
+        </ng-template>
+    </tbody>
+</table>

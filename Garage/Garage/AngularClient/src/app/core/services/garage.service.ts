@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, delay, tap } from 'rxjs';
+import { BehaviorSubject, delay, take, tap } from 'rxjs';
 import { CarAtService, CarHistory, ContactPerson } from '../models/garage.model';
 
 @Injectable({
@@ -11,6 +11,9 @@ export class GarageService {
   private _contacts$ = new BehaviorSubject<ContactPerson[]>([]);
   private _carHistory$ = new BehaviorSubject<CarHistory[]>([]);
   private _contact$ = new BehaviorSubject<ContactPerson>(null!);
+  private _updateContact$ = new BehaviorSubject<any>(null!);
+  private _createContact$ = new BehaviorSubject<any>(null!);
+
   private _loadingCarsAtService$ = new BehaviorSubject<boolean>(false);
   private _loadingCarHistory$ = new BehaviorSubject<boolean>(false);
   private _loadingContacts$ = new BehaviorSubject<boolean>(false);
@@ -69,6 +72,28 @@ export class GarageService {
     })
   }
 
+  private updateContact = (id: number, contact: ContactPerson) => {
+    this.http.put(`http://localhost:5067/api/ContactPersons/${id}`, contact).pipe(
+      //tap(() => this._loadingContact$.next(true)),
+      delay(500),
+      take(1)
+    ).subscribe((res: any) => {
+      this.getContacts();
+      this._updateContact$.next(res);
+    })
+  }
+
+  private createContact = (contact: ContactPerson) => {
+    this.http.post(`http://localhost:5067/api/ContactPersons`, contact).pipe(
+      //tap(() => this._loadingContact$.next(true)),
+      delay(500),
+      take(1)
+    ).subscribe((res: any) => {
+      this.getContacts();
+      this._createContact$.next(res);
+    })
+  }
+
   public carsAtService$ = (params: any) => {
     this.params = params;
     this.getCarsAtService(this.params);
@@ -88,6 +113,16 @@ export class GarageService {
   public contact$ = (id: number) => {
     this.getContact(id);
     return this._contact$.asObservable();
+  }
+
+  public updateContact$ = (contact: ContactPerson) => {
+    this.updateContact(contact.id, contact)
+    return this._updateContact$.asObservable();
+  }
+
+  public createContact$ = (contact: ContactPerson) => {
+    this.createContact(contact)
+    return this._createContact$.asObservable();
   }
 
   public loadingCarsAtService$ = this._loadingCarsAtService$.asObservable();

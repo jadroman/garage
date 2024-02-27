@@ -42,7 +42,7 @@ namespace Garage.Controllers
         // PUT: api/ContactPersons/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutContactPerson(int id, ContactPerson contactPersonUpdate)
+        public async Task<IActionResult> PutContactPerson(int id, [FromBody] ContactPerson contactPersonUpdate)
         {
             var contactPerson = _context.ContactPersons.Result.FirstOrDefault(cas => cas.Id == id);
 
@@ -55,8 +55,13 @@ namespace Garage.Controllers
         // POST: api/ContactPersons
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ContactPerson>> PostContactPerson(ContactPerson contactPerson)
+        public async Task<ActionResult<ContactPerson>> PostContactPerson([FromBody] ContactPerson contactPerson)
         {
+
+            int lastPersonId = _context.ContactPersons.Result.OrderByDescending(cp => cp.Id).FirstOrDefault()?.Id ?? 0;
+            //lastPersonId = (lastPersonId == null) ? 0 : lastPersonId;
+
+            contactPerson.Id = ++lastPersonId;
 
             _context.ContactPersons.Result.Add(contactPerson);
             return NoContent();

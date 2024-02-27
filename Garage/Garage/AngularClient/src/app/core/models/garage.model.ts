@@ -7,9 +7,9 @@ export interface ContactPerson {
 
 export interface Car {
     id: number,
-    licencePlate: string,
-    brandModelYear: string,
-    vehicleIdNumber: string
+    licencePlate?: string,
+    brandModelYear?: string,
+    vehicleIdNumber?: string
 }
 
 export enum WorkComplexityEnum {
@@ -30,6 +30,11 @@ export enum SortCarsByEnum {
     newlyArrived = 0,
     lowestDuration = 1,
     lowestComplexity = 2,
+}
+
+export enum EditModeEnum {
+    addNew = 0,
+    update = 1
 }
 
 export enum CarStatusEnum {
