@@ -1,1 +1,70 @@
-<p>car-at-service-edit works!</p>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Car at service</h1>
+</div>
+<div class="card">
+    <div class="card-body">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+            <div class="card mb-3">
+                <div class=" card-body">
+                    Car:
+                    <button class="btn btn-primary btn-sm me-2">Find existing</button>
+                    <button class="btn btn-primary btn-sm">Insert a new one</button>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div>Contact person:</div>
+                    <button class="btn btn-primary btn-sm me-2" (click)="open(content)">Find existing</button>
+                    <button class="btn btn-primary btn-sm">Insert a new one</button>
+
+                    @if(selectedContact){
+
+                    <div class="card mb-3">
+                        <div class=" card-body">
+                            <div class="fw-bold">Name:</div>
+                            <div class="mb-2">{{selectedContact.name}}</div>
+                            <div class="fw-bold">Surname:</div>
+                            <div class="mb-2">{{selectedContact.surname}}</div>
+                            <div class="fw-bold">Phone:</div>
+                            <div>{{selectedContact.phone}}</div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="workNeedToBeDone" class="form-label">work Need To Be Done</label>
+                <input type="text" class="form-control" id="workNeedToBeDone" placeholder="work Need To Be Done"
+                    formControlName="workNeedToBeDone">
+            </div>
+            <div class="mb-3">
+                <label for="estimatedDurationInHours" class="form-label">Estimated duration in hours</label>
+                <input type="number" class="form-control" id="estimatedDurationInHours"
+                    placeholder="Estimated duration in hours" formControlName="estimatedDurationInHours">
+            </div>
+            <div class="mb-3">
+                <label for="estimatedComplexity" class="form-label">Estimated complexity</label>
+                <select class="form-control" id="estimatedComplexity" formControlName="estimatedComplexity">
+                    <option *ngFor="let wc of workComplexities" [value]="wc">
+                        {{getWorkComplexityLabel(wc)}}
+                    </option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Save</button>
+        </form>
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+
+        <app-contacts-table (selectContact)="selectContact($event)" />
+    </div>
+</ng-template>

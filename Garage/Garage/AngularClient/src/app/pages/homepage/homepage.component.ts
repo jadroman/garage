@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, inject } from '@angular/core';
 import { CarsAtServiceListComponent } from '../../shared/components/cars-at-service-list/cars-at-service-list.component';
 import { SortCarsByEnum, WorkStartedEnum } from '../../core/models/garage.model';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-homepage',
   standalone: true,
-  imports: [CarsAtServiceListComponent],
+  imports: [CarsAtServiceListComponent, RouterLink],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.scss'
 })
@@ -31,5 +32,6 @@ export class HomepageComponent {
     else if (selected.selectedIndex === 2)
       this.sortCarsBy = SortCarsByEnum.lowestComplexity
   }
+
 
 }

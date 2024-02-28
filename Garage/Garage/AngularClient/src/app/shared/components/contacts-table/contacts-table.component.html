@@ -15,9 +15,16 @@
             @for (c of contacts$ | async; track c.id) {
             <tr>
                 <td>
+                    @if (contactPickMode) {
                     <a [routerLink]="['/contact', c.id]">
                         {{ c.name }}
                     </a>
+                    }
+                    @else {
+                    <a (click)="pickContact(c)">
+                        {{ c.name }}
+                    </a>
+                    }
                 </td>
                 <td>{{ c.surname }}</td>
                 <td>{{ c.phone }}</td>
