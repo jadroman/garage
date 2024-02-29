@@ -50,6 +50,10 @@ export class ContactEditComponent implements OnInit {
   }
 
   onSubmit() {
+    if (!this.form.valid) {
+      return;
+    }
+
     const contactId: number = (this.id) ? +this.id : 0;
     const name: string = (this.form.value.name !== undefined && this.form.value.name !== null) ? this.form.value.name : "";
     const surname: string = (this.form.value.surname !== undefined && this.form.value.surname !== null) ? this.form.value.surname : "";

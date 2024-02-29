@@ -53,7 +53,7 @@ export interface CarAtService {
     workNeedToBeDone: string,
     estimatedDurationInHours: number,
     estimatedComplexity: WorkComplexityEnum,
-    dateOfArrival: Date
+    dateOfArrival?: Date
 }
 
 export interface CarHistory {

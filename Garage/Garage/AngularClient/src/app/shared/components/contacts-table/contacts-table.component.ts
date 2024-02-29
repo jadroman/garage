@@ -31,7 +31,7 @@ export class ContactsTableComponent {
 
   deleteContact(contactId: number) {
     this.service.deleteContact$(contactId).pipe(take(1)).subscribe(() => {
-      this.router.navigate(['/contact']);
+      this.contacts$ = this.service.contacts$();
     });
   }
 }

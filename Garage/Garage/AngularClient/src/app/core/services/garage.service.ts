@@ -8,6 +8,7 @@ import { CarAtService, CarHistory, ContactPerson } from '../models/garage.model'
 })
 export class GarageService {
   private _carsAtService$ = new BehaviorSubject<CarAtService[]>([]);
+  private _createcarAtService$ = new BehaviorSubject<any>(null!);
   private _contacts$ = new BehaviorSubject<ContactPerson[]>([]);
   private _carHistory$ = new BehaviorSubject<CarHistory[]>([]);
   private _contact$ = new BehaviorSubject<ContactPerson>(null!);
@@ -79,7 +80,6 @@ export class GarageService {
       delay(500),
       take(1)
     ).subscribe((res: any) => {
-      this.getContacts();
       this._updateContact$.next(res);
     })
   }
@@ -90,8 +90,17 @@ export class GarageService {
       delay(500),
       take(1)
     ).subscribe((res: any) => {
-      this.getContacts();
       this._createContact$.next(res);
+    })
+  }
+
+
+  private createCarAtService = (carAtService: CarAtService) => {
+    this.http.post(`http://localhost:5067/api/CarAtServices`, carAtService).pipe(
+      delay(500),
+      take(1)
+    ).subscribe((res: any) => {
+      this._createcarAtService$.next(res);
     })
   }
 
@@ -101,7 +110,6 @@ export class GarageService {
       delay(500),
       take(1)
     ).subscribe((res: any) => {
-      this.getContacts();
       this._deleteContact$.next(res);
     })
   }
@@ -135,6 +143,11 @@ export class GarageService {
   public createContact$ = (contact: ContactPerson) => {
     this.createContact(contact)
     return this._createContact$.asObservable();
+  }
+
+  public createCarAtService$ = (carAtService: CarAtService) => {
+    this.createCarAtService(carAtService)
+    return this._createcarAtService$.asObservable();
   }
 
   public deleteContact$ = (contactId: number) => {

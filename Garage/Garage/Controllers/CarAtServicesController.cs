@@ -95,6 +95,10 @@ namespace Garage.Controllers
         public async Task<ActionResult<CarAtService>> PostCarAtService(CarAtService carAtService)
         {
 
+            int lastCarAtServuceId = _context.CarsAtService.Result.OrderByDescending(cas => cas.Id).FirstOrDefault()?.Id ?? 0;
+
+            carAtService.Id = ++lastCarAtServuceId;
+
             _context.CarsAtService.Result.Add(carAtService);
             return NoContent();
         }

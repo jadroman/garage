@@ -8,16 +8,18 @@
             <div class="card mb-3">
                 <div class=" card-body">
                     Car:
-                    <button class="btn btn-primary btn-sm me-2">Find existing</button>
-                    <button class="btn btn-primary btn-sm">Insert a new one</button>
+                    <button type="button" class="btn btn-primary btn-sm me-2">Find existing</button>
+                    <button type="button" class="btn btn-primary btn-sm">Insert a new one</button>
                 </div>
             </div>
 
             <div class="card mb-3">
                 <div class="card mb-3" class="card-body">
                     <div class="mb-2">Contact person:</div>
-                    <button class="btn btn-primary btn-sm me-2" (click)="open(personPick)">Find existing</button>
-                    <button class="btn btn-primary btn-sm" (click)="open(newPerson)">Insert a new one</button>
+                    <button type="button" class="btn btn-primary btn-sm me-2" (click)="open(personPick)">Find
+                        existing</button>
+                    <button type="button" class="btn btn-primary btn-sm" (click)="open(newPerson)">Insert a new
+                        one</button>
 
                     @if(selectedContact){
 
@@ -53,7 +55,7 @@
                     </option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Save</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!formIsValid()">Save</button>
         </form>
     </div>
 </div>

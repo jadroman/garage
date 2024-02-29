@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, TemplateRef, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { CarAtService, ContactPerson, WorkComplexityEnum } from '@models/garage.model';
+import { Router, RouterLink } from '@angular/router';
+import { Car, CarAtService, ContactPerson, WorkComplexityEnum } from '@models/garage.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { getWorkComplexityLabel } from '@utils/car-at.service.utils';
 import { ContactsTableComponent } from 'app/shared/components/contacts-table/contacts-table.component';
 import { ContactEditComponent } from '../contacts/contact-edit/contact-edit.component';
+import { GarageService } from '@services/garage.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-car-at-service-edit',
@@ -18,12 +20,15 @@ import { ContactEditComponent } from '../contacts/contact-edit/contact-edit.comp
 export class CarAtServiceEditComponent {
   private modalService = inject(NgbModal);
   public selectedContact!: ContactPerson;
-  public workComplexities: WorkComplexityEnum[] = Object.values(WorkComplexityEnum) as WorkComplexityEnum[];
-  public carAtService!: CarAtService;
+  public selectedCar!: Car;
+  public workComplexities: WorkComplexityEnum[] = Object.values(WorkComplexityEnum).filter(val => typeof val === 'number') as WorkComplexityEnum[];
+
+  constructor(private service: GarageService, private router: Router) {
+  }
 
   form = new FormGroup({
     workNeedToBeDone: new FormControl('', Validators.required),
-    estimatedDurationInHours: new FormControl(''),
+    estimatedDurationInHours: new FormControl('', Validators.pattern("^[0-9]*$")),
     estimatedComplexity: new FormControl('')
   });
 
@@ -41,7 +46,32 @@ export class CarAtServiceEditComponent {
     this.modalService.dismissAll();
   }
 
+  formIsValid(): boolean {
+    if (!this.selectContact || !this.selectedCar) {
+      return false;
+    }
+
+    return this.form.valid;
+  }
+
   onSubmit() {
+    if (!this.formIsValid()) {
+      return;
+    }
+
+    const workNeedToBeDone: string = (this.form.value.workNeedToBeDone !== undefined && this.form.value.workNeedToBeDone !== null) ? this.form.value.workNeedToBeDone : "";
+    const estimatedDurationInHours: number = (this.form.value.estimatedDurationInHours !== undefined && this.form.value.estimatedDurationInHours !== null) ? +this.form.value.estimatedDurationInHours : 0;
+    const estimatedComplexity: number = (this.form.value.estimatedComplexity !== undefined && this.form.value.estimatedComplexity !== null) ? +this.form.value.estimatedComplexity : 0;
+
+    const carAtService: CarAtService =
+    {
+      id: 0, workNeedToBeDone: workNeedToBeDone, estimatedComplexity: estimatedComplexity,
+      estimatedDurationInHours: estimatedDurationInHours, contactPerson: this.selectedContact, car: this.selectedCar
+    };
+
+    this.service.createCarAtService$(carAtService).pipe(take(1)).subscribe(() => {
+      this.router.navigate(['/homepage']);
+    });
   }
 
   open(content: TemplateRef<any>) {
