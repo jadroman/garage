@@ -13,6 +13,7 @@ export class GarageService {
   private _contact$ = new BehaviorSubject<ContactPerson>(null!);
   private _updateContact$ = new BehaviorSubject<any>(null!);
   private _createContact$ = new BehaviorSubject<any>(null!);
+  private _deleteContact$ = new BehaviorSubject<any>(null!);
 
   private _loadingCarsAtService$ = new BehaviorSubject<boolean>(false);
   private _loadingCarHistory$ = new BehaviorSubject<boolean>(false);
@@ -94,6 +95,17 @@ export class GarageService {
     })
   }
 
+  private deleteContact = (contactId: number) => {
+    this.http.delete(`http://localhost:5067/api/ContactPersons/${contactId}`).pipe(
+      //tap(() => this._loadingContact$.next(true)),
+      delay(500),
+      take(1)
+    ).subscribe((res: any) => {
+      this.getContacts();
+      this._deleteContact$.next(res);
+    })
+  }
+
   public carsAtService$ = (params: any) => {
     this.params = params;
     this.getCarsAtService(this.params);
@@ -123,6 +135,11 @@ export class GarageService {
   public createContact$ = (contact: ContactPerson) => {
     this.createContact(contact)
     return this._createContact$.asObservable();
+  }
+
+  public deleteContact$ = (contactId: number) => {
+    this.deleteContact(contactId)
+    return this._deleteContact$.asObservable();
   }
 
   public loadingCarsAtService$ = this._loadingCarsAtService$.asObservable();

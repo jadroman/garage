@@ -1,9 +1,9 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ContactPerson } from '@models/garage.model';
 import { GarageService } from '@services/garage.service';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 
 @Component({
   selector: 'app-contacts-table',
@@ -20,12 +20,18 @@ export class ContactsTableComponent {
   contacts$!: Observable<ContactPerson[]>;
   loading$!: Observable<boolean>;
 
-  constructor(private service: GarageService) {
+  constructor(private service: GarageService, private router: Router) {
     this.loading$ = this.service.loadingContacts$;
     this.contacts$ = this.service.contacts$();
   }
 
   pickContact(contact: ContactPerson) {
     this.selectContact.emit(contact);
+  }
+
+  deleteContact(contactId: number) {
+    this.service.deleteContact$(contactId).pipe(take(1)).subscribe(() => {
+      this.router.navigate(['/contact']);
+    });
   }
 }

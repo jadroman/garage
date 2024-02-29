@@ -6,11 +6,12 @@ import { CarAtService, ContactPerson, WorkComplexityEnum } from '@models/garage.
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { getWorkComplexityLabel } from '@utils/car-at.service.utils';
 import { ContactsTableComponent } from 'app/shared/components/contacts-table/contacts-table.component';
+import { ContactEditComponent } from '../contacts/contact-edit/contact-edit.component';
 
 @Component({
   selector: 'app-car-at-service-edit',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, ContactsTableComponent],
+  imports: [ReactiveFormsModule, CommonModule, ContactsTableComponent, ContactEditComponent],
   templateUrl: './car-at-service-edit.component.html',
   styleUrl: './car-at-service-edit.component.scss'
 })
@@ -31,6 +32,11 @@ export class CarAtServiceEditComponent {
   }
 
   selectContact(contact: ContactPerson) {
+    this.selectedContact = contact;
+    this.modalService.dismissAll();
+  }
+
+  closeModal(contact: ContactPerson) {
     this.selectedContact = contact;
     this.modalService.dismissAll();
   }

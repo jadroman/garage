@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContactPerson, EditModeEnum } from '@models/garage.model';
 import { GarageService } from '@services/garage.service';
 import { isNumeric } from '@utils/car-history.utils';
-import { BehaviorSubject, Observable, take } from 'rxjs';
+import { Observable, take } from 'rxjs';
 
 @Component({
   selector: 'app-contact-edit',
@@ -16,6 +16,8 @@ import { BehaviorSubject, Observable, take } from 'rxjs';
 })
 export class ContactEditComponent implements OnInit {
   loading$!: Observable<boolean>;
+  @Input() formOpenedInModal: boolean = false;
+  @Output() closeModal = new EventEmitter<ContactPerson>();
 
   constructor(private route: ActivatedRoute, private service: GarageService, private router: Router) {
     this.loading$ = this.service.loadingContact$;
@@ -27,13 +29,14 @@ export class ContactEditComponent implements OnInit {
     phone: new FormControl('', Validators.required)
   });
 
+  importedEditModeEnum = EditModeEnum;
   id!: string | null;
   editMode!: EditModeEnum;
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get("id");
 
-    if (this.id === 'new') {
+    if (this.id === 'new' || this.formOpenedInModal) {
       this.editMode = EditModeEnum.addNew;
     }
 
@@ -62,7 +65,12 @@ export class ContactEditComponent implements OnInit {
     else if (this.editMode === EditModeEnum.addNew) {
       contact.id = 0;
       this.service.createContact$(contact).pipe(take(1)).subscribe(() => {
-        this.router.navigate(['/contact']);
+        if (this.formOpenedInModal) {
+          this.closeModal.emit(contact);
+        }
+        else {
+          this.router.navigate(['/contact']);
+        }
       });
     }
 

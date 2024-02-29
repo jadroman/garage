@@ -23,12 +23,13 @@
             </tr>
             }
             @else {
-            <tr role="button" [routerLink]="['/contact', c.id]">
-                <td>
+            <tr>
+                <td role="button" [routerLink]="['/contact', c.id]">
                     {{ c.name }}
                 </td>
-                <td>{{ c.surname }}</td>
-                <td>{{ c.phone }}</td>
+                <td role="button" [routerLink]="['/contact', c.id]">{{ c.surname }}</td>
+                <td role="button" [routerLink]="['/contact', c.id]">{{ c.phone }}</td>
+                <td><span role="button" class="badge bg-danger" (click)="deleteContact(c.id)">X</span></td>
             </tr>
             }
             } @empty {

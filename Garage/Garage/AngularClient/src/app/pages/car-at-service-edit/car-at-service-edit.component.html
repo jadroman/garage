@@ -14,14 +14,14 @@
             </div>
 
             <div class="card mb-3">
-                <div class="card-body">
-                    <div>Contact person:</div>
-                    <button class="btn btn-primary btn-sm me-2" (click)="open(content)">Find existing</button>
-                    <button class="btn btn-primary btn-sm">Insert a new one</button>
+                <div class="card mb-3" class="card-body">
+                    <div class="mb-2">Contact person:</div>
+                    <button class="btn btn-primary btn-sm me-2" (click)="open(personPick)">Find existing</button>
+                    <button class="btn btn-primary btn-sm" (click)="open(newPerson)">Insert a new one</button>
 
                     @if(selectedContact){
 
-                    <div class="card mb-3">
+                    <div class="card mt-3">
                         <div class=" card-body">
                             <div class="fw-bold">Name:</div>
                             <div class="mb-2">{{selectedContact.name}}</div>
@@ -58,12 +58,20 @@
     </div>
 </div>
 
-<ng-template #content let-modal>
+<ng-template #personPick let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
         <app-contacts-table [contactPickMode]=true (selectContact)="selectContact($event)" />
+    </div>
+</ng-template>
+
+<ng-template #newPerson let-modal>
+    <div class="modal-header">
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <app-contact-edit [formOpenedInModal]=true (closeModal)="closeModal($event)" />
     </div>
 </ng-template>
