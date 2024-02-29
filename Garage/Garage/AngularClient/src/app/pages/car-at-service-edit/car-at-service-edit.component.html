@@ -64,7 +64,6 @@
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-
-        <app-contacts-table (selectContact)="selectContact($event)" />
+        <app-contacts-table [contactPickMode]=true (selectContact)="selectContact($event)" />
     </div>
 </ng-template>

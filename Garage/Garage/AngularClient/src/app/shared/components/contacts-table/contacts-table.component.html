@@ -13,22 +13,24 @@
         </ng-container>
         <ng-template #tableData>
             @for (c of contacts$ | async; track c.id) {
-            <tr>
+            @if (contactPickMode) {
+            <tr role="button" (click)="pickContact(c)">
                 <td>
-                    @if (contactPickMode) {
-                    <a [routerLink]="['/contact', c.id]">
-                        {{ c.name }}
-                    </a>
-                    }
-                    @else {
-                    <a (click)="pickContact(c)">
-                        {{ c.name }}
-                    </a>
-                    }
+                    {{ c.name }}
                 </td>
                 <td>{{ c.surname }}</td>
                 <td>{{ c.phone }}</td>
             </tr>
+            }
+            @else {
+            <tr role="button" [routerLink]="['/contact', c.id]">
+                <td>
+                    {{ c.name }}
+                </td>
+                <td>{{ c.surname }}</td>
+                <td>{{ c.phone }}</td>
+            </tr>
+            }
             } @empty {
             <tr>
                 <td colspan="3" style="text-align: center">No entries found</td>
