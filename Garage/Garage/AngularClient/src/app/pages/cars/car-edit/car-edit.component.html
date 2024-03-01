@@ -1,0 +1,37 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    @if(editMode === importedEditModeEnum.addNew){
+    <h1 class="h2">New Car</h1>
+    }
+    @else if(editMode === importedEditModeEnum.update){
+    <h1 class="h2">Update Car</h1>
+    }
+</div>
+<div class="card">
+    <div class="card-body">
+        <ng-container *ngIf="(loading$ | async) else carForm">
+            <div class="spinner-border" role="status">
+            </div>
+        </ng-container>
+        <ng-template #carForm>
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                    <label for="brandModelYear" class="form-label">Brand Model Year</label>
+                    <input type="text" class="form-control" id="brandModelYear" placeholder="Brand Model Year"
+                        formControlName="brandModelYear">
+                </div>
+                <div class="mb-3">
+                    <label for="licensePlate" class="form-label">License Plate</label>
+                    <input type="text" class="form-control" id="licensePlate" placeholder="License Plate"
+                        formControlName="licensePlate">
+                </div>
+                <div class="mb-3">
+                    <label for="vehicleIdNumber" class="form-label">Vehicle Id Number</label>
+                    <input type="text" class="form-control" id="vehicleIdNumber" placeholder="Vehicle Id Number"
+                        formControlName="vehicleIdNumber">
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm me-2" [disabled]="!form.valid">Save</button>
+                <a class="btn btn-secondary btn-sm" [routerLink]="['/car']">Cancel</a>
+            </form>
+        </ng-template>
+    </div>
+</div>

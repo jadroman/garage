@@ -4,6 +4,8 @@ import { CarHistoryComponent } from './pages/car-history/car-history.component';
 import { ContactsListComponent } from './pages/contacts/contacts-list/contacts-list.component';
 import { ContactEditComponent } from './pages/contacts/contact-edit/contact-edit.component';
 import { CarAtServiceEditComponent } from './pages/car-at-service-edit/car-at-service-edit.component';
+import { CarsListComponent } from './pages/cars/cars-list/cars-list.component';
+import { CarEditComponent } from './pages/cars/car-edit/car-edit.component';
 
 export const routes: Routes = [
     {
@@ -21,6 +23,18 @@ export const routes: Routes = [
     {
         path: 'contact/new',
         component: ContactEditComponent
+    },
+    {
+        path: 'car',
+        component: CarsListComponent
+    },
+    {
+        path: 'car/:id',
+        component: CarEditComponent
+    },
+    {
+        path: 'car/new',
+        component: CarEditComponent
     },
     {
         path: '',

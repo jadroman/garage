@@ -1,0 +1,42 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Brand-Model-Year</th>
+            <th scope="col">License Plate</th>
+            <th scope="col">Vehicle Id Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngIf="(loading$ | async) else tableData">
+            <div class="spinner-border" role="status">
+            </div>
+        </ng-container>
+        <ng-template #tableData>
+            @for (c of cars$ | async; track c.id) {
+            @if (contactPickMode) {
+            <tr role="button" (click)="pickCar(c)">
+                <td>
+                    {{ c.brandModelYear }}
+                </td>
+                <td>{{ c.licensePlate }}</td>
+                <td>{{ c.vehicleIdNumber }}</td>
+            </tr>
+            }
+            @else {
+            <tr>
+                <td role="button" [routerLink]="['/car', c.id]">
+                    {{ c.brandModelYear }}
+                </td>
+                <td role="button" [routerLink]="['/car', c.id]">{{ c.licensePlate }}</td>
+                <td role="button" [routerLink]="['/car', c.id]">{{ c.vehicleIdNumber }}</td>
+                <td><span role="button" class="badge bg-danger" (click)="deleteCar(c.id)">X</span></td>
+            </tr>
+            }
+            } @empty {
+            <tr>
+                <td colspan="3" style="text-align: center">No entries found</td>
+            </tr>
+            }
+        </ng-template>
+    </tbody>
+</table>
