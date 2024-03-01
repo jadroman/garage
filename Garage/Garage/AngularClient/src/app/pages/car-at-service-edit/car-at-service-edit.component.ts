@@ -69,7 +69,9 @@ export class CarAtServiceEditComponent {
       estimatedDurationInHours: estimatedDurationInHours, contactPerson: this.selectedContact, car: this.selectedCar
     };
 
-    this.service.createCarAtService$(carAtService).pipe(take(1)).subscribe(() => {
+    this.service._waitIndicator$.next(true);
+    this.service.createCarAtService(carAtService).pipe(take(1)).subscribe(() => {
+      this.service._waitIndicator$.next(false);
       this.router.navigate(['/homepage']);
     });
   }

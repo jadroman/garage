@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ContactPerson, EditModeEnum } from '@models/garage.model';
 import { GarageService } from '@services/garage.service';
 import { isNumeric } from '@utils/car-history.utils';
@@ -10,7 +10,7 @@ import { Observable, take } from 'rxjs';
 @Component({
   selector: 'app-contact-edit',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './contact-edit.component.html',
   styleUrl: './contact-edit.component.scss'
 })
@@ -20,7 +20,7 @@ export class ContactEditComponent implements OnInit {
   @Output() closeModal = new EventEmitter<ContactPerson>();
 
   constructor(private route: ActivatedRoute, private service: GarageService, private router: Router) {
-    this.loading$ = this.service.loadingContact$;
+    this.loading$ = this.service._waitIndicator$;
   }
 
   form = new FormGroup({
@@ -62,13 +62,17 @@ export class ContactEditComponent implements OnInit {
     const contact: ContactPerson = { id: contactId, name: name, surname: surname, phone: phone };
 
     if (this.editMode === EditModeEnum.update) {
-      this.service.updateContact$(contact).pipe(take(1)).subscribe(() => {
+      this.service._waitIndicator$.next(true);
+      this.service.updateContact(contact.id, contact).pipe(take(1)).subscribe(() => {
+        this.service._waitIndicator$.next(false);
         this.router.navigate(['/contact']);
       });
     }
     else if (this.editMode === EditModeEnum.addNew) {
       contact.id = 0;
-      this.service.createContact$(contact).pipe(take(1)).subscribe(() => {
+      this.service._waitIndicator$.next(true);
+      this.service.createContact(contact).pipe(take(1)).subscribe(() => {
+        this.service._waitIndicator$.next(false);
         if (this.formOpenedInModal) {
           this.closeModal.emit(contact);
         }

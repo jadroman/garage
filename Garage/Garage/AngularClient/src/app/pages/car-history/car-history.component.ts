@@ -19,7 +19,7 @@ export class CarHistoryComponent implements OnInit {
   loading$!: Observable<boolean>;
 
   constructor(private route: ActivatedRoute, private service: GarageService) {
-    this.loading$ = this.service.loadingCarHistory$;
+    this.loading$ = this.service._waitIndicator$;
   }
 
   ngOnInit(): void {

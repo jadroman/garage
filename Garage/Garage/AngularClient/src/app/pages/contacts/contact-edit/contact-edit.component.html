@@ -27,7 +27,8 @@
                     <label for="phone" class="form-label">Phone</label>
                     <input type="tel" class="form-control" id="phone" placeholder="Phone" formControlName="phone">
                 </div>
-                <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Save</button>
+                <button type="submit" class="btn btn-primary btn-sm me-2" [disabled]="!form.valid">Save</button>
+                <a class="btn btn-secondary btn-sm" [routerLink]="['/contact']">Cancel</a>
             </form>
         </ng-template>
     </div>

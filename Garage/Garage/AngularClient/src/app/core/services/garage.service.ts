@@ -8,18 +8,10 @@ import { CarAtService, CarHistory, ContactPerson } from '../models/garage.model'
 })
 export class GarageService {
   private _carsAtService$ = new BehaviorSubject<CarAtService[]>([]);
-  private _createcarAtService$ = new BehaviorSubject<any>(null!);
   private _contacts$ = new BehaviorSubject<ContactPerson[]>([]);
   private _carHistory$ = new BehaviorSubject<CarHistory[]>([]);
   private _contact$ = new BehaviorSubject<ContactPerson>(null!);
-  private _updateContact$ = new BehaviorSubject<any>(null!);
-  private _createContact$ = new BehaviorSubject<any>(null!);
-  private _deleteContact$ = new BehaviorSubject<any>(null!);
-
-  private _loadingCarsAtService$ = new BehaviorSubject<boolean>(false);
-  private _loadingCarHistory$ = new BehaviorSubject<boolean>(false);
-  private _loadingContacts$ = new BehaviorSubject<boolean>(false);
-  private _loadingContact$ = new BehaviorSubject<boolean>(false);
+  public _waitIndicator$ = new BehaviorSubject<boolean>(false);
   private params: any;
 
   constructor(private http: HttpClient) { }
@@ -29,89 +21,78 @@ export class GarageService {
       params,
       observe: 'response'
     }).pipe(
-      tap(() => this._loadingCarsAtService$.next(true)),
+      tap(() => this._waitIndicator$.next(true)),
       delay(500)
     ).subscribe((res: any) => {
-      this._loadingCarsAtService$.next(false);
+      this._waitIndicator$.next(false);
       this._carsAtService$.next(res.body);
-    })
+    });
   }
 
 
-  private getContacts = () => {
+  public getContacts = () => {
     this.http.get<any>('http://localhost:5067/api/ContactPersons', {
       observe: 'response'
     }).pipe(
-      tap(() => this._loadingContacts$.next(true)),
+      tap(() => this._waitIndicator$.next(true)),
       delay(500)
     ).subscribe((res: any) => {
-      this._loadingContacts$.next(false);
+      this._waitIndicator$.next(false);
       this._contacts$.next(res.body);
-    })
+    });
   }
 
   private getCarHistory = (carId: number) => {
     this.http.get<any>(`http://localhost:5067/api/CarServiceHistories/car/${carId}`, {
       observe: 'response'
     }).pipe(
-      tap(() => this._loadingCarHistory$.next(true)),
+      tap(() => this._waitIndicator$.next(true)),
       delay(500)
     ).subscribe((res: any) => {
-      this._loadingCarHistory$.next(false);
+      this._waitIndicator$.next(false);
       this._carHistory$.next(res.body);
-    })
+    });
   }
 
   private getContact = (id: number) => {
     this.http.get<any>(`http://localhost:5067/api/ContactPersons/${id}`, {
       observe: 'response'
     }).pipe(
-      tap(() => this._loadingContact$.next(true)),
+      tap(() => this._waitIndicator$.next(true)),
       delay(500)
     ).subscribe((res: any) => {
-      this._loadingContact$.next(false);
+      this._waitIndicator$.next(false);
       this._contact$.next(res.body);
-    })
+    });
   }
 
-  private updateContact = (id: number, contact: ContactPerson) => {
-    this.http.put(`http://localhost:5067/api/ContactPersons/${id}`, contact).pipe(
-      //tap(() => this._loadingContact$.next(true)),
+  public updateContact = (id: number, contact: ContactPerson) => {
+    return this.http.put(`http://localhost:5067/api/ContactPersons/${id}`, contact).pipe(
       delay(500),
       take(1)
-    ).subscribe((res: any) => {
-      this._updateContact$.next(res);
-    })
+    );
   }
 
-  private createContact = (contact: ContactPerson) => {
-    this.http.post(`http://localhost:5067/api/ContactPersons`, contact).pipe(
-      //tap(() => this._loadingContact$.next(true)),
+  public createContact = (contact: ContactPerson) => {
+    return this.http.post(`http://localhost:5067/api/ContactPersons`, contact).pipe(
       delay(500),
       take(1)
-    ).subscribe((res: any) => {
-      this._createContact$.next(res);
-    })
+    );
   }
 
 
-  private createCarAtService = (carAtService: CarAtService) => {
-    this.http.post(`http://localhost:5067/api/CarAtServices`, carAtService).pipe(
+  public createCarAtService = (carAtService: CarAtService) => {
+    return this.http.post(`http://localhost:5067/api/CarAtServices`, carAtService).pipe(
       delay(500),
       take(1)
-    ).subscribe((res: any) => {
-      this._createcarAtService$.next(res);
-    })
+    );
   }
 
-  private deleteContact = (contactId: number) => {
-    this.http.delete(`http://localhost:5067/api/ContactPersons/${contactId}`).pipe(
-      //tap(() => this._loadingContact$.next(true)),
+  public deleteContact = (contactId: number) => {
+    return this.http.delete(`http://localhost:5067/api/ContactPersons/${contactId}`).pipe(
       delay(500),
       take(1)
-    ).subscribe((res: any) => {
-      this._deleteContact$.next(res);
-    })
+    );
   }
 
   public carsAtService$ = (params: any) => {
@@ -134,30 +115,4 @@ export class GarageService {
     this.getContact(id);
     return this._contact$.asObservable();
   }
-
-  public updateContact$ = (contact: ContactPerson) => {
-    this.updateContact(contact.id, contact)
-    return this._updateContact$.asObservable();
-  }
-
-  public createContact$ = (contact: ContactPerson) => {
-    this.createContact(contact)
-    return this._createContact$.asObservable();
-  }
-
-  public createCarAtService$ = (carAtService: CarAtService) => {
-    this.createCarAtService(carAtService)
-    return this._createcarAtService$.asObservable();
-  }
-
-  public deleteContact$ = (contactId: number) => {
-    this.deleteContact(contactId)
-    return this._deleteContact$.asObservable();
-  }
-
-  public loadingCarsAtService$ = this._loadingCarsAtService$.asObservable();
-  public loadingCarHistory$ = this._loadingCarHistory$.asObservable();
-  public loadingContacts$ = this._loadingContacts$.asObservable();
-  public loadingContact$ = this._loadingContact$.asObservable();
-
 }

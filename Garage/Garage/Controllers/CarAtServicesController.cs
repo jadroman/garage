@@ -45,12 +45,12 @@ namespace Garage.Controllers
 
                     if (workStarted == WorkStartedEnum.started)
                     {
-                        if (lastCarHistoryEntry != null)
+                        if (lastCarHistoryEntry != null && lastCarHistoryEntry.CarStatus != CarStatusEnum.CarCheckedIn)
                             returnValues.Add(cas);
                     }
                     else if (workStarted == WorkStartedEnum.notStarted)
                     {
-                        if (lastCarHistoryEntry == null)
+                        if (lastCarHistoryEntry == null || lastCarHistoryEntry.CarStatus == CarStatusEnum.CarCheckedIn)
                             returnValues.Add(cas);
                     }
                     else

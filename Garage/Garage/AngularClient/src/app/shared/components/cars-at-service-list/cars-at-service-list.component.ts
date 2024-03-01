@@ -20,11 +20,12 @@ export class CarsAtServiceListComponent implements OnChanges {
   loading$!: Observable<boolean>;
 
   constructor(private service: GarageService) {
-    this.loading$ = this.service.loadingCarsAtService$;
+    this.loading$ = this.service._waitIndicator$;
+    this.carsAtService$ = this.service.carsAtService$(this.getRequestParams(this.workStarted, this.sortCarsBy));
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.carsAtService$ = this.service.carsAtService$(this.getRequestParams(this.workStarted, this.sortCarsBy));
+  ngOnChanges(): void {
+    this.service.carsAtService$(this.getRequestParams(this.workStarted, this.sortCarsBy));
   }
 
   getRequestParams(workStarted: WorkStartedEnum, sortCarsBy: SortCarsByEnum): any {

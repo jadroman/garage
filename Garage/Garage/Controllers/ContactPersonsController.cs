@@ -59,7 +59,6 @@ namespace Garage.Controllers
         {
 
             int lastPersonId = _context.ContactPersons.Result.OrderByDescending(cp => cp.Id).FirstOrDefault()?.Id ?? 0;
-            //lastPersonId = (lastPersonId == null) ? 0 : lastPersonId;
 
             contactPerson.Id = ++lastPersonId;
 

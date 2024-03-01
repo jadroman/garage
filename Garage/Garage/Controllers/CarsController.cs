@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Garage.Data;
+﻿using Garage.Data;
 using Garage.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Garage.Controllers
 {
@@ -14,9 +8,9 @@ namespace Garage.Controllers
     [ApiController]
     public class CarsController : ControllerBase
     {
-        private readonly GarageContext _context;
+        private readonly IGarageContext _context;
 
-        public CarsController(GarageContext context)
+        public CarsController(IGarageContext context)
         {
             _context = context;
         }
