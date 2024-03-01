@@ -9,11 +9,13 @@ import { ContactsTableComponent } from 'app/shared/components/contacts-table/con
 import { ContactEditComponent } from '../contacts/contact-edit/contact-edit.component';
 import { GarageService } from '@services/garage.service';
 import { take } from 'rxjs';
+import { CarsTableComponent } from 'app/shared/components/cars-table/cars-table.component';
+import { CarEditComponent } from '../cars/car-edit/car-edit.component';
 
 @Component({
   selector: 'app-car-at-service-edit',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, ContactsTableComponent, ContactEditComponent],
+  imports: [ReactiveFormsModule, CommonModule, ContactsTableComponent, ContactEditComponent, CarsTableComponent, CarEditComponent],
   templateUrl: './car-at-service-edit.component.html',
   styleUrl: './car-at-service-edit.component.scss'
 })
@@ -36,18 +38,28 @@ export class CarAtServiceEditComponent {
     return getWorkComplexityLabel(workComplexity);
   }
 
+  selectCar(car: Car) {
+    this.selectedCar = car;
+    this.modalService.dismissAll();
+  }
+
   selectContact(contact: ContactPerson) {
     this.selectedContact = contact;
     this.modalService.dismissAll();
   }
 
-  closeModal(contact: ContactPerson) {
+  closeContactModal(contact: ContactPerson) {
     this.selectedContact = contact;
     this.modalService.dismissAll();
   }
 
+  closeCarModal(car: Car) {
+    this.selectedCar = car;
+    this.modalService.dismissAll();
+  }
+
   formIsValid(): boolean {
-    if (!this.selectContact || !this.selectedCar) {
+    if (!this.selectedContact || !this.selectedCar) {
       return false;
     }
 

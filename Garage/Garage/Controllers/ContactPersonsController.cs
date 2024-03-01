@@ -58,7 +58,7 @@ namespace Garage.Controllers
         public async Task<ActionResult<ContactPerson>> PostContactPerson([FromBody] ContactPerson contactPerson)
         {
 
-            int lastPersonId = _context.ContactPersons.Result.OrderByDescending(cp => cp.Id).FirstOrDefault()?.Id ?? 0;
+            int lastPersonId = _context.ContactPersons.Result.OrderByDescending(cp => cp.Id).First().Id;
 
             contactPerson.Id = ++lastPersonId;
 

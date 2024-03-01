@@ -13,7 +13,7 @@ import { Observable, take } from 'rxjs';
   styleUrl: './cars-table.component.scss'
 })
 export class CarsTableComponent {
-  @Input() contactPickMode: boolean = false;
+  @Input() carPickMode: boolean = false;
   @Output() selectCar = new EventEmitter<Car>();
 
 

@@ -41,7 +41,7 @@ namespace Garage.Controllers
             {
                 foreach (var cas in _context.CarsAtService.Result)
                 {
-                    var lastCarHistoryEntry = _context.CarServiceHistory.Result.Where(csh => csh.Car.Id == cas.Id).OrderByDescending(csh => csh.DateOfStatusChange).LastOrDefault();
+                    var lastCarHistoryEntry = _context.CarServiceHistory.Result.Where(csh => csh.Car.Id == cas.Id).OrderByDescending(csh => csh.DateOfStatusChange).FirstOrDefault();
 
                     if (workStarted == WorkStartedEnum.started)
                     {
@@ -95,11 +95,18 @@ namespace Garage.Controllers
         public async Task<ActionResult<CarAtService>> PostCarAtService(CarAtService carAtService)
         {
 
-            int lastCarAtServuceId = _context.CarsAtService.Result.OrderByDescending(cas => cas.Id).FirstOrDefault()?.Id ?? 0;
+            int lastCarAtServiceId = _context.CarsAtService.Result.OrderByDescending(cas => cas.Id).First().Id;
+            int lastCarServiceHistoryId = _context.CarServiceHistory.Result.OrderByDescending(csh => csh.Id).First().Id;
 
-            carAtService.Id = ++lastCarAtServuceId;
+            carAtService.Id = ++lastCarAtServiceId;
 
             _context.CarsAtService.Result.Add(carAtService);
+
+            var carServiceHistory = new CarServiceHistory() { Car = _context.Cars.Result.Where(c => c.Id == carAtService.Car.Id).First(), Id = 0, CarStatus = CarStatusEnum.CarCheckedIn, DateOfStatusChange = DateTime.UtcNow };
+
+            carServiceHistory.Id = ++lastCarServiceHistoryId;
+            _context.CarServiceHistory.Result.Add(carServiceHistory);
+
             return NoContent();
         }
 

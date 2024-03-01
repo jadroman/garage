@@ -19,7 +19,7 @@ namespace Garage.Controllers
         [HttpGet("car/{carId}")]
         public async Task<ActionResult<IEnumerable<CarServiceHistory>>> GetCarServiceHistory(int carId)
         {
-            return Ok(_context.CarServiceHistory.Result.Where(csh => csh.Car.Id == carId));
+            return Ok(_context.CarServiceHistory.Result.Where(csh => csh.Car.Id == carId).OrderBy(csh => csh.DateOfStatusChange));
 
             //return NotFound();
         }

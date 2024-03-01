@@ -13,7 +13,7 @@
         </ng-container>
         <ng-template #tableData>
             @for (c of cars$ | async; track c.id) {
-            @if (contactPickMode) {
+            @if (carPickMode) {
             <tr role="button" (click)="pickCar(c)">
                 <td>
                     {{ c.brandModelYear }}

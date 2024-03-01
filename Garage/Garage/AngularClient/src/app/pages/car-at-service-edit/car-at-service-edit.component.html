@@ -8,8 +8,24 @@
             <div class="card mb-3">
                 <div class=" card-body">
                     <div class="mb-2 fw-bold">Car:</div>
-                    <button type="button" class="btn btn-primary btn-sm me-2">Find existing</button>
-                    <button type="button" class="btn btn-primary btn-sm">Insert a new one</button>
+                    <button type="button" class="btn btn-primary btn-sm me-2" (click)="open(carPick)">Find
+                        existing</button>
+                    <button type="button" class="btn btn-primary btn-sm" (click)="open(newCar)">Insert a new
+                        one</button>
+
+                    @if(selectedCar){
+
+                    <div class="card mt-3">
+                        <div class=" card-body">
+                            <div class="fw-bold">Brand Model Year:</div>
+                            <div class="mb-2">{{selectedCar.brandModelYear}}</div>
+                            <div class="fw-bold">License Plate:</div>
+                            <div class="mb-2">{{selectedCar.licensePlate}}</div>
+                            <div class="fw-bold">Vehicle Id Number:</div>
+                            <div>{{selectedCar.vehicleIdNumber}}</div>
+                        </div>
+                    </div>
+                    }
                 </div>
             </div>
 
@@ -74,6 +90,25 @@
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-        <app-contact-edit [formOpenedInModal]=true (closeModal)="closeModal($event)" />
+        <app-contact-edit [formOpenedInModal]=true (closeContactModal)="closeContactModal($event)" />
+    </div>
+</ng-template>
+
+
+<ng-template #carPick let-modal>
+    <div class="modal-header">
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <app-cars-table [carPickMode]=true (selectCar)="selectCar($event)" />
+    </div>
+</ng-template>
+
+<ng-template #newCar let-modal>
+    <div class="modal-header">
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <app-car-edit [formOpenedInModal]=true (closeCarModal)="closeCarModal($event)" />
     </div>
 </ng-template>

@@ -17,7 +17,7 @@ import { Observable, take } from 'rxjs';
 export class CarEditComponent implements OnInit {
   loading$!: Observable<boolean>;
   @Input() formOpenedInModal: boolean = false;
-  @Output() closeModal = new EventEmitter<Car>();
+  @Output() closeCarModal = new EventEmitter<Car>();
 
   constructor(private route: ActivatedRoute, private service: GarageService, private router: Router) {
     this.loading$ = this.service._waitIndicator$;
@@ -74,7 +74,7 @@ export class CarEditComponent implements OnInit {
       this.service.createCar(car).pipe(take(1)).subscribe(() => {
         this.service._waitIndicator$.next(false);
         if (this.formOpenedInModal) {
-          this.closeModal.emit(car);
+          this.closeCarModal.emit(car);
         }
         else {
           this.router.navigate(['/car']);

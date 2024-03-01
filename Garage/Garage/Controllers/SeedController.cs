@@ -122,6 +122,13 @@ namespace Garage.Controllers
                 new CarServiceHistory
                 {
                     Id = 4,
+                    Car = _context.Cars.Result[0],
+                    CarStatus = CarStatusEnum.CarCheckedIn,
+                    DateOfStatusChange = DateTime.Now.AddDays(-10),
+                },
+                new CarServiceHistory
+                {
+                    Id = 4,
                     Car = _context.Cars.Result[1],
                     CarStatus = CarStatusEnum.CarCheckedIn,
                     DateOfStatusChange = DateTime.Now.AddDays(-11),

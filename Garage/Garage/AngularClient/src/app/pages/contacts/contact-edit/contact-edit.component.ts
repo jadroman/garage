@@ -17,7 +17,7 @@ import { Observable, take } from 'rxjs';
 export class ContactEditComponent implements OnInit {
   loading$!: Observable<boolean>;
   @Input() formOpenedInModal: boolean = false;
-  @Output() closeModal = new EventEmitter<ContactPerson>();
+  @Output() closeContactModal = new EventEmitter<ContactPerson>();
 
   constructor(private route: ActivatedRoute, private service: GarageService, private router: Router) {
     this.loading$ = this.service._waitIndicator$;
@@ -74,7 +74,7 @@ export class ContactEditComponent implements OnInit {
       this.service.createContact(contact).pipe(take(1)).subscribe(() => {
         this.service._waitIndicator$.next(false);
         if (this.formOpenedInModal) {
-          this.closeModal.emit(contact);
+          this.closeContactModal.emit(contact);
         }
         else {
           this.router.navigate(['/contact']);
