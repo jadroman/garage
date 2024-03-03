@@ -71,10 +71,10 @@ export class ContactEditComponent implements OnInit {
     else if (this.editMode === EditModeEnum.addNew) {
       contact.id = 0;
       this.service._waitIndicator$.next(true);
-      this.service.createContact(contact).pipe(take(1)).subscribe(() => {
+      this.service.createContact(contact).pipe(take(1)).subscribe(createdContact => {
         this.service._waitIndicator$.next(false);
         if (this.formOpenedInModal) {
-          this.closeContactModal.emit(contact);
+          this.closeContactModal.emit(createdContact as ContactPerson);
         }
         else {
           this.router.navigate(['/contact']);

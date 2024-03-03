@@ -62,7 +62,7 @@ namespace Garage.Controllers
             car.Id = ++lastCarId;
 
             _context.Cars.Result.Add(car);
-            return NoContent();
+            return car;
         }
 
         // DELETE: api/Cars/5

@@ -99,6 +99,7 @@ namespace Garage.Controllers
             int lastCarServiceHistoryId = _context.CarServiceHistory.Result.OrderByDescending(csh => csh.Id).First().Id;
 
             carAtService.Id = ++lastCarAtServiceId;
+            carAtService.DateOfArrival = DateTime.UtcNow;
 
             _context.CarsAtService.Result.Add(carAtService);
 

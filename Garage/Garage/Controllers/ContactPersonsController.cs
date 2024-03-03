@@ -63,7 +63,7 @@ namespace Garage.Controllers
             contactPerson.Id = ++lastPersonId;
 
             _context.ContactPersons.Result.Add(contactPerson);
-            return NoContent();
+            return contactPerson;
         }
 
         // DELETE: api/ContactPersons/5
