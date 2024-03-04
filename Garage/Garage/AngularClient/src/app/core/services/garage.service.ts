@@ -13,6 +13,7 @@ export class GarageService {
   private _carHistory$ = new BehaviorSubject<CarHistory[]>([]);
   private _contact$ = new BehaviorSubject<ContactPerson>(null!);
   private _car$ = new BehaviorSubject<Car>(null!);
+  private _carAtService$ = new BehaviorSubject<CarAtService>(null!);
   public _waitIndicator$ = new BehaviorSubject<boolean>(false);
   private params: any;
 
@@ -33,7 +34,7 @@ export class GarageService {
 
 
 
-  private getCarHistory = (carId: number) => {
+  public getCarHistory = (carId: number) => {
     this.http.get<any>(`http://localhost:5067/api/CarServiceHistories/car/${carId}`, {
       observe: 'response'
     }).pipe(
@@ -43,6 +44,15 @@ export class GarageService {
       this._waitIndicator$.next(false);
       this._carHistory$.next(res.body);
     });
+  }
+
+  public getCarAtService = (carId: number) => {
+    return this.http.get<any>(`http://localhost:5067/api/CarAtServices/${carId}`, {
+      observe: 'response'
+    }).pipe(
+      tap(() => this._waitIndicator$.next(true)),
+      delay(500)
+    );
   }
 
   public getContacts = () => {
@@ -136,6 +146,13 @@ export class GarageService {
     );
   }
 
+  public cancelHistoryStatus = (carHistoryId: number) => {
+    return this.http.put(`http://localhost:5067/api/CarServiceHistories/cancel/${carHistoryId}`, {}).pipe(
+      delay(500),
+      take(1)
+    );
+  }
+
   public createCarAtService = (carAtService: CarAtService) => {
     return this.http.post(`http://localhost:5067/api/CarAtServices`, carAtService).pipe(
       delay(500),
@@ -147,6 +164,11 @@ export class GarageService {
     this.params = params;
     this.getCarsAtService(this.params);
     return this._carsAtService$.asObservable();
+  }
+
+  public carAtService$ = (carId: number) => {
+    this.getCarAtService(carId);
+    return this._carAtService$.asObservable();
   }
 
   public contacts$ = () => {

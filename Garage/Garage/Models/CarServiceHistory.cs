@@ -11,6 +11,7 @@ namespace Garage.Models
         public Car Car { get; set; }
         public CarStatusEnum CarStatus { get; set; }
         public DateTime DateOfStatusChange { get; set; }
-        public string Note {  get; set; }
+        public string Note { get; set; }
+        public bool statusIsCanceled { get; set; }
     }
 }

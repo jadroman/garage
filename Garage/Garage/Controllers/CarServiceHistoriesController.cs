@@ -46,13 +46,14 @@ namespace Garage.Controllers
             return NoContent();
         }
 
-        // DELETE: api/CarServiceHistories/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCarServiceHistory(int id)
-        {
-            var carServiceHistory = _context.CarServiceHistory.Result.FirstOrDefault(cas => cas.Id == id);
 
-            _context.CarServiceHistory.Result.Remove(carServiceHistory);
+        [HttpPut("cancel/{id}")]
+        public async Task<IActionResult> CancelCarServiceHistory(int id)
+        {
+            var carServiceHistory = _context.CarServiceHistory.Result.Where(cas => cas.Id == id).First();
+
+            _context.CarServiceHistory.Result.First(cas => cas.Id == id).statusIsCanceled = true;
+            _context.CarServiceHistory.Result.First(cas => cas.Id == id).Note = "This status has been canceled.";
 
             return NoContent();
         }

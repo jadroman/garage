@@ -61,5 +61,6 @@ export interface CarHistory {
     car: Car,
     carStatus: CarStatusEnum,
     dateOfStatusChange: Date,
-    note: string
+    note: string,
+    statusIsCanceled: boolean
 }

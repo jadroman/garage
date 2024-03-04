@@ -1,29 +1,59 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Car service history</h1>
 </div>
-<div class="card mb-3">
-    <div class="card-body">
-        <ng-container *ngIf="(loading$ | async) else carDetails">
-            <div class="spinner-border" role="status">
-            </div>
-        </ng-container>
-        <ng-template #carDetails>
-            @if(carHistory$ | async; as carHistory){
+<div class="row row-cols-md-2">
+    <div class="col">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Car:</h5>
+                <ng-container *ngIf="(loading$ | async) else carDetails">
+                    <div class="spinner-border" role="status">
+                    </div>
+                </ng-container>
+                <ng-template #carDetails>
+                    @if(carHistory$ | async; as carHistory){
 
-            @if(carHistory.length>0){
+                    @if(carHistory.length>0){
 
-            <div class="card-text">
-                <b>Brand-Model-Year:</b> {{carHistory[0].car.brandModelYear ?? "no data"}}
+                    <div class="card-text ms-3">
+                        <b>Brand-Model-Year:</b> {{carHistory[0].car.brandModelYear ?? "no data"}}
+                    </div>
+                    <div class="card-text ms-3">
+                        <b>Vehicle Id Number:</b> {{carHistory[0].car.vehicleIdNumber ?? "no data"}}
+                    </div>
+                    <div class="card-text ms-3">
+                        <b>Licence Plate:</b> {{carHistory[0].car.licensePlate ?? "no data"}}
+                    </div>
+                    }
+                    }
+                </ng-template>
             </div>
-            <div class="card-text">
-                <b>Vehicle Id Number:</b> {{carHistory[0].car.vehicleIdNumber ?? "no data"}}
+        </div>
+    </div>
+    <div class="col">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Contact:</h5>
+                <ng-container *ngIf="(loading$ | async) else contactDetails">
+                    <div class="spinner-border" role="status">
+                    </div>
+                </ng-container>
+                <ng-template #contactDetails>
+                    @if(contact){
+
+                    <div class="card-text ms-3">
+                        <b>Name:</b> {{contact.name}}
+                    </div>
+                    <div class="card-text ms-3">
+                        <b>Surname:</b> {{contact.surname}}
+                    </div>
+                    <div class="card-text ms-3">
+                        <b>Phone:</b> {{contact.phone}}
+                    </div>
+                    }
+                </ng-template>
             </div>
-            <div class="card-text">
-                <b>Licence Plate:</b> {{carHistory[0].car.licensePlate ?? "no data"}}
-            </div>
-            }
-            }
-        </ng-template>
+        </div>
     </div>
 </div>
 <div class="card">
@@ -43,10 +73,15 @@
                 </ng-container>
                 <ng-template #tableData>
                     @for (ch of carHistory$ | async; track ch.id) {
-                    <tr>
+                    <tr appMarkCanceledCarStatusDirective [isCanceled]="ch.statusIsCanceled">
                         <td>{{ch.dateOfStatusChange | date}}</td>
                         <td>{{ getCarStatusLabel(ch.carStatus)}}</td>
                         <td>{{ch.note}}</td>
+                        <td>
+                            @if(!ch.statusIsCanceled){
+                            <span role="button" class="badge bg-danger" (click)="cancelHistoryStatus(ch.id)">X</span>
+                            }
+                        </td>
                     </tr>
                     } @empty {
                     <tr>

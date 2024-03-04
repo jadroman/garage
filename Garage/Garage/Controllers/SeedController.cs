@@ -113,7 +113,7 @@ namespace Garage.Controllers
                 },
                 new CarServiceHistory
                 {
-                    Id = 3,
+                    Id = 4,
                     Car = _context.Cars.Result[0],
                     CarStatus = CarStatusEnum.ReadyForPickUp,
                     DateOfStatusChange = DateTime.Now.AddDays(-5),
@@ -121,21 +121,21 @@ namespace Garage.Controllers
                 },
                 new CarServiceHistory
                 {
-                    Id = 4,
+                    Id = 5,
                     Car = _context.Cars.Result[0],
                     CarStatus = CarStatusEnum.CarCheckedIn,
                     DateOfStatusChange = DateTime.Now.AddDays(-10),
                 },
                 new CarServiceHistory
                 {
-                    Id = 4,
+                    Id = 6,
                     Car = _context.Cars.Result[1],
                     CarStatus = CarStatusEnum.CarCheckedIn,
                     DateOfStatusChange = DateTime.Now.AddDays(-11),
                 },
                 new CarServiceHistory
                 {
-                    Id = 5,
+                    Id = 7,
                     Car = _context.Cars.Result[2],
                     CarStatus = CarStatusEnum.CarCheckedIn,
                     DateOfStatusChange = DateTime.Now.AddDays(-10),
