@@ -39,10 +39,17 @@ namespace Garage.Controllers
 
         // POST: api/CarServiceHistories
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<CarServiceHistory>> PostCarServiceHistory(CarServiceHistory carServiceHistory)
+        [HttpPost("car/{carId}")]
+        public async Task<ActionResult<CarServiceHistory>> PostCarServiceHistory([FromRoute(Name = "carId")] int carId, [FromBody] CarServiceHistory carServiceHistory)
         {
+            Car car = _context.Cars.Result.Where(c => c.Id == carId).First();
+            int lastHistoryId = _context.CarServiceHistory.Result.OrderByDescending(c => c.Id).First().Id;
+
+            carServiceHistory.Id = ++lastHistoryId;
+            carServiceHistory.Car = car;
+            carServiceHistory.DateOfStatusChange = DateTime.UtcNow;
             _context.CarServiceHistory.Result.Add(carServiceHistory);
+
             return NoContent();
         }
 

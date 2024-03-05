@@ -1,1 +1,29 @@
-<p>car-status-edit works!</p>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">New status for the car:</h1>
+</div>
+<div class="card">
+    <div class="card-body">
+        <ng-container *ngIf="(loading$ | async) else statusForm">
+            <div class="spinner-border" role="status">
+            </div>
+        </ng-container>
+        <ng-template #statusForm>
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                    <label for="carStatus" class="form-label">Status</label>
+                    <select class="form-select" id="carStatus" formControlName="carStatus">
+                        <option *ngFor="let cs of carStatuses" [value]="cs">
+                            {{getCarStatusLabel(cs)}}
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="note" class="form-label">Note</label>
+                    <input type="text" class="form-control" id="note" placeholder="Note" formControlName="note">
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm me-2" [disabled]="!form.valid">Save</button>
+                <a class="btn btn-secondary btn-sm" (click)="cancel(false)">Cancel</a>
+            </form>
+        </ng-template>
+    </div>
+</div>

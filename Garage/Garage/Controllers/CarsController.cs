@@ -55,7 +55,7 @@ namespace Garage.Controllers
         // POST: api/Cars
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Car>> PostCar(Car car)
+        public async Task<ActionResult<Car>> PostCar([FromBody] Car car)
         {
             int lastCarId = _context.Cars.Result.OrderByDescending(c => c.Id).First().Id;
 

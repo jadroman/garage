@@ -16,13 +16,16 @@
                     @if(carHistory.length>0){
 
                     <div class="card-text ms-3">
-                        <b>Brand-Model-Year:</b> {{carHistory[0].car.brandModelYear ?? "no data"}}
+                        <b>Brand-Model-Year:</b> {{carHistory[0].car?.brandModelYear ? carHistory[0].car?.brandModelYear
+                        : "no data"}}
                     </div>
                     <div class="card-text ms-3">
-                        <b>Vehicle Id Number:</b> {{carHistory[0].car.vehicleIdNumber ?? "no data"}}
+                        <b>Vehicle Id Number:</b> {{carHistory[0].car?.vehicleIdNumber ?
+                        carHistory[0].car?.vehicleIdNumber : "no data"}}
                     </div>
                     <div class="card-text ms-3">
-                        <b>Licence Plate:</b> {{carHistory[0].car.licensePlate ?? "no data"}}
+                        <b>Licence Plate:</b> {{carHistory[0].car?.licensePlate ? carHistory[0].car?.licensePlate : "no
+                        data"}}
                     </div>
                     }
                     }
@@ -56,6 +59,9 @@
         </div>
     </div>
 </div>
+<button type="button" class="btn btn-primary btn-sm mb-3" (click)="open(addStatus)">
+    New Status
+</button>
 <div class="card">
     <div class="card-body">
         <table class="table table-striped">
@@ -73,9 +79,13 @@
                 </ng-container>
                 <ng-template #tableData>
                     @for (ch of carHistory$ | async; track ch.id) {
-                    <tr appMarkCanceledCarStatusDirective [isCanceled]="ch.statusIsCanceled">
-                        <td>{{ch.dateOfStatusChange | date}}</td>
-                        <td>{{ getCarStatusLabel(ch.carStatus)}}</td>
+                    <tr>
+                        <td appMarkCanceledCarStatusDirective
+                            [isCanceled]="ch.statusIsCanceled ? ch.statusIsCanceled : false">{{ch.dateOfStatusChange
+                            | date}}</td>
+                        <td appMarkCanceledCarStatusDirective
+                            [isCanceled]="ch.statusIsCanceled ? ch.statusIsCanceled : false">{{
+                            getCarStatusLabel(ch.carStatus)}}</td>
                         <td>{{ch.note}}</td>
                         <td>
                             @if(!ch.statusIsCanceled){
@@ -93,3 +103,11 @@
         </table>
     </div>
 </div>
+<ng-template #addStatus let-modal>
+    <div class="modal-header">
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <app-car-status-edit [carId]="carId" (closeModal)="closeModal($event)" />
+    </div>
+</ng-template>

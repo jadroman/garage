@@ -4,7 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { Car, CarAtService, ContactPerson, WorkComplexityEnum } from '@models/garage.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { getWorkComplexityLabel } from '@utils/car-at.service.utils';
+import { getWorkComplexityLabel } from '@utils/car-at-service.utils';
 import { ContactsTableComponent } from 'app/shared/components/contacts-table/contacts-table.component';
 import { ContactEditComponent } from '../contacts/contact-edit/contact-edit.component';
 import { GarageService } from '@services/garage.service';
@@ -15,7 +15,8 @@ import { CarEditComponent } from '../cars/car-edit/car-edit.component';
 @Component({
   selector: 'app-car-at-service-edit',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, ContactsTableComponent, ContactEditComponent, CarsTableComponent, CarEditComponent],
+  imports: [ReactiveFormsModule, CommonModule, ContactsTableComponent,
+    ContactEditComponent, CarsTableComponent, CarEditComponent],
   templateUrl: './car-at-service-edit.component.html',
   styleUrl: './car-at-service-edit.component.scss'
 })
@@ -48,13 +49,17 @@ export class CarAtServiceEditComponent {
     this.modalService.dismissAll();
   }
 
-  closeContactModal(contact: ContactPerson) {
-    this.selectedContact = contact;
+  closeContactModal(contact?: ContactPerson) {
+    if (contact) {
+      this.selectedContact = contact;
+    }
     this.modalService.dismissAll();
   }
 
-  closeCarModal(car: Car) {
-    this.selectedCar = car;
+  closeCarModal(car?: Car) {
+    if (car) {
+      this.selectedCar = car;
+    }
     this.modalService.dismissAll();
   }
 

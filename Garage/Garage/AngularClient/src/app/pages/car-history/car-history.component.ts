@@ -1,20 +1,23 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, inject } from '@angular/core';
 import { GarageService } from '@services/garage.service';
 import { CarAtService, CarHistory, CarStatusEnum, ContactPerson } from '@models/garage.model';
 import { Observable, take } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { getCarStatusLabel } from '@utils/car-history.utils'
 import { MarkCanceledCarStatusDirective } from 'app/directives/car-history/mark-canceled-car-status.directive';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CarStatusEditComponent } from '../car-status-edit/car-status-edit.component';
 
 @Component({
   selector: 'app-car-history',
   standalone: true,
-  imports: [AsyncPipe, CommonModule, MarkCanceledCarStatusDirective],
+  imports: [AsyncPipe, CommonModule, MarkCanceledCarStatusDirective, CarStatusEditComponent],
   templateUrl: './car-history.component.html',
   styleUrl: './car-history.component.scss'
 })
 export class CarHistoryComponent implements OnInit {
+  private modalService = inject(NgbModal);
   carId!: string | null;
   carHistory$!: Observable<CarHistory[]>;
   loading$!: Observable<boolean>;
@@ -53,6 +56,28 @@ export class CarHistoryComponent implements OnInit {
         this.service.getCarHistory(+this.carId);
       }
     });
+  }
 
+  open(content: TemplateRef<any>) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+      (result) => {
+        //this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        //this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      },
+    );
+  }
+
+  closeModal(update: boolean) {
+    this.modalService.dismissAll();
+
+    if (update) {
+      this.carId = this.route.snapshot.paramMap.get("carId");
+
+      if (this.carId) {
+        this.service.getCarHistory(+this.carId);
+      }
+    }
   }
 }

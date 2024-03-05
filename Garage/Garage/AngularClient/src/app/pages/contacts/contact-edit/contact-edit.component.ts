@@ -49,6 +49,15 @@ export class ContactEditComponent implements OnInit {
     }
   }
 
+  cancel() {
+    if (this.formOpenedInModal) {
+      this.closeContactModal.emit();
+    }
+    else {
+      this.router.navigate(['/contact']);
+    }
+  }
+
   onSubmit() {
     if (!this.form.valid) {
       return;

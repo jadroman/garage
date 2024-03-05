@@ -8,10 +8,10 @@ namespace Garage.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public Car Car { get; set; }
+        public Car? Car { get; set; }
         public CarStatusEnum CarStatus { get; set; }
-        public DateTime DateOfStatusChange { get; set; }
-        public string Note { get; set; }
+        public DateTime? DateOfStatusChange { get; set; }
+        public string? Note { get; set; }
         public bool statusIsCanceled { get; set; }
     }
 }

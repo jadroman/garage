@@ -153,6 +153,13 @@ export class GarageService {
     );
   }
 
+  public createHistoryStatus = (carHistory: CarHistory, carId: number) => {
+    return this.http.post(`http://localhost:5067/api/CarServiceHistories/car/${carId}`, carHistory).pipe(
+      delay(500),
+      take(1)
+    );
+  }
+
   public createCarAtService = (carAtService: CarAtService) => {
     return this.http.post(`http://localhost:5067/api/CarAtServices`, carAtService).pipe(
       delay(500),

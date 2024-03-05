@@ -49,6 +49,15 @@ export class CarEditComponent implements OnInit {
     }
   }
 
+  cancel() {
+    if (this.formOpenedInModal) {
+      this.closeCarModal.emit();
+    }
+    else {
+      this.router.navigate(['/car']);
+    }
+  }
+
   onSubmit() {
     if (!this.form.valid) {
       return;

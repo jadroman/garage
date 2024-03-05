@@ -30,7 +30,7 @@
                         formControlName="vehicleIdNumber">
                 </div>
                 <button type="submit" class="btn btn-primary btn-sm me-2" [disabled]="!form.valid">Save</button>
-                <a class="btn btn-secondary btn-sm" [routerLink]="['/car']">Cancel</a>
+                <a class="btn btn-secondary btn-sm" (click)="cancel()">Cancel</a>
             </form>
         </ng-template>
     </div>

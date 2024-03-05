@@ -58,9 +58,9 @@ export interface CarAtService {
 
 export interface CarHistory {
     id: number,
-    car: Car,
+    car?: Car,
     carStatus: CarStatusEnum,
-    dateOfStatusChange: Date,
+    dateOfStatusChange?: Date,
     note: string,
-    statusIsCanceled: boolean
+    statusIsCanceled?: boolean
 }
