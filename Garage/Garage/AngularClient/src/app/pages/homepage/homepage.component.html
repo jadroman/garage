@@ -6,17 +6,21 @@
         Add New
     </a>
 </div>
-<div class="mb-3">
-    <select class="me-2" name="workStarted" id="workStarted" (change)="setWorkStarted($event.target)">
-        <option value="0">work not started</option>
-        <option value="1">work started</option>
-        <option selected value="2">All</option>
-    </select>
-    <select name="sortCarBy" id="sortBy" (change)="setSortCarBy($event.target)">
-        <option selected value="0">newly arrived</option>
-        <option value="1">lowest duration</option>
-        <option value="2">lowest complexity</option>
-    </select>
+<div class="row row-cols-md-2 mb-3">
+    <div class="col">
+        <select class="me-2 form-select" name="workStarted" id="workStarted" (change)="setWorkStarted($event.target)">
+            <option value="0">work not started</option>
+            <option value="1">work started</option>
+            <option selected value="2">All</option>
+        </select>
+    </div>
+    <div class="col">
+        <select name="sortCarBy" class="form-select" id="sortBy" (change)="setSortCarBy($event.target)">
+            <option selected value="0">newly arrived</option>
+            <option value="1">lowest duration</option>
+            <option value="2">lowest complexity</option>
+        </select>
+    </div>
 </div>
 <div class="card">
     <div class="card-body">

@@ -55,12 +55,12 @@ namespace Garage.Controllers
 
 
         [HttpPut("cancel/{id}")]
-        public async Task<IActionResult> CancelCarServiceHistory(int id)
+        public async Task<IActionResult> CancelCarServiceHistory([FromRoute(Name = "id")] int id, [FromBody] ReasonToCancelDTO reasonToCancel)
         {
             var carServiceHistory = _context.CarServiceHistory.Result.Where(cas => cas.Id == id).First();
 
             _context.CarServiceHistory.Result.First(cas => cas.Id == id).statusIsCanceled = true;
-            _context.CarServiceHistory.Result.First(cas => cas.Id == id).Note = "This status has been canceled.";
+            _context.CarServiceHistory.Result.First(cas => cas.Id == id).Note = reasonToCancel.ReasonToCancel;
 
             return NoContent();
         }

@@ -65,7 +65,7 @@
             </div>
             <div class="mb-3">
                 <label for="estimatedComplexity" class="form-label">Estimated complexity</label>
-                <select class="form-control" id="estimatedComplexity" formControlName="estimatedComplexity">
+                <select class="form-select" id="estimatedComplexity" formControlName="estimatedComplexity">
                     <option *ngFor="let wc of workComplexities" [value]="wc">
                         {{getWorkComplexityLabel(wc)}}
                     </option>
@@ -77,18 +77,12 @@
 </div>
 
 <ng-template #personPick let-modal>
-    <div class="modal-header">
-        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-    </div>
     <div class="modal-body">
         <app-contacts-table [contactPickMode]=true (selectContact)="selectContact($event)" />
     </div>
 </ng-template>
 
 <ng-template #newPerson let-modal>
-    <div class="modal-header">
-        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-    </div>
     <div class="modal-body">
         <app-contact-edit [formOpenedInModal]=true (closeContactModal)="closeContactModal($event)" />
     </div>
@@ -96,18 +90,12 @@
 
 
 <ng-template #carPick let-modal>
-    <div class="modal-header">
-        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-    </div>
     <div class="modal-body">
         <app-cars-table [carPickMode]=true (selectCar)="selectCar($event)" />
     </div>
 </ng-template>
 
 <ng-template #newCar let-modal>
-    <div class="modal-header">
-        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-    </div>
     <div class="modal-body">
         <app-car-edit [formOpenedInModal]=true (closeCarModal)="closeCarModal($event)" />
     </div>

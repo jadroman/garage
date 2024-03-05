@@ -89,7 +89,8 @@
                         <td>{{ch.note}}</td>
                         <td>
                             @if(!ch.statusIsCanceled){
-                            <span role="button" class="badge bg-danger" (click)="cancelHistoryStatus(ch.id)">X</span>
+                            <span role="button" class="badge bg-danger"
+                                (click)="openReasonToCancel(reasonToCancel, ch.id)">X</span>
                             }
                         </td>
                     </tr>
@@ -104,10 +105,27 @@
     </div>
 </div>
 <ng-template #addStatus let-modal>
-    <div class="modal-header">
-        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-    </div>
     <div class="modal-body">
         <app-car-status-edit [carId]="carId" (closeModal)="closeModal($event)" />
+    </div>
+</ng-template>
+<ng-template #reasonToCancel let-modal>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="card-title">
+                The car service history can not be deleted. It can only be disabled.
+            </div>
+            <form [formGroup]="reasonToCancelForm" (ngSubmit)="onDelete()">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Reason To Cancel</label>
+                    <input type="text" class="form-control" id="reasonToCancel" placeholder="Reason To Cancel"
+                        formControlName="reasonToCancel">
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm me-2"
+                    [disabled]="!reasonToCancelForm.valid">Save</button>
+                <a class="btn btn-secondary btn-sm" (click)="cancel()">Cancel</a>
+            </form>
+        </div>
     </div>
 </ng-template>

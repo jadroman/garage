@@ -146,8 +146,8 @@ export class GarageService {
     );
   }
 
-  public cancelHistoryStatus = (carHistoryId: number) => {
-    return this.http.put(`http://localhost:5067/api/CarServiceHistories/cancel/${carHistoryId}`, {}).pipe(
+  public cancelHistoryStatus = (carHistoryId: number, reasonToCancel: string) => {
+    return this.http.put(`http://localhost:5067/api/CarServiceHistories/cancel/${carHistoryId}`, { reasonToCancel: reasonToCancel }).pipe(
       delay(500),
       take(1)
     );
