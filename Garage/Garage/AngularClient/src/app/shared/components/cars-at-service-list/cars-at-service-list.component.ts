@@ -5,11 +5,12 @@ import { WorkStartedEnum, CarAtService, SortCarsByEnum, WorkComplexityEnum } fro
 import { GarageService } from '../../../core/services/garage.service';
 import { RouterLink } from '@angular/router';
 import { getWorkComplexityLabel } from '@utils/car-at-service.utils';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-cars-at-service-list',
   standalone: true,
-  imports: [AsyncPipe, CommonModule, RouterLink],
+  imports: [AsyncPipe, CommonModule, RouterLink, NgbTooltipModule],
   templateUrl: './cars-at-service-list.component.html',
   styleUrl: './cars-at-service-list.component.scss'
 })

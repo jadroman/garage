@@ -6,14 +6,15 @@ import { Observable, take } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { getCarStatusLabel } from '@utils/car-history.utils'
 import { MarkCanceledCarStatusDirective } from 'app/directives/car-history/mark-canceled-car-status.directive';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { CarStatusEditComponent } from '../car-status-edit/car-status-edit.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-car-history',
   standalone: true,
-  imports: [AsyncPipe, CommonModule, MarkCanceledCarStatusDirective, CarStatusEditComponent, ReactiveFormsModule],
+  imports: [AsyncPipe, CommonModule, MarkCanceledCarStatusDirective, CarStatusEditComponent,
+    ReactiveFormsModule, NgbTooltipModule, NgbAlertModule],
   templateUrl: './car-history.component.html',
   styleUrl: './car-history.component.scss'
 })

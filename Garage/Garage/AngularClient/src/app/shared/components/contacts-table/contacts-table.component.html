@@ -1,9 +1,10 @@
 <table class="table table-striped">
     <thead>
-        <tr>
+        <tr class="table-dark">
             <th scope="col">name</th>
             <th scope="col">surname</th>
             <th scope="col">phone</th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
@@ -29,7 +30,8 @@
                 </td>
                 <td role="button" [routerLink]="['/contact', c.id]">{{ c.surname }}</td>
                 <td role="button" [routerLink]="['/contact', c.id]">{{ c.phone }}</td>
-                <td><span role="button" class="badge bg-danger" (click)="deleteContact(c.id)">X</span></td>
+                <td><span role="button" class="badge bg-danger" (click)="deleteContact(c.id)"
+                        ngbTooltip="Delete contact">X</span></td>
             </tr>
             }
             } @empty {

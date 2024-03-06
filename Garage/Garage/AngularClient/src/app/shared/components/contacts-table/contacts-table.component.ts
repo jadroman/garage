@@ -2,13 +2,14 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ContactPerson } from '@models/garage.model';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { GarageService } from '@services/garage.service';
 import { Observable, take } from 'rxjs';
 
 @Component({
   selector: 'app-contacts-table',
   standalone: true,
-  imports: [AsyncPipe, CommonModule, RouterLink],
+  imports: [AsyncPipe, CommonModule, RouterLink, NgbTooltipModule],
   templateUrl: './contacts-table.component.html',
   styleUrl: './contacts-table.component.scss'
 })

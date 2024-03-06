@@ -59,17 +59,22 @@
         </div>
     </div>
 </div>
+@if(carHistory$ | async; as carHistory){
+
+@if(carHistory.length>0){
 <button type="button" class="btn btn-primary btn-sm mb-3" (click)="open(addStatus)">
     New Status
 </button>
+}}
 <div class="card">
     <div class="card-body">
         <table class="table table-striped">
             <thead>
-                <tr>
+                <tr class="table-dark">
                     <th scope="col">date</th>
                     <th scope="col">status</th>
                     <th scope="col">note</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -90,7 +95,7 @@
                         <td>
                             @if(!ch.statusIsCanceled){
                             <span role="button" class="badge bg-danger"
-                                (click)="openReasonToCancel(reasonToCancel, ch.id)">X</span>
+                                (click)="openReasonToCancel(reasonToCancel, ch.id)" ngbTooltip="Cancel entry">X</span>
                             }
                         </td>
                     </tr>
@@ -113,12 +118,14 @@
 
     <div class="card">
         <div class="card-body">
-            <div class="card-title">
-                The car service history can not be deleted. It can only be disabled.
+            <div class="card-title text-danger">
+                <ngb-alert [dismissible]="false" class="d-block" type="warning">
+                    The car service history can not be deleted. <br />It can only be disabled.
+                </ngb-alert>
             </div>
             <form [formGroup]="reasonToCancelForm" (ngSubmit)="onDelete()">
                 <div class="mb-3">
-                    <label for="name" class="form-label">Reason To Cancel</label>
+                    <label for="name" class="form-label">Reason To Cancel:</label>
                     <input type="text" class="form-control" id="reasonToCancel" placeholder="Reason To Cancel"
                         formControlName="reasonToCancel">
                 </div>

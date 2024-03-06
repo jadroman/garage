@@ -1,9 +1,11 @@
 <table class="table table-striped">
     <thead>
-        <tr>
+        <tr class="table-dark">
             <th scope="col">Brand-Model-Year</th>
             <th scope="col">License Plate</th>
             <th scope="col">Vehicle Id Number</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
@@ -29,7 +31,11 @@
                 </td>
                 <td role="button" [routerLink]="['/car', c.id]">{{ c.licensePlate }}</td>
                 <td role="button" [routerLink]="['/car', c.id]">{{ c.vehicleIdNumber }}</td>
-                <td><span role="button" class="badge bg-danger" (click)="deleteCar(c.id)">X</span></td>
+                <td><span role="button" class="badge bg-info text-dark" [routerLink]="['/carhistory/', c.id]"
+                        ngbTooltip="Car service history">H</span>
+                </td>
+                <td><span role="button" class="badge bg-danger" (click)="deleteCar(c.id)"
+                        ngbTooltip="Delete car">X</span></td>
             </tr>
             }
             } @empty {
