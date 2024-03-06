@@ -33,7 +33,7 @@ namespace Garage.Controllers
 
         // POST api/<SeedController>
         [HttpPost]
-        public async void Post([FromBody] string value)
+        public async void Post()
         {
 
             _context.Cars = Task.FromResult(new List<Car>());

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { GarageService } from '@services/garage.service';
 
 @Component({
   selector: 'app-root',
@@ -11,4 +12,13 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'AngularClient';
+
+  constructor(private service: GarageService, private router: Router) {
+  }
+
+  seedData() {
+    this.service.seedData().subscribe(() => {
+      this.router.navigate(['/homepage']);
+    });
+  }
 }

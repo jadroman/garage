@@ -47,7 +47,7 @@ export class GarageService {
   }
 
   public getCarAtService = (carId: number) => {
-    return this.http.get<any>(`http://localhost:5067/api/CarAtServices/${carId}`, {
+    return this.http.get<any>(`http://localhost:5067/api/CarAtServices/car/${carId}`, {
       observe: 'response'
     }).pipe(
       tap(() => this._waitIndicator$.next(true)),
@@ -141,6 +141,13 @@ export class GarageService {
 
   public deleteCar = (carId: number) => {
     return this.http.delete(`http://localhost:5067/api/Cars/${carId}`).pipe(
+      delay(500),
+      take(1)
+    );
+  }
+
+  public seedData = () => {
+    return this.http.post(`http://localhost:5067/api/Seed`, {}).pipe(
       delay(500),
       take(1)
     );

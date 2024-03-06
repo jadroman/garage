@@ -41,8 +41,7 @@ namespace Garage.Controllers
             {
                 foreach (var cas in _context.CarsAtService.Result)
                 {
-                    var lastCarHistoryEntry = _context.CarServiceHistory.Result.Where(csh => csh.Car?.Id == cas.Id && !csh.statusIsCanceled).OrderByDescending(csh => csh.DateOfStatusChange).FirstOrDefault();
-
+                    var lastCarHistoryEntry = _context.CarServiceHistory.Result.Where(csh => csh.Car?.Id == cas.Car.Id && !csh.statusIsCanceled).OrderByDescending(csh => csh.DateOfStatusChange).FirstOrDefault();
 
                     if (lastCarHistoryEntry?.CarStatus != CarStatusEnum.ClientTookOverTheCar)
                     {
@@ -67,10 +66,10 @@ namespace Garage.Controllers
         }
 
         // GET: api/CarAtServices/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CarAtService>> GetCarAtService(int id)
+        [HttpGet("car/{carId}")]
+        public async Task<ActionResult<CarAtService>> GetCarAtService(int carId)
         {
-            var carAtService = _context.CarsAtService.Result.FirstOrDefault(cas => cas.Id == id);
+            var carAtService = _context.CarsAtService.Result.FirstOrDefault(cas => cas.Car.Id == carId);
 
             if (carAtService == null)
             {
@@ -104,6 +103,13 @@ namespace Garage.Controllers
 
             carAtService.Id = ++lastCarAtServiceId;
             carAtService.DateOfArrival = DateTime.UtcNow;
+
+            CarAtService carAtServiceAlreadyExist = _context.CarsAtService.Result.Where(c => c.Car.Id == carAtService.Car.Id).FirstOrDefault();
+
+            if (carAtServiceAlreadyExist is not null)
+            {
+                _context.CarsAtService.Result.Remove(carAtServiceAlreadyExist);
+            }
 
             _context.CarsAtService.Result.Add(carAtService);
 
