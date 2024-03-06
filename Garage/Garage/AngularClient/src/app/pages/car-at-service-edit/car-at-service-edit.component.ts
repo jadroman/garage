@@ -31,8 +31,8 @@ export class CarAtServiceEditComponent {
 
   form = new FormGroup({
     workNeedToBeDone: new FormControl('', Validators.required),
-    estimatedDurationInHours: new FormControl('', Validators.pattern("^[0-9]*$")),
-    estimatedComplexity: new FormControl('')
+    estimatedDurationInHours: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
+    estimatedComplexity: new FormControl('', Validators.required)
   });
 
   getWorkComplexityLabel(workComplexity: WorkComplexityEnum): string {

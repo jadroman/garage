@@ -4,7 +4,7 @@
             <th scope="col">brand model year</th>
             <th scope="col">arrived</th>
             <th scope="col">complexity</th>
-            <th scope="col">duration</th>
+            <th scope="col">duration(h)</th>
             <th scope="col">work to be done</th>
             <th scope="col">contact</th>
         </tr>
@@ -21,7 +21,7 @@
                     {{cas.car.brandModelYear}}
                 </td>
                 <td>{{cas.dateOfArrival | date}}</td>
-                <td>{{cas.estimatedComplexity}}</td>
+                <td>{{getWorkComplexityLabel(cas.estimatedComplexity)}}</td>
                 <td>{{cas.estimatedDurationInHours}}</td>
                 <td>{{cas.workNeedToBeDone}}</td>
                 <td>{{cas.contactPerson.name}}</td>

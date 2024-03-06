@@ -1,9 +1,10 @@
 import { Component, Input, OnChanges, SimpleChanges, input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { WorkStartedEnum, CarAtService, SortCarsByEnum } from '../../../core/models/garage.model';
+import { WorkStartedEnum, CarAtService, SortCarsByEnum, WorkComplexityEnum } from '../../../core/models/garage.model';
 import { GarageService } from '../../../core/services/garage.service';
 import { RouterLink } from '@angular/router';
+import { getWorkComplexityLabel } from '@utils/car-at-service.utils';
 
 @Component({
   selector: 'app-cars-at-service-list',
@@ -26,6 +27,10 @@ export class CarsAtServiceListComponent implements OnChanges {
 
   ngOnChanges(): void {
     this.service.carsAtService$(this.getRequestParams(this.workStarted, this.sortCarsBy));
+  }
+
+  getWorkComplexityLabel(workComplexity: WorkComplexityEnum): string {
+    return getWorkComplexityLabel(workComplexity);
   }
 
   getRequestParams(workStarted: WorkStartedEnum, sortCarsBy: SortCarsByEnum): any {

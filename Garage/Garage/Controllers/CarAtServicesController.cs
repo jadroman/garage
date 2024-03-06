@@ -41,21 +41,25 @@ namespace Garage.Controllers
             {
                 foreach (var cas in _context.CarsAtService.Result)
                 {
-                    var lastCarHistoryEntry = _context.CarServiceHistory.Result.Where(csh => csh.Car.Id == cas.Id).OrderByDescending(csh => csh.DateOfStatusChange).FirstOrDefault();
+                    var lastCarHistoryEntry = _context.CarServiceHistory.Result.Where(csh => csh.Car?.Id == cas.Id && !csh.statusIsCanceled).OrderByDescending(csh => csh.DateOfStatusChange).FirstOrDefault();
 
-                    if (workStarted == WorkStartedEnum.started)
+
+                    if (lastCarHistoryEntry?.CarStatus != CarStatusEnum.ClientTookOverTheCar)
                     {
-                        if (lastCarHistoryEntry != null && lastCarHistoryEntry.CarStatus != CarStatusEnum.CarCheckedIn)
+                        if (workStarted == WorkStartedEnum.started)
+                        {
+                            if (lastCarHistoryEntry != null && lastCarHistoryEntry.CarStatus != CarStatusEnum.CarCheckedIn)
+                                returnValues.Add(cas);
+                        }
+                        else if (workStarted == WorkStartedEnum.notStarted)
+                        {
+                            if (lastCarHistoryEntry == null || lastCarHistoryEntry.CarStatus == CarStatusEnum.CarCheckedIn)
+                                returnValues.Add(cas);
+                        }
+                        else
+                        {
                             returnValues.Add(cas);
-                    }
-                    else if (workStarted == WorkStartedEnum.notStarted)
-                    {
-                        if (lastCarHistoryEntry == null || lastCarHistoryEntry.CarStatus == CarStatusEnum.CarCheckedIn)
-                            returnValues.Add(cas);
-                    }
-                    else
-                    {
-                        returnValues.Add(cas);
+                        }
                     }
                 }
             }
