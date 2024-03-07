@@ -1,51 +1,64 @@
 import { Routes } from '@angular/router';
-import { HomepageComponent } from './pages/homepage/homepage.component';
-import { CarHistoryComponent } from './pages/car-history/car-history.component';
-import { ContactsListComponent } from './pages/contacts/contacts-list/contacts-list.component';
-import { ContactEditComponent } from './pages/contacts/contact-edit/contact-edit.component';
-import { CarAtServiceEditComponent } from './pages/car-at-service-edit/car-at-service-edit.component';
-import { CarsListComponent } from './pages/cars/cars-list/cars-list.component';
-import { CarEditComponent } from './pages/cars/car-edit/car-edit.component';
 
 export const routes: Routes = [
     {
         path: 'homepage',
-        component: HomepageComponent
-    },
-    {
-        path: 'contact',
-        component: ContactsListComponent
-    },
-    {
-        path: 'contact/:id',
-        component: ContactEditComponent
-    },
-    {
-        path: 'contact/new',
-        component: ContactEditComponent
-    },
-    {
-        path: 'car',
-        component: CarsListComponent
-    },
-    {
-        path: 'car/:id',
-        component: CarEditComponent
-    },
-    {
-        path: 'car/new',
-        component: CarEditComponent
+        loadComponent: () =>
+            import('@pages/homepage/homepage.component')
+                .then(m => m.HomepageComponent)
     },
     {
         path: '',
-        component: HomepageComponent
+        loadComponent: () =>
+            import('@pages/homepage/homepage.component')
+                .then(m => m.HomepageComponent)
+    },
+    {
+        path: 'contact',
+        loadComponent: () =>
+            import('@pages/contacts/contacts-list/contacts-list.component')
+                .then(m => m.ContactsListComponent)
+    },
+    {
+        path: 'contact/:id',
+        loadComponent: () =>
+            import('@pages/contacts/contact-edit/contact-edit.component')
+                .then(m => m.ContactEditComponent)
+    },
+    {
+        path: 'contact/new',
+        loadComponent: () =>
+            import('@pages/contacts/contact-edit/contact-edit.component')
+                .then(m => m.ContactEditComponent)
+    },
+    {
+        path: 'car',
+        loadComponent: () =>
+            import('@pages/cars/cars-list/cars-list.component')
+                .then(m => m.CarsListComponent)
+    },
+    {
+        path: 'car/:id',
+        loadComponent: () =>
+            import('@pages/cars/car-edit/car-edit.component')
+                .then(m => m.CarEditComponent)
+    },
+    {
+        path: 'car/new',
+        loadComponent: () =>
+            import('@pages/cars/car-edit/car-edit.component')
+                .then(m => m.CarEditComponent)
     },
     {
         path: 'carhistory/:carId',
-        component: CarHistoryComponent
+        loadComponent: () =>
+            import('@pages/car-history/car-history.component')
+                .then(m => m.CarHistoryComponent)
     },
     {
         path: 'caratservice/new',
-        component: CarAtServiceEditComponent
+        loadComponent: () =>
+            import('@pages/car-at-service-edit/car-at-service-edit.component')
+                .then(m => m.CarAtServiceEditComponent)
     }
 ];

@@ -16,6 +16,9 @@
       ],
       "@models/*": [
         "app/core/models/*"
+      ],
+      "@pages/*": [
+        "app/pages/*"
       ]
     },
   },
