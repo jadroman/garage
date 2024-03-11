@@ -52,6 +52,14 @@ TestResult.xml
 [Rr]eleasePS/
 dlldata.c
 
+# Visual Studio Code
+.vscode/*
+AngularClient/.vscode/*
+
+# Visual Studio
+.vs/*
+AngularClient/.vs/*
+
 # DNX
 project.lock.json
 artifacts/
