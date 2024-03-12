@@ -1,16 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Car, EditModeEnum } from '@models/garage.model';
+import { provideComponentStore } from '@ngrx/component-store';
 import { GarageService } from '@services/garage.service';
 import { isNumeric } from '@utils/car-history.utils';
+import { CarStoreService } from 'app/core/store/car/car.store';
 import { Observable, take } from 'rxjs';
 
 @Component({
   selector: 'app-car-edit',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, RouterLink],
+  providers: [provideComponentStore(CarStoreService)],
   templateUrl: './car-edit.component.html',
   styleUrl: './car-edit.component.scss'
 })
@@ -22,6 +25,8 @@ export class CarEditComponent implements OnInit {
   constructor(private route: ActivatedRoute, private service: GarageService, private router: Router) {
     this.loading$ = this.service._waitIndicator$;
   }
+
+  private readonly carStore = inject(CarStoreService);
 
   form = new FormGroup({
     brandModelYear: new FormControl('', Validators.required),
@@ -79,7 +84,29 @@ export class CarEditComponent implements OnInit {
     }
     else if (this.editMode === EditModeEnum.addNew) {
       car.id = 0;
-      this.service._waitIndicator$.next(true);
+
+      this.carStore.addCar(car);
+
+      this.carStore.addedCar$.subscribe(c => {
+        if (this.formOpenedInModal) {
+          if (c) {
+            this.closeCarModal.emit(c as Car);
+          }
+        }
+        else {
+          this.router.navigate(['/car']);
+        }
+      });
+
+      console.log();
+      /* if (this.formOpenedInModal) {
+        this.closeCarModal.emit(createdCar as Car);
+      }
+      else {
+        this.router.navigate(['/car']);
+      } */
+
+      /* this.service._waitIndicator$.next(true);
       this.service.createCar(car).pipe(take(1)).subscribe(createdCar => {
         this.service._waitIndicator$.next(false);
         if (this.formOpenedInModal) {
@@ -88,7 +115,7 @@ export class CarEditComponent implements OnInit {
         else {
           this.router.navigate(['/car']);
         }
-      });
+      }); */
     }
 
   }

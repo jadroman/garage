@@ -64,3 +64,8 @@ export interface CarHistory {
     note: string,
     statusIsCanceled?: boolean
 }
+
+export interface CarState {
+    cars: Car[];
+    isLoading: boolean;
+}

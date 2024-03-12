@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, delay, take, tap } from 'rxjs';
+import { BehaviorSubject, delay, map, switchMap, take, tap } from 'rxjs';
 import { Car, CarAtService, CarHistory, ContactPerson } from '../models/garage.model';
 
 @Injectable({
@@ -9,7 +9,7 @@ import { Car, CarAtService, CarHistory, ContactPerson } from '../models/garage.m
 export class GarageService {
   private _carsAtService$ = new BehaviorSubject<CarAtService[]>([]);
   private _contacts$ = new BehaviorSubject<ContactPerson[]>([]);
-  private _cars$ = new BehaviorSubject<Car[]>([]);
+  public _cars$ = new BehaviorSubject<Car[]>([]);
   private _carHistory$ = new BehaviorSubject<CarHistory[]>([]);
   private _contact$ = new BehaviorSubject<ContactPerson>(null!);
   private _car$ = new BehaviorSubject<Car>(null!);
@@ -102,15 +102,14 @@ export class GarageService {
 
 
   public getCars = () => {
-    this.http.get<any>('http://localhost:5067/api/Cars', {
+    return this.http.get<any>('http://localhost:5067/api/Cars', {
       observe: 'response'
     }).pipe(
-      tap(() => this._waitIndicator$.next(true)),
-      delay(500)
-    ).subscribe((res: any) => {
-      this._waitIndicator$.next(false);
-      this._cars$.next(res.body);
-    });
+      delay(500),
+      map((resp) => {
+        return resp.body as Car[]
+      })
+    );
   }
 
   private getCar = (id: number) => {
@@ -135,7 +134,10 @@ export class GarageService {
   public createCar = (car: Car) => {
     return this.http.post(`http://localhost:5067/api/Cars`, car).pipe(
       delay(500),
-      take(1)
+      take(1),
+      map((car) => {
+        return car as Car;
+      })
     );
   }
 
@@ -210,3 +212,4 @@ export class GarageService {
     return this._car$.asObservable();
   }
 }
+/*************************************/
