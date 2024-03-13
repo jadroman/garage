@@ -142,8 +142,7 @@ export class GarageService {
 
   public deleteCar = (carId: number) => {
     return this.http.delete(`http://localhost:5067/api/Cars/${carId}`).pipe(
-      delay(500),
-      take(1)
+      delay(500)
     );
   }
 

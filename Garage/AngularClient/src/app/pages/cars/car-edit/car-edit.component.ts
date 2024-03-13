@@ -97,25 +97,6 @@ export class CarEditComponent implements OnInit {
           this.router.navigate(['/car']);
         }
       });
-
-      console.log();
-      /* if (this.formOpenedInModal) {
-        this.closeCarModal.emit(createdCar as Car);
-      }
-      else {
-        this.router.navigate(['/car']);
-      } */
-
-      /* this.service._waitIndicator$.next(true);
-      this.service.createCar(car).pipe(take(1)).subscribe(createdCar => {
-        this.service._waitIndicator$.next(false);
-        if (this.formOpenedInModal) {
-          this.closeCarModal.emit(createdCar as Car);
-        }
-        else {
-          this.router.navigate(['/car']);
-        }
-      }); */
     }
 
   }

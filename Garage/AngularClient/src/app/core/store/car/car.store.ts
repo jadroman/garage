@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Car } from "@models/garage.model";
 import { ComponentStore, OnStateInit, tapResponse } from "@ngrx/component-store";
 import { GarageService } from "@services/garage.service";
-import { BehaviorSubject, EMPTY, Observable, catchError, pipe, switchMap, tap } from "rxjs";
+import { BehaviorSubject, EMPTY, Observable, catchError, of, pipe, switchMap, tap } from "rxjs";
 
 export interface CarState {
     cars: Car[];
@@ -18,7 +18,6 @@ export class CarStoreService extends ComponentStore<CarState> implements OnState
         this.getCars();
     }
 
-
     addedCar$ = new BehaviorSubject<Car>(null!);
 
     cars$ = this.select((store) => store.cars);
@@ -32,7 +31,7 @@ export class CarStoreService extends ComponentStore<CarState> implements OnState
                             this.patchState({ cars: response });
                         },
                         (error) => {
-                            console.error('error getting cars: ', error);
+                            console.error('get cars error: ', error);
                         },
                     ),
                 ),
@@ -43,16 +42,32 @@ export class CarStoreService extends ComponentStore<CarState> implements OnState
     addCar = this.effect((car$: Observable<Car>) =>
         car$.pipe(
             tap((car) => {
-                const ret = this.garageService.createCar(car);
-
-                ret.subscribe((car) => {
-                    this.addedCar$.next(car);
+                this.garageService.createCar(car).subscribe({
+                    next: value => {
+                        this.addedCar$.next(value);
+                        this.patchState((state) => ({
+                            cars: [...state.cars, car]
+                        }));
+                    },
+                    error: err => console.error('create car error: ' + err)
                 });
-
-                return ret;
             })
         )
     );
 
+    deleteCar = this.effect((carId$: Observable<number>) =>
+        carId$.pipe(
+            tap((carId) => {
+                this.garageService.deleteCar(carId).subscribe({
+                    next: () => {
+                        this.patchState((state) => ({
+                            cars: state.cars.filter((car) => car.id !== carId)
+                        }));
+                    },
+                    error: err => console.error('delete car error: ' + err)
+                });
+            })
+        )
+    );
 
 }

@@ -29,28 +29,11 @@ export class CarsTableComponent implements OnInit {
 
 
 
-  constructor(private service: GarageService, private readonly store: Store) {
-    /*  this.loading$ = this.service._waitIndicator$.asObservable();
-    this.cars$ = this.service.cars$(); */
+  constructor(private service: GarageService) {
   }
 
   ngOnInit(): void {
     this.cars$ = this.carStore.cars$;
-
-    /* this.store.dispatch(getCars());
-
-    this.cars$ = this.store.pipe(select(selectCarsList));
-
-    this.loading$ = this.store.pipe(select(selectCarIsLoading));
-
-    this.cars$.subscribe((c) => {
-
-      console.log(c);
-    })
-
-    this.loading$.subscribe((L) => {
-      console.log(L);
-    }) */
   }
 
   pickCar(car: Car) {
@@ -58,10 +41,6 @@ export class CarsTableComponent implements OnInit {
   }
 
   deleteCar(carId: number) {
-    this.service._waitIndicator$.next(true);
-    this.service.deleteCar(carId).pipe(take(1)).subscribe(() => {
-      this.service._waitIndicator$.next(false);
-      this.service.getCars();
-    });
+    this.carStore.deleteCar(carId);
   }
 }
