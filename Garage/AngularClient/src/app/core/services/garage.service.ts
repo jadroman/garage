@@ -134,7 +134,6 @@ export class GarageService {
   public createCar = (car: Car) => {
     return this.http.post(`http://localhost:5067/api/Cars`, car).pipe(
       delay(500),
-      take(1),
       map((car) => {
         return car as Car;
       })

@@ -42,14 +42,17 @@ export class CarStoreService extends ComponentStore<CarState> implements OnState
 
     addCar = this.effect((car$: Observable<Car>) =>
         car$.pipe(
-            switchMap((car) => {
-                const ret = this.garageService.createCar(car)
+            tap((car) => {
+                const ret = this.garageService.createCar(car);
+
                 ret.subscribe((car) => {
                     this.addedCar$.next(car);
-                })
+                });
+
                 return ret;
             })
         )
     );
+
 
 }

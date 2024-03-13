@@ -23,19 +23,19 @@ import { Observable, map, take, tap } from 'rxjs';
 export class CarsTableComponent implements OnInit {
   @Input() carPickMode: boolean = false;
   @Output() selectCar = new EventEmitter<Car>();
-
+  cars$!: Observable<Car[]>
 
   private readonly carStore = inject(CarStoreService);
 
-  cars$ = this.carStore.cars$;
 
 
   constructor(private service: GarageService, private readonly store: Store) {
     /*  this.loading$ = this.service._waitIndicator$.asObservable();
-     this.cars$ = this.service.cars$(); */
+    this.cars$ = this.service.cars$(); */
   }
 
   ngOnInit(): void {
+    this.cars$ = this.carStore.cars$;
 
     /* this.store.dispatch(getCars());
 
