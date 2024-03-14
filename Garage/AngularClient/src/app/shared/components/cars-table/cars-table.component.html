@@ -31,7 +31,8 @@
             <td><span role="button" class="badge bg-info text-dark" [routerLink]="['/carhistory/', c.id]"
                     ngbTooltip="Car service history">H</span>
             </td>
-            <td><span role="button" class="badge bg-danger" (click)="deleteCar(c.id)" ngbTooltip="Delete car">X</span>
+            <td><span role="button" class="badge bg-danger" (click)="deleteCar(c.id??0)"
+                    ngbTooltip="Delete car">X</span>
             </td>
         </tr>
         }

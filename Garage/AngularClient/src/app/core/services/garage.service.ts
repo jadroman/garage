@@ -112,20 +112,19 @@ export class GarageService {
     );
   }
 
-  private getCar = (id: number) => {
-    this.http.get<any>(`http://localhost:5067/api/Cars/${id}`, {
+  public getCar = (id: number) => {
+    return this.http.get<any>(`http://localhost:5067/api/Cars/${id}`, {
       observe: 'response'
     }).pipe(
-      tap(() => this._waitIndicator$.next(true)),
-      delay(500)
-    ).subscribe((res: any) => {
-      this._waitIndicator$.next(false);
-      this._car$.next(res.body);
-    });
+      delay(500),
+      map((resp) => {
+        return resp.body as Car
+      })
+    );
   }
 
-  public updateCar = (id: number, car: Car) => {
-    return this.http.put(`http://localhost:5067/api/Cars/${id}`, car).pipe(
+  public updateCar = (car: Car) => {
+    return this.http.put(`http://localhost:5067/api/Cars/${car.id}`, car).pipe(
       delay(500),
       take(1)
     );
@@ -205,9 +204,9 @@ export class GarageService {
     return this._contact$.asObservable();
   }
 
-  public car$ = (id: number) => {
+  /* public car$ = (id: number) => {
     this.getCar(id);
     return this._car$.asObservable();
-  }
+  } */
 }
 /*************************************/

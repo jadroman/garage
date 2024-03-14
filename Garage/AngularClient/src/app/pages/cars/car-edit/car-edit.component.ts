@@ -1,13 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Car, EditModeEnum } from '@models/garage.model';
 import { provideComponentStore } from '@ngrx/component-store';
-import { GarageService } from '@services/garage.service';
 import { isNumeric } from '@utils/car-history.utils';
 import { CarStoreService } from 'app/core/store/car/car.store';
-import { Observable, take } from 'rxjs';
 
 @Component({
   selector: 'app-car-edit',
@@ -18,15 +16,13 @@ import { Observable, take } from 'rxjs';
   styleUrl: './car-edit.component.scss'
 })
 export class CarEditComponent implements OnInit {
-  loading$!: Observable<boolean>;
+  private readonly carStore = inject(CarStoreService);
   @Input() formOpenedInModal: boolean = false;
   @Output() closeCarModal = new EventEmitter<Car>();
+  carDetails$ = this.carStore.carDetails$;
 
-  constructor(private route: ActivatedRoute, private service: GarageService, private router: Router) {
-    this.loading$ = this.service._waitIndicator$;
+  constructor(private route: ActivatedRoute, private router: Router) {
   }
-
-  private readonly carStore = inject(CarStoreService);
 
   form = new FormGroup({
     brandModelYear: new FormControl('', Validators.required),
@@ -48,7 +44,9 @@ export class CarEditComponent implements OnInit {
     if (this.id && isNumeric(this.id)) {
       this.editMode = EditModeEnum.update;
 
-      this.service.car$(+this.id).subscribe(c => {
+      this.carStore.getCar(+this.id);
+
+      this.carDetails$.subscribe((c) => {
         this.form.patchValue(c);
       });
     }
@@ -76,11 +74,8 @@ export class CarEditComponent implements OnInit {
     const car: Car = { id: carId, brandModelYear: brandModelYear, licensePlate: licensePlate, vehicleIdNumber: vehicleIdNumber };
 
     if (this.editMode === EditModeEnum.update) {
-      this.service._waitIndicator$.next(true);
-      this.service.updateCar(car.id, car).pipe(take(1)).subscribe(() => {
-        this.service._waitIndicator$.next(false);
-        this.router.navigate(['/car']);
-      });
+      this.carStore.updateCar(car);
+      this.router.navigate(['/car']);
     }
     else if (this.editMode === EditModeEnum.addNew) {
       car.id = 0;

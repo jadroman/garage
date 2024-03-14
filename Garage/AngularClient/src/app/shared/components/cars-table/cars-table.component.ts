@@ -1,13 +1,10 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Car } from '@models/garage.model';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { provideComponentStore } from '@ngrx/component-store';
-import { Store, select } from '@ngrx/store';
 import { GarageService } from '@services/garage.service';
-import { getCars } from 'app/core/store/car/car.actions';
-import { selectCarIsLoading, selectCarsList } from 'app/core/store/car/car.selectors';
 import { CarStoreService } from 'app/core/store/car/car.store';
 import { Observable, map, take, tap } from 'rxjs';
 

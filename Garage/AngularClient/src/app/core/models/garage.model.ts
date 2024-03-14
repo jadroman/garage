@@ -6,7 +6,7 @@ export interface ContactPerson {
 }
 
 export interface Car {
-    id: number,
+    id?: number,
     licensePlate?: string,
     brandModelYear?: string,
     vehicleIdNumber?: string

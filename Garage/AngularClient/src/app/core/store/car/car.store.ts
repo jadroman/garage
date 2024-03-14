@@ -6,12 +6,13 @@ import { BehaviorSubject, EMPTY, Observable, catchError, of, pipe, switchMap, ta
 
 export interface CarState {
     cars: Car[];
+    carDetails: Car;
 }
 
 @Injectable()
 export class CarStoreService extends ComponentStore<CarState> implements OnStateInit {
     constructor(private readonly garageService: GarageService) {
-        super({ cars: [] });
+        super({ cars: [], carDetails: {} });
     }
 
     ngrxOnStateInit() {
@@ -21,6 +22,7 @@ export class CarStoreService extends ComponentStore<CarState> implements OnState
     addedCar$ = new BehaviorSubject<Car>(null!);
 
     cars$ = this.select((store) => store.cars);
+    carDetails$ = this.select((store) => store.carDetails);
 
     readonly getCars = this.effect<void>(
         pipe(
@@ -39,6 +41,24 @@ export class CarStoreService extends ComponentStore<CarState> implements OnState
         ),
     );
 
+
+    readonly getCar = this.effect((carId$: Observable<number>) =>
+        carId$.pipe(
+            switchMap((carId) =>
+                this.garageService.getCar(carId).pipe(
+                    tapResponse(
+                        (response) => {
+                            this.patchState({ carDetails: response });
+                        },
+                        (error) => {
+                            console.error('get car error: ', error);
+                        },
+                    ),
+                ),
+            ),
+        ),
+    );
+
     addCar = this.effect((car$: Observable<Car>) =>
         car$.pipe(
             tap((car) => {
@@ -50,6 +70,21 @@ export class CarStoreService extends ComponentStore<CarState> implements OnState
                         }));
                     },
                     error: err => console.error('create car error: ' + err)
+                });
+            })
+        )
+    );
+
+    updateCar = this.effect((car$: Observable<Car>) =>
+        car$.pipe(
+            tap((car) => {
+                this.garageService.updateCar(car).subscribe({
+                    next: () => {
+                        this.patchState((state) => ({
+                            cars: [...state.cars.filter((c) => c.id !== car.id), car]
+                        }));
+                    },
+                    error: err => console.error('update car error: ' + err)
                 });
             })
         )
