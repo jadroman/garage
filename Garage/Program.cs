@@ -109,6 +109,7 @@ void SeedData()
                     Id = 3,
                     Car = _context.Cars.Result[0],
                     CarStatus = CarStatusEnum.WorkIsDone,
+                    Note = "New fuel pump Bosch 2000 is installed.",
                     DateOfStatusChange = DateTime.Now.AddDays(-5)
                 },
                 new CarServiceHistory
@@ -135,10 +136,33 @@ void SeedData()
                 },
                 new CarServiceHistory
                 {
+                    Id = 1,
+                    Car = _context.Cars.Result[1],
+                    CarStatus = CarStatusEnum.StartWorkingOnCar,
+                    DateOfStatusChange = DateTime.Now.AddDays(-9)
+                },
+                new CarServiceHistory
+                {
+                    Id = 1,
+                    Car = _context.Cars.Result[1],
+                    CarStatus = CarStatusEnum.WaitingForPart,
+                    Note = "new part is ordered. Should come tommorow",
+                    DateOfStatusChange = DateTime.Now.AddDays(-9)
+                },
+                new CarServiceHistory
+                {
                     Id = 7,
                     Car = _context.Cars.Result[2],
                     CarStatus = CarStatusEnum.CarCheckedIn,
                     DateOfStatusChange = DateTime.Now.AddDays(-10),
+                },
+                new CarServiceHistory
+                {
+                    Id = 1,
+                    Car = _context.Cars.Result[2],
+                    CarStatus = CarStatusEnum.StartWorkingOnCar,
+                    Note = "I run car pc diagnostics level 1 and level 2. I found nothing.",
+                    DateOfStatusChange = DateTime.Now.AddDays(-9)
                 }
             });
     }
