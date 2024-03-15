@@ -1,8 +1,8 @@
 export interface ContactPerson {
-    id: number,
-    name: string,
-    surname: string,
-    phone: string
+    id?: number,
+    name?: string,
+    surname?: string,
+    phone?: string
 }
 
 export interface Car {

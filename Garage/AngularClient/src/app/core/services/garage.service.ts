@@ -56,47 +56,45 @@ export class GarageService {
   }
 
   public getContacts = () => {
-    this.http.get<any>('http://localhost:5067/api/ContactPersons', {
+    return this.http.get<any>('http://localhost:5067/api/ContactPersons', {
       observe: 'response'
     }).pipe(
-      tap(() => this._waitIndicator$.next(true)),
-      delay(500)
-    ).subscribe((res: any) => {
-      this._waitIndicator$.next(false);
-      this._contacts$.next(res.body);
-    });
-  }
-
-  private getContact = (id: number) => {
-    this.http.get<any>(`http://localhost:5067/api/ContactPersons/${id}`, {
-      observe: 'response'
-    }).pipe(
-      tap(() => this._waitIndicator$.next(true)),
-      delay(500)
-    ).subscribe((res: any) => {
-      this._waitIndicator$.next(false);
-      this._contact$.next(res.body);
-    });
-  }
-
-  public updateContact = (id: number, contact: ContactPerson) => {
-    return this.http.put(`http://localhost:5067/api/ContactPersons/${id}`, contact).pipe(
       delay(500),
-      take(1)
+      map((resp) => {
+        return resp.body as ContactPerson[]
+      })
+    );
+  }
+
+  public getContact = (id: number) => {
+    return this.http.get<any>(`http://localhost:5067/api/ContactPersons/${id}`, {
+      observe: 'response'
+    }).pipe(
+      delay(500),
+      map((resp) => {
+        return resp.body as ContactPerson
+      })
+    );
+  }
+
+  public updateContact = (contact: ContactPerson) => {
+    return this.http.put(`http://localhost:5067/api/ContactPersons/${contact.id}`, contact).pipe(
+      delay(500)
     );
   }
 
   public createContact = (contact: ContactPerson) => {
     return this.http.post(`http://localhost:5067/api/ContactPersons`, contact).pipe(
       delay(500),
-      take(1)
+      map((car) => {
+        return car as ContactPerson;
+      })
     );
   }
 
   public deleteContact = (contactId: number) => {
     return this.http.delete(`http://localhost:5067/api/ContactPersons/${contactId}`).pipe(
-      delay(500),
-      take(1)
+      delay(500)
     );
   }
 
@@ -125,8 +123,7 @@ export class GarageService {
 
   public updateCar = (car: Car) => {
     return this.http.put(`http://localhost:5067/api/Cars/${car.id}`, car).pipe(
-      delay(500),
-      take(1)
+      delay(500)
     );
   }
 

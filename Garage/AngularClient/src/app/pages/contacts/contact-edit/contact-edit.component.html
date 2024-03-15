@@ -1,35 +1,23 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    @if(editMode === importedEditModeEnum.addNew){
-    <h1 class="h2">New Contact</h1>
-    }
-    @else if(editMode === importedEditModeEnum.update){
-    <h1 class="h2">Update Contact</h1>
-    }
+    <h1 class="h2">@if(editMode === importedEditModeEnum.addNew){New Contact} @else {Edit Contact}</h1>
 </div>
 <div class="card">
     <div class="card-body">
-        <ng-container *ngIf="(loading$ | async) else contactForm">
-            <div class="spinner-border" role="status">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Name" formControlName="name">
             </div>
-        </ng-container>
-        <ng-template #contactForm>
-            <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" placeholder="Name" formControlName="name">
-                </div>
-                <div class="mb-3">
-                    <label for="surname" class="form-label">Surname</label>
-                    <input type="text" class="form-control" id="surname" placeholder="Surname"
-                        formControlName="surname">
-                </div>
-                <div class="mb-3">
-                    <label for="phone" class="form-label">Phone</label>
-                    <input type="tel" class="form-control" id="phone" placeholder="Phone" formControlName="phone">
-                </div>
-                <button type="submit" class="btn btn-primary btn-sm me-2" [disabled]="!form.valid">Save</button>
-                <a class="btn btn-secondary btn-sm" (click)="cancel()">Cancel</a>
-            </form>
-        </ng-template>
+            <div class="mb-3">
+                <label for="surname" class="form-label">Surname</label>
+                <input type="text" class="form-control" id="surname" placeholder="Surname" formControlName="surname">
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone</label>
+                <input type="tel" class="form-control" id="phone" placeholder="Phone" formControlName="phone">
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm me-2" [disabled]="!form.valid">Save</button>
+            <a class="btn btn-secondary btn-sm" (click)="cancel()">Cancel</a>
+        </form>
     </div>
 </div>

@@ -1,10 +1,7 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { ContactPerson } from '@models/garage.model';
-import { GarageService } from '@services/garage.service';
+import { RouterLink } from '@angular/router';
 import { ContactsTableComponent } from 'app/shared/components/contacts-table/contacts-table.component';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-contacts-list',

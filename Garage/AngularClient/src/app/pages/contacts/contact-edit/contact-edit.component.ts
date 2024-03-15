@@ -1,26 +1,27 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ContactPerson, EditModeEnum } from '@models/garage.model';
-import { GarageService } from '@services/garage.service';
+import { provideComponentStore } from '@ngrx/component-store';
 import { isNumeric } from '@utils/car-history.utils';
-import { Observable, take } from 'rxjs';
+import { ContactStoreService } from 'app/core/store/contact.store';
 
 @Component({
   selector: 'app-contact-edit',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, RouterLink],
+  providers: [provideComponentStore(ContactStoreService)],
   templateUrl: './contact-edit.component.html',
   styleUrl: './contact-edit.component.scss'
 })
 export class ContactEditComponent implements OnInit {
-  loading$!: Observable<boolean>;
+  private readonly contactStore = inject(ContactStoreService);
   @Input() formOpenedInModal: boolean = false;
   @Output() closeContactModal = new EventEmitter<ContactPerson>();
+  contactDetails$ = this.contactStore.contactDetails$;
 
-  constructor(private route: ActivatedRoute, private service: GarageService, private router: Router) {
-    this.loading$ = this.service._waitIndicator$;
+  constructor(private route: ActivatedRoute, private router: Router) {
   }
 
   form = new FormGroup({
@@ -41,9 +42,9 @@ export class ContactEditComponent implements OnInit {
     }
 
     if (this.id && isNumeric(this.id)) {
-      this.editMode = EditModeEnum.update;
+      this.contactStore.getContact(+this.id);
 
-      this.service.contact$(+this.id).subscribe(c => {
+      this.contactDetails$.subscribe((c) => {
         this.form.patchValue(c);
       });
     }
@@ -71,19 +72,19 @@ export class ContactEditComponent implements OnInit {
     const contact: ContactPerson = { id: contactId, name: name, surname: surname, phone: phone };
 
     if (this.editMode === EditModeEnum.update) {
-      this.service._waitIndicator$.next(true);
-      this.service.updateContact(contact.id, contact).pipe(take(1)).subscribe(() => {
-        this.service._waitIndicator$.next(false);
-        this.router.navigate(['/contact']);
-      });
+      this.contactStore.updateContact(contact);
+      this.router.navigate(['/contact']);
     }
     else if (this.editMode === EditModeEnum.addNew) {
       contact.id = 0;
-      this.service._waitIndicator$.next(true);
-      this.service.createContact(contact).pipe(take(1)).subscribe(createdContact => {
-        this.service._waitIndicator$.next(false);
+
+      this.contactStore.addContact(contact);
+
+      this.contactStore.addedContact$.subscribe(c => {
         if (this.formOpenedInModal) {
-          this.closeContactModal.emit(createdContact as ContactPerson);
+          if (c) {
+            this.closeContactModal.emit(c as ContactPerson);
+          }
         }
         else {
           this.router.navigate(['/contact']);

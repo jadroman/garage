@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Car } from "@models/garage.model";
 import { ComponentStore, OnStateInit, tapResponse } from "@ngrx/component-store";
 import { GarageService } from "@services/garage.service";
-import { BehaviorSubject, EMPTY, Observable, catchError, of, pipe, switchMap, tap } from "rxjs";
+import { BehaviorSubject, Observable, pipe, switchMap, tap } from "rxjs";
 
 export interface CarState {
     cars: Car[];

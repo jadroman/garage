@@ -6,7 +6,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { provideComponentStore } from '@ngrx/component-store';
 import { GarageService } from '@services/garage.service';
 import { CarStoreService } from 'app/core/store/car.store';
-import { Observable, map, take, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-cars-table',
@@ -23,11 +23,6 @@ export class CarsTableComponent implements OnInit {
   cars$!: Observable<Car[]>
 
   private readonly carStore = inject(CarStoreService);
-
-
-
-  constructor(private service: GarageService) {
-  }
 
   ngOnInit(): void {
     this.cars$ = this.carStore.cars$;
