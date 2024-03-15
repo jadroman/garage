@@ -20,11 +20,12 @@ export class ContactStoreService extends ComponentStore<ContactState> implements
     }
 
     addedContact$ = new BehaviorSubject<ContactPerson>(null!);
+    updatedContact$ = new BehaviorSubject<ContactPerson>(null!);
 
     contacts$ = this.select((store) => store.contacts);
     contactDetails$ = this.select((store) => store.contactDetails);
 
-    readonly getContacts = this.effect<void>(
+    getContacts = this.effect<void>(
         pipe(
             switchMap(() =>
                 this.garageService.getContacts().pipe(
@@ -42,7 +43,7 @@ export class ContactStoreService extends ComponentStore<ContactState> implements
     );
 
 
-    readonly getContact = this.effect((contactId$: Observable<number>) =>
+    getContact = this.effect((contactId$: Observable<number>) =>
         contactId$.pipe(
             switchMap((contactId) =>
                 this.garageService.getContact(contactId).pipe(
@@ -79,10 +80,11 @@ export class ContactStoreService extends ComponentStore<ContactState> implements
         contact$.pipe(
             tap((contact) => {
                 this.garageService.updateContact(contact).subscribe({
-                    next: () => {
+                    next: (value) => {
                         this.patchState((state) => ({
                             contacts: [...state.contacts.filter((c) => c.id !== contact.id), contact]
                         }));
+                        this.updatedContact$.next(value);
                     },
                     error: err => console.error('update contact error: ' + err)
                 });

@@ -20,11 +20,12 @@ export class CarStoreService extends ComponentStore<CarState> implements OnState
     }
 
     addedCar$ = new BehaviorSubject<Car>(null!);
+    updatedCar$ = new BehaviorSubject<Car>(null!);
 
     cars$ = this.select((store) => store.cars);
     carDetails$ = this.select((store) => store.carDetails);
 
-    readonly getCars = this.effect<void>(
+    getCars = this.effect<void>(
         pipe(
             switchMap(() =>
                 this.garageService.getCars().pipe(
@@ -42,7 +43,7 @@ export class CarStoreService extends ComponentStore<CarState> implements OnState
     );
 
 
-    readonly getCar = this.effect((carId$: Observable<number>) =>
+    getCar = this.effect((carId$: Observable<number>) =>
         carId$.pipe(
             switchMap((carId) =>
                 this.garageService.getCar(carId).pipe(
@@ -79,10 +80,11 @@ export class CarStoreService extends ComponentStore<CarState> implements OnState
         car$.pipe(
             tap((car) => {
                 this.garageService.updateCar(car).subscribe({
-                    next: () => {
+                    next: (value) => {
                         this.patchState((state) => ({
                             cars: [...state.cars.filter((c) => c.id !== car.id), car]
                         }));
+                        this.updatedCar$.next(value);
                     },
                     error: err => console.error('update car error: ' + err)
                 });

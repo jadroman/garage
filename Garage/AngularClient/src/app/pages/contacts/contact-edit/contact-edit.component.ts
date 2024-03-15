@@ -42,6 +42,7 @@ export class ContactEditComponent implements OnInit {
     }
 
     if (this.id && isNumeric(this.id)) {
+      this.editMode = EditModeEnum.update;
       this.contactStore.getContact(+this.id);
 
       this.contactDetails$.subscribe((c) => {
@@ -73,7 +74,11 @@ export class ContactEditComponent implements OnInit {
 
     if (this.editMode === EditModeEnum.update) {
       this.contactStore.updateContact(contact);
-      this.router.navigate(['/contact']);
+
+      this.contactStore.updatedContact$.subscribe(() => {
+        this.router.navigate(['/contact']);
+      });
+
     }
     else if (this.editMode === EditModeEnum.addNew) {
       contact.id = 0;

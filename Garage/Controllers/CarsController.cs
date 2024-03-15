@@ -42,14 +42,14 @@ namespace Garage.Controllers
         // PUT: api/Cars/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCar(int id, Car carToUpdate)
+        public async Task<ActionResult<Car>> PutCar(int id, Car carToUpdate)
         {
             var car = _context.Cars.Result.FirstOrDefault(c => c.Id == id);
 
             _context.Cars.Result.Remove(car);
             _context.Cars.Result.Add(carToUpdate);
 
-            return NoContent();
+            return carToUpdate;
         }
 
         // POST: api/Cars

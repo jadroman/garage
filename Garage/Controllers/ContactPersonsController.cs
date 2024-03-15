@@ -42,14 +42,14 @@ namespace Garage.Controllers
         // PUT: api/ContactPersons/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutContactPerson(int id, [FromBody] ContactPerson contactPersonUpdate)
+        public async Task<ActionResult<ContactPerson>> PutContactPerson(int id, [FromBody] ContactPerson contactPersonUpdate)
         {
             var contactPerson = _context.ContactPersons.Result.FirstOrDefault(cas => cas.Id == id);
 
             _context.ContactPersons.Result.Remove(contactPerson);
             _context.ContactPersons.Result.Add(contactPersonUpdate);
 
-            return NoContent();
+            return contactPersonUpdate;
         }
 
         // POST: api/ContactPersons

@@ -75,7 +75,11 @@ export class CarEditComponent implements OnInit {
 
     if (this.editMode === EditModeEnum.update) {
       this.carStore.updateCar(car);
-      this.router.navigate(['/car']);
+
+      this.carStore.updatedCar$.subscribe(() => {
+        this.router.navigate(['/car']);
+      });
+
     }
     else if (this.editMode === EditModeEnum.addNew) {
       car.id = 0;

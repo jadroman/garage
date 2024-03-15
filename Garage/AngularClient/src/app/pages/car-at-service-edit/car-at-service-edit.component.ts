@@ -8,19 +8,22 @@ import { getWorkComplexityLabel } from '@utils/car-at-service.utils';
 import { ContactsTableComponent } from 'app/shared/components/contacts-table/contacts-table.component';
 import { ContactEditComponent } from '../contacts/contact-edit/contact-edit.component';
 import { GarageService } from '@services/garage.service';
-import { take } from 'rxjs';
 import { CarsTableComponent } from 'app/shared/components/cars-table/cars-table.component';
 import { CarEditComponent } from '../cars/car-edit/car-edit.component';
+import { provideComponentStore } from '@ngrx/component-store';
+import { CarAtServiceStoreService } from 'app/core/store/car-at-service.store';
 
 @Component({
   selector: 'app-car-at-service-edit',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, ContactsTableComponent,
     ContactEditComponent, CarsTableComponent, CarEditComponent],
+  providers: [provideComponentStore(CarAtServiceStoreService)],
   templateUrl: './car-at-service-edit.component.html',
   styleUrl: './car-at-service-edit.component.scss'
 })
 export class CarAtServiceEditComponent {
+  private readonly carAtServiceStore = inject(CarAtServiceStoreService);
   private modalService = inject(NgbModal);
   public selectedContact!: ContactPerson;
   public selectedCar!: Car;
@@ -86,11 +89,18 @@ export class CarAtServiceEditComponent {
       estimatedDurationInHours: estimatedDurationInHours, contactPerson: this.selectedContact, car: this.selectedCar
     };
 
-    this.service._waitIndicator$.next(true);
+    this.carAtServiceStore.addCarAtService(carAtService);
+
+    this.carAtServiceStore.addedCarAtService$.subscribe(() => {
+      this.router.navigate(['/homepage']);
+    });
+
+
+    /* this.service._waitIndicator$.next(true);
     this.service.createCarAtService(carAtService).pipe(take(1)).subscribe(() => {
       this.service._waitIndicator$.next(false);
       this.router.navigate(['/homepage']);
-    });
+    }); */
   }
 
   open(content: TemplateRef<any>) {

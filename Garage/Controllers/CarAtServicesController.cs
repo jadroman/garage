@@ -118,7 +118,7 @@ namespace Garage.Controllers
             carServiceHistory.Id = ++lastCarServiceHistoryId;
             _context.CarServiceHistory.Result.Add(carServiceHistory);
 
-            return NoContent();
+            return carAtService;
         }
 
         // DELETE: api/CarAtServices/5

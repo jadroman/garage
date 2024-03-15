@@ -15,21 +15,19 @@ export class GarageService {
   private _car$ = new BehaviorSubject<Car>(null!);
   private _carAtService$ = new BehaviorSubject<CarAtService>(null!);
   public _waitIndicator$ = new BehaviorSubject<boolean>(false);
-  private params: any;
 
   constructor(private http: HttpClient) { }
 
-  private getCarsAtService = (params?: any) => {
-    this.http.get<any>('http://localhost:5067/api/CarAtServices', {
+  public getCarsAtService = (params?: any) => {
+    return this.http.get<any>('http://localhost:5067/api/CarAtServices', {
       params,
       observe: 'response'
     }).pipe(
-      tap(() => this._waitIndicator$.next(true)),
-      delay(500)
-    ).subscribe((res: any) => {
-      this._waitIndicator$.next(false);
-      this._carsAtService$.next(res.body);
-    });
+      delay(500),
+      map(resp => {
+        return resp.body as CarAtService[];
+      })
+    );
   }
 
 
@@ -79,7 +77,10 @@ export class GarageService {
 
   public updateContact = (contact: ContactPerson) => {
     return this.http.put(`http://localhost:5067/api/ContactPersons/${contact.id}`, contact).pipe(
-      delay(500)
+      delay(500),
+      map((contactPerson) => {
+        return contactPerson as ContactPerson;
+      })
     );
   }
 
@@ -123,7 +124,10 @@ export class GarageService {
 
   public updateCar = (car: Car) => {
     return this.http.put(`http://localhost:5067/api/Cars/${car.id}`, car).pipe(
-      delay(500)
+      delay(500),
+      map((car) => {
+        return car as Car;
+      })
     );
   }
 
@@ -166,15 +170,17 @@ export class GarageService {
   public createCarAtService = (carAtService: CarAtService) => {
     return this.http.post(`http://localhost:5067/api/CarAtServices`, carAtService).pipe(
       delay(500),
-      take(1)
+      map((car) => {
+        return car as CarAtService;
+      })
     );
   }
-
-  public carsAtService$ = (params: any) => {
-    this.params = params;
-    this.getCarsAtService(this.params);
-    return this._carsAtService$.asObservable();
-  }
+  /* 
+    public carsAtService$ = (params: any) => {
+      this.params = params;
+      this.getCarsAtService(this.params);
+      return this._carsAtService$.asObservable();
+    } */
 
   public carAtService$ = (carId: number) => {
     this.getCarAtService(carId);
