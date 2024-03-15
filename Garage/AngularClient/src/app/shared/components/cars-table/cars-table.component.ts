@@ -5,7 +5,7 @@ import { Car } from '@models/garage.model';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { provideComponentStore } from '@ngrx/component-store';
 import { GarageService } from '@services/garage.service';
-import { CarStoreService } from 'app/core/store/car/car.store';
+import { CarStoreService } from 'app/core/store/car.store';
 import { Observable, map, take, tap } from 'rxjs';
 
 @Component({

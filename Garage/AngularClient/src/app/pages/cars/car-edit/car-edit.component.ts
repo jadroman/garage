@@ -5,7 +5,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Car, EditModeEnum } from '@models/garage.model';
 import { provideComponentStore } from '@ngrx/component-store';
 import { isNumeric } from '@utils/car-history.utils';
-import { CarStoreService } from 'app/core/store/car/car.store';
+import { CarStoreService } from 'app/core/store/car.store';
 
 @Component({
   selector: 'app-car-edit',
