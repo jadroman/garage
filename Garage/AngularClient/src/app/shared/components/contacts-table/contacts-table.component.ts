@@ -24,6 +24,7 @@ export class ContactsTableComponent implements OnInit {
   private readonly contactStore = inject(ContactStoreService);
 
   ngOnInit(): void {
+    this.contactStore.getContacts();
     this.contacts$ = this.contactStore.contacts$;
   }
 

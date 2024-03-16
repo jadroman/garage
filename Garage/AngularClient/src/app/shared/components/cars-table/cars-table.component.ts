@@ -25,6 +25,7 @@ export class CarsTableComponent implements OnInit {
   private readonly carStore = inject(CarStoreService);
 
   ngOnInit(): void {
+    this.carStore.getCars();
     this.cars$ = this.carStore.cars$;
   }
 

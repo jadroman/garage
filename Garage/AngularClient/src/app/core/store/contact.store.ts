@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { ContactPerson } from "@models/garage.model";
 import { ComponentStore, OnStateInit, tapResponse } from "@ngrx/component-store";
 import { GarageService } from "@services/garage.service";
-import { BehaviorSubject, Observable, pipe, switchMap, tap } from "rxjs";
+import { Observable, Subject, pipe, switchMap, tap } from "rxjs";
 
 export interface ContactState {
     contacts: ContactPerson[];
@@ -10,17 +10,13 @@ export interface ContactState {
 }
 
 @Injectable()
-export class ContactStoreService extends ComponentStore<ContactState> implements OnStateInit {
+export class ContactStoreService extends ComponentStore<ContactState> {
     constructor(private readonly garageService: GarageService) {
         super({ contacts: [], contactDetails: {} });
     }
 
-    ngrxOnStateInit() {
-        this.getContacts();
-    }
-
-    addedContact$ = new BehaviorSubject<ContactPerson>(null!);
-    updatedContact$ = new BehaviorSubject<ContactPerson>(null!);
+    addedContact$ = new Subject<ContactPerson>();
+    updatedContact$ = new Subject<ContactPerson>();
 
     contacts$ = this.select((store) => store.contacts);
     contactDetails$ = this.select((store) => store.contactDetails);
