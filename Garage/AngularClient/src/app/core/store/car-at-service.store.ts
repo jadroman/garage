@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
-import { Car, CarAtService } from "@models/garage.model";
-import { ComponentStore, OnStateInit, tapResponse } from "@ngrx/component-store";
+import { CarAtService } from "@models/garage.model";
+import { ComponentStore, tapResponse } from "@ngrx/component-store";
 import { GarageService } from "@services/garage.service";
-import { BehaviorSubject, Observable, pipe, switchMap, tap } from "rxjs";
+import { Observable, Subject, switchMap, tap } from "rxjs";
 
 export interface CarsAtServiceState {
     carsAtService: CarAtService[];
@@ -14,7 +14,7 @@ export class CarAtServiceStoreService extends ComponentStore<CarsAtServiceState>
         super({ carsAtService: [] });
     }
 
-    addedCarAtService$ = new BehaviorSubject<CarAtService>(null!);
+    addedCarAtService$ = new Subject<CarAtService>();
     carsAtService$ = this.select((store) => store.carsAtService);
 
     getCarsAtService = this.effect((params$: Observable<any>) =>
