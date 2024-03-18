@@ -4,15 +4,14 @@ import { RouterLink } from '@angular/router';
 import { ContactPerson } from '@models/garage.model';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { provideComponentStore } from '@ngrx/component-store';
-import { GarageService } from '@services/garage.service';
-import { ContactStoreService } from 'app/core/store/contact.store';
+import { ContactStore } from 'app/core/store/contact.store';
 import { Observable, take } from 'rxjs';
 
 @Component({
   selector: 'app-contacts-table',
   standalone: true,
   imports: [AsyncPipe, CommonModule, RouterLink, NgbTooltipModule],
-  providers: [provideComponentStore(ContactStoreService)],
+  providers: [provideComponentStore(ContactStore)],
   templateUrl: './contacts-table.component.html',
   styleUrl: './contacts-table.component.scss'
 })
@@ -21,7 +20,7 @@ export class ContactsTableComponent implements OnInit {
   @Output() selectContact = new EventEmitter<ContactPerson>();
   contacts$!: Observable<ContactPerson[]>
 
-  private readonly contactStore = inject(ContactStoreService);
+  private readonly contactStore = inject(ContactStore);
 
   ngOnInit(): void {
     this.contactStore.getContacts();

@@ -13,15 +13,15 @@
         <tbody>
             @defer (when !!(carsAtService$ | async)?.length) {
             @for (cas of carsAtService$ | async; track cas.id) {
-            <tr role="button" [routerLink]="['/carhistory', cas.car.id]" title="Go to the car service history">
+            <tr role="button" [routerLink]="['/carhistory', cas.car?.id]" title="Go to the car service history">
                 <td>
-                    {{cas.car.brandModelYear}}
+                    {{cas.car?.brandModelYear}}
                 </td>
                 <td>{{cas.dateOfArrival | date}}</td>
                 <td>{{getWorkComplexityLabel(cas.estimatedComplexity)}}</td>
                 <td>{{cas.estimatedDurationInHours}}</td>
                 <td>{{cas.workNeedToBeDone}}</td>
-                <td>{{cas.contactPerson.name}}</td>
+                <td>{{cas.contactPerson?.name}}</td>
             </tr>
             } @empty {
             <tr>

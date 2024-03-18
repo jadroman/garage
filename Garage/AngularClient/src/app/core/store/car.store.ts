@@ -10,7 +10,7 @@ export interface CarState {
 }
 
 @Injectable()
-export class CarStoreService extends ComponentStore<CarState> {
+export class CarStore extends ComponentStore<CarState> {
     constructor(private readonly garageService: GarageService) {
         super({ cars: [], carDetails: {} });
     }

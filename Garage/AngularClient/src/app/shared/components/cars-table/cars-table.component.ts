@@ -4,15 +4,14 @@ import { RouterLink } from '@angular/router';
 import { Car } from '@models/garage.model';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { provideComponentStore } from '@ngrx/component-store';
-import { GarageService } from '@services/garage.service';
-import { CarStoreService } from 'app/core/store/car.store';
+import { CarStore } from 'app/core/store/car.store';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-cars-table',
   standalone: true,
   imports: [AsyncPipe, CommonModule, RouterLink, NgbTooltipModule],
-  providers: [provideComponentStore(CarStoreService)],
+  providers: [provideComponentStore(CarStore)],
   templateUrl: './cars-table.component.html',
   styleUrl: './cars-table.component.scss'
 })
@@ -22,7 +21,7 @@ export class CarsTableComponent implements OnInit {
   @Output() selectCar = new EventEmitter<Car>();
   cars$!: Observable<Car[]>
 
-  private readonly carStore = inject(CarStoreService);
+  private readonly carStore = inject(CarStore);
 
   ngOnInit(): void {
     this.carStore.getCars();

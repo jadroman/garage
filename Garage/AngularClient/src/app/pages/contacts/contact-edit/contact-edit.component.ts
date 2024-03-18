@@ -5,18 +5,18 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ContactPerson, EditModeEnum } from '@models/garage.model';
 import { provideComponentStore } from '@ngrx/component-store';
 import { isNumeric } from '@utils/car-history.utils';
-import { ContactStoreService } from 'app/core/store/contact.store';
+import { ContactStore } from 'app/core/store/contact.store';
 
 @Component({
   selector: 'app-contact-edit',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, RouterLink],
-  providers: [provideComponentStore(ContactStoreService)],
+  providers: [provideComponentStore(ContactStore)],
   templateUrl: './contact-edit.component.html',
   styleUrl: './contact-edit.component.scss'
 })
 export class ContactEditComponent implements OnInit {
-  private readonly contactStore = inject(ContactStoreService);
+  private readonly contactStore = inject(ContactStore);
   @Input() formOpenedInModal: boolean = false;
   @Output() closeContactModal = new EventEmitter<ContactPerson>();
   contactDetails$ = this.contactStore.contactDetails$;

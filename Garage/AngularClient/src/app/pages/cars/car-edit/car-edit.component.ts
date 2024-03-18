@@ -5,18 +5,18 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Car, EditModeEnum } from '@models/garage.model';
 import { provideComponentStore } from '@ngrx/component-store';
 import { isNumeric } from '@utils/car-history.utils';
-import { CarStoreService } from 'app/core/store/car.store';
+import { CarStore } from 'app/core/store/car.store';
 
 @Component({
   selector: 'app-car-edit',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, RouterLink],
-  providers: [provideComponentStore(CarStoreService)],
+  providers: [provideComponentStore(CarStore)],
   templateUrl: './car-edit.component.html',
   styleUrl: './car-edit.component.scss'
 })
 export class CarEditComponent implements OnInit {
-  private readonly carStore = inject(CarStoreService);
+  private readonly carStore = inject(CarStore);
   @Input() formOpenedInModal: boolean = false;
   @Output() closeCarModal = new EventEmitter<Car>();
   carDetails$ = this.carStore.carDetails$;

@@ -6,16 +6,18 @@ import { Observable, Subject, switchMap, tap } from "rxjs";
 
 export interface CarsAtServiceState {
     carsAtService: CarAtService[];
+    carAtServiceDetails: CarAtService;
 }
 
 @Injectable()
-export class CarAtServiceStoreService extends ComponentStore<CarsAtServiceState> {
+export class CarAtServiceStore extends ComponentStore<CarsAtServiceState> {
     constructor(private readonly garageService: GarageService) {
-        super({ carsAtService: [] });
+        super({ carsAtService: [], carAtServiceDetails: {} });
     }
 
     addedCarAtService$ = new Subject<CarAtService>();
     carsAtService$ = this.select((store) => store.carsAtService);
+    carAtServiceDetails$ = this.select((store) => store.carAtServiceDetails);
 
     getCarsAtService = this.effect((params$: Observable<any>) =>
         params$.pipe(
@@ -27,6 +29,23 @@ export class CarAtServiceStoreService extends ComponentStore<CarsAtServiceState>
                         },
                         (error) => {
                             console.error('get carsAtService error: ', error);
+                        },
+                    ),
+                ),
+            ),
+        ),
+    );
+
+    getCarAtServiceDetails = this.effect((carId$: Observable<number>) =>
+        carId$.pipe(
+            switchMap((carId) =>
+                this.garageService.getCarAtService(carId).pipe(
+                    tapResponse(
+                        (response) => {
+                            this.patchState({ carAtServiceDetails: response });
+                        },
+                        (error) => {
+                            console.error('get carAtServiceDetails error: ', error);
                         },
                     ),
                 ),

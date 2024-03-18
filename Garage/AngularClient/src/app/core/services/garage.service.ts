@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, delay, map, switchMap, take, tap } from 'rxjs';
-import { Car, CarAtService, CarHistory, ContactPerson } from '../models/garage.model';
+import { CancelHistoryStatusReq, Car, CarAtService, CarHistory, ContactPerson } from '../models/garage.model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,23 +33,24 @@ export class GarageService {
 
 
   public getCarHistory = (carId: number) => {
-    this.http.get<any>(`http://localhost:5067/api/CarServiceHistories/car/${carId}`, {
+    return this.http.get<any>(`http://localhost:5067/api/CarServiceHistories/car/${carId}`, {
       observe: 'response'
     }).pipe(
-      tap(() => this._waitIndicator$.next(true)),
-      delay(500)
-    ).subscribe((res: any) => {
-      this._waitIndicator$.next(false);
-      this._carHistory$.next(res.body);
-    });
+      delay(500),
+      map(resp => {
+        return resp.body as CarHistory[];
+      })
+    );
   }
 
   public getCarAtService = (carId: number) => {
     return this.http.get<any>(`http://localhost:5067/api/CarAtServices/car/${carId}`, {
       observe: 'response'
     }).pipe(
-      tap(() => this._waitIndicator$.next(true)),
-      delay(500)
+      delay(1000),
+      map(resp => {
+        return resp.body as CarAtService;
+      })
     );
   }
 
@@ -153,10 +154,9 @@ export class GarageService {
     );
   }
 
-  public cancelHistoryStatus = (carHistoryId: number, reasonToCancel: string) => {
-    return this.http.put(`http://localhost:5067/api/CarServiceHistories/cancel/${carHistoryId}`, { reasonToCancel: reasonToCancel }).pipe(
-      delay(500),
-      take(1)
+  public cancelHistoryStatus = (cancelation: CancelHistoryStatusReq) => {
+    return this.http.put(`http://localhost:5067/api/CarServiceHistories/cancel/${cancelation.carHistoryId}`, { reasonToCancel: cancelation.reasonToCancel }).pipe(
+      delay(500)
     );
   }
 
@@ -182,7 +182,7 @@ export class GarageService {
       return this._carsAtService$.asObservable();
     } */
 
-  public carAtService$ = (carId: number) => {
+  /* public carAtService$ = (carId: number) => {
     this.getCarAtService(carId);
     return this._carAtService$.asObservable();
   }
@@ -205,7 +205,7 @@ export class GarageService {
   public contact$ = (id: number) => {
     this.getContact(id);
     return this._contact$.asObservable();
-  }
+  } */
 
   /* public car$ = (id: number) => {
     this.getCar(id);

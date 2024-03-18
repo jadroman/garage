@@ -4,10 +4,16 @@ import { Directive, ElementRef, Input, OnChanges, OnInit, SimpleChanges } from '
   selector: '[appMarkCanceledCarStatusDirective]',
   standalone: true
 })
-export class MarkCanceledCarStatusDirective implements OnInit {
+export class MarkCanceledCarStatusDirective implements OnInit, OnChanges {
   @Input() isCanceled!: boolean;
 
   constructor(private el: ElementRef) {
+    if (this.isCanceled) {
+      this.el.nativeElement.style.textDecoration = 'line-through';
+    }
+  }
+
+  ngOnChanges(): void {
     if (this.isCanceled) {
       this.el.nativeElement.style.textDecoration = 'line-through';
     }

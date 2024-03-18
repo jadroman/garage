@@ -47,12 +47,12 @@ export enum CarStatusEnum {
 }
 
 export interface CarAtService {
-    id: number,
-    contactPerson: ContactPerson,
-    car: Car,
-    workNeedToBeDone: string,
-    estimatedDurationInHours: number,
-    estimatedComplexity: WorkComplexityEnum,
+    id?: number,
+    contactPerson?: ContactPerson,
+    car?: Car,
+    workNeedToBeDone?: string,
+    estimatedDurationInHours?: number,
+    estimatedComplexity?: WorkComplexityEnum,
     dateOfArrival?: Date
 }
 
@@ -68,4 +68,9 @@ export interface CarHistory {
 export interface CarState {
     cars: Car[];
     isLoading: boolean;
+}
+
+export interface CancelHistoryStatusReq {
+    carHistoryId: number;
+    reasonToCancel: string;
 }

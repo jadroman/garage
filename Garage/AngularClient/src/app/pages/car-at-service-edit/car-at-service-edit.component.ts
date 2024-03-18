@@ -11,19 +11,19 @@ import { GarageService } from '@services/garage.service';
 import { CarsTableComponent } from 'app/shared/components/cars-table/cars-table.component';
 import { CarEditComponent } from '../cars/car-edit/car-edit.component';
 import { provideComponentStore } from '@ngrx/component-store';
-import { CarAtServiceStoreService } from 'app/core/store/car-at-service.store';
+import { CarAtServiceStore } from 'app/core/store/car-at-service.store';
 
 @Component({
   selector: 'app-car-at-service-edit',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, ContactsTableComponent,
     ContactEditComponent, CarsTableComponent, CarEditComponent],
-  providers: [provideComponentStore(CarAtServiceStoreService)],
+  providers: [provideComponentStore(CarAtServiceStore)],
   templateUrl: './car-at-service-edit.component.html',
   styleUrl: './car-at-service-edit.component.scss'
 })
 export class CarAtServiceEditComponent {
-  private readonly carAtServiceStore = inject(CarAtServiceStoreService);
+  private readonly carAtServiceStore = inject(CarAtServiceStore);
   private modalService = inject(NgbModal);
   public selectedContact!: ContactPerson;
   public selectedCar!: Car;
