@@ -126,15 +126,13 @@ export class CarHistoryComponent implements OnInit {
     );
   }
 
-  closeModal(update: boolean) {
+  closeModal() {
     this.modalService.dismissAll();
+    this.carId = this.route.snapshot.paramMap.get("carId");
 
-    if (update) {
-      this.carId = this.route.snapshot.paramMap.get("carId");
-
-      if (this.carId) {
-        this.service.getCarHistory(+this.carId);
-      }
+    if (this.carId) {
+      this.carHistoryStore.getCarHistory(+this.carId);
     }
+
   }
 }

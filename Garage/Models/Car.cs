@@ -8,8 +8,8 @@ namespace Garage.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string LicensePlate { get; set; }
-        public string BrandModelYear { get; set; }
-        public string VehicleIdNumber { get; set; }
+        public string? LicensePlate { get; set; }
+        public string? BrandModelYear { get; set; }
+        public string? VehicleIdNumber { get; set; }
     }
 }

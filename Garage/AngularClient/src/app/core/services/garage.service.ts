@@ -160,10 +160,9 @@ export class GarageService {
     );
   }
 
-  public createHistoryStatus = (carHistory: CarHistory, carId: number) => {
-    return this.http.post(`http://localhost:5067/api/CarServiceHistories/car/${carId}`, carHistory).pipe(
-      delay(500),
-      take(1)
+  public createHistoryStatus = (carHistory: CarHistory) => {
+    return this.http.post(`http://localhost:5067/api/CarServiceHistories/car/${carHistory.car?.id}`, carHistory).pipe(
+      delay(500)
     );
   }
 

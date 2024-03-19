@@ -7,16 +7,18 @@ import { Observable, switchMap, tap } from "rxjs";
 export interface CarHistoryState {
     carHistory: CarHistory[];
     histroyItemCanceled: boolean;
+    carHistroyAdded: boolean;
 }
 
 @Injectable()
 export class CarHistoryStore extends ComponentStore<CarHistoryState> {
     constructor(private readonly garageService: GarageService) {
-        super({ carHistory: [], histroyItemCanceled: false });
+        super({ carHistory: [], histroyItemCanceled: false, carHistroyAdded: false });
     }
 
     carHistory$ = this.select((store) => store.carHistory);
     histroyItemCanceled$ = this.select((store) => store.histroyItemCanceled);
+    carHistroyAdded$ = this.select((store) => store.carHistroyAdded);
 
     getCarHistory = this.effect((carId$: Observable<number>) =>
         carId$.pipe(
@@ -53,6 +55,22 @@ export class CarHistoryStore extends ComponentStore<CarHistoryState> {
                         }));
                     },
                     error: err => console.error('cancelcarHistory error: ' + err)
+                });
+            })
+        )
+    );
+
+    addCarHistory = this.effect((carHistory$: Observable<CarHistory>) =>
+        carHistory$.pipe(
+            tap((carHistory) => {
+                this.garageService.createHistoryStatus(carHistory).subscribe({
+                    next: () => {
+                        this.patchState((state) => ({
+                            carHistory: [...state.carHistory, carHistory],
+                            carHistroyAdded: true
+                        }));
+                    },
+                    error: err => console.error('addCarHistory error: ' + err)
                 });
             })
         )

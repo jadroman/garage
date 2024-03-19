@@ -129,14 +129,14 @@ namespace Garage.Controllers
                 },
                 new CarServiceHistory
                 {
-                    Id = 1,
+                    Id = 6,
                     Car = _context.Cars.Result[1],
                     CarStatus = CarStatusEnum.StartWorkingOnCar,
                     DateOfStatusChange = DateTime.Now.AddDays(-9)
                 },
                 new CarServiceHistory
                 {
-                    Id = 1,
+                    Id = 7,
                     Car = _context.Cars.Result[1],
                     CarStatus = CarStatusEnum.WaitingForPart,
                     Note = "new part is ordered. Should come tommorow",
@@ -144,21 +144,21 @@ namespace Garage.Controllers
                 },
                 new CarServiceHistory
                 {
-                    Id = 6,
+                    Id = 8,
                     Car = _context.Cars.Result[1],
                     CarStatus = CarStatusEnum.CarCheckedIn,
                     DateOfStatusChange = DateTime.Now.AddDays(-11),
                 },
                 new CarServiceHistory
                 {
-                    Id = 7,
+                    Id = 9,
                     Car = _context.Cars.Result[2],
                     CarStatus = CarStatusEnum.CarCheckedIn,
                     DateOfStatusChange = DateTime.Now.AddDays(-10),
                 },
                 new CarServiceHistory
                 {
-                    Id = 1,
+                    Id = 10,
                     Car = _context.Cars.Result[2],
                     CarStatus = CarStatusEnum.StartWorkingOnCar,
                     Note = "I run car pc diagnostics level 1 and level 2. I found nothing.",

@@ -50,7 +50,7 @@ void SeedData()
         _context.Cars.Result.AddRange(new List<Car>() {
                 new Car { Id=1, LicensePlate = "RI-123EN", BrandModelYear = "Ford Fiesta 2002", VehicleIdNumber = "4845151515" },
                 new Car { Id=2,  LicensePlate = "ZG-456FE", BrandModelYear = "Fiat 127 1989", VehicleIdNumber = "785212466" },
-                new Car { Id=3, LicensePlate = "OS-415ER", BrandModelYear = "Volkswagen Golf 5 2004", VehicleIdNumber = "8753214455" }});
+                new Car { Id=3, LicensePlate = "OS-415ER", BrandModelYear = "volkswagen 5 2004", VehicleIdNumber = "8753214455" }});
 
         _context.CarsAtService.Result.AddRange(new List<CarAtService>()
             {
@@ -84,7 +84,7 @@ void SeedData()
                     WorkNeedToBeDone = "check what is wrong with the car computer",
                     DateOfArrival = DateTime.Now.AddDays(-8)
                 }
-    });
+            });
 
 
         _context.CarServiceHistory.Result.AddRange(new List<CarServiceHistory>()
@@ -131,19 +131,12 @@ void SeedData()
                 {
                     Id = 6,
                     Car = _context.Cars.Result[1],
-                    CarStatus = CarStatusEnum.CarCheckedIn,
-                    DateOfStatusChange = DateTime.Now.AddDays(-11),
-                },
-                new CarServiceHistory
-                {
-                    Id = 1,
-                    Car = _context.Cars.Result[1],
                     CarStatus = CarStatusEnum.StartWorkingOnCar,
                     DateOfStatusChange = DateTime.Now.AddDays(-9)
                 },
                 new CarServiceHistory
                 {
-                    Id = 1,
+                    Id = 7,
                     Car = _context.Cars.Result[1],
                     CarStatus = CarStatusEnum.WaitingForPart,
                     Note = "new part is ordered. Should come tommorow",
@@ -151,14 +144,21 @@ void SeedData()
                 },
                 new CarServiceHistory
                 {
-                    Id = 7,
+                    Id = 8,
+                    Car = _context.Cars.Result[1],
+                    CarStatus = CarStatusEnum.CarCheckedIn,
+                    DateOfStatusChange = DateTime.Now.AddDays(-11),
+                },
+                new CarServiceHistory
+                {
+                    Id = 9,
                     Car = _context.Cars.Result[2],
                     CarStatus = CarStatusEnum.CarCheckedIn,
                     DateOfStatusChange = DateTime.Now.AddDays(-10),
                 },
                 new CarServiceHistory
                 {
-                    Id = 1,
+                    Id = 10,
                     Car = _context.Cars.Result[2],
                     CarStatus = CarStatusEnum.StartWorkingOnCar,
                     Note = "I run car pc diagnostics level 1 and level 2. I found nothing.",

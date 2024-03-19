@@ -103,7 +103,7 @@
 </div>
 <ng-template #addStatus let-modal>
     <div class="modal-body">
-        <app-car-status-edit [carId]="carId" (closeModal)="closeModal($event)" />
+        <app-car-status-edit [carId]="carId" (closeModal)="closeModal()" />
     </div>
 </ng-template>
 <ng-template #reasonToCancel let-modal>
