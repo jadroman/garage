@@ -6,15 +6,18 @@
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" placeholder="Name" formControlName="name">
+                <input type="text" class="form-control" id="name" placeholder="Name" maxlength="20"
+                    formControlName="name">
             </div>
             <div class="mb-3">
                 <label for="surname" class="form-label">Surname</label>
-                <input type="text" class="form-control" id="surname" placeholder="Surname" formControlName="surname">
+                <input type="text" class="form-control" id="surname" placeholder="Surname" maxlength="20"
+                    formControlName="surname">
             </div>
             <div class="mb-3">
                 <label for="phone" class="form-label">Phone</label>
-                <input type="tel" class="form-control" id="phone" placeholder="Phone" formControlName="phone">
+                <input type="tel" class="form-control" id="phone" placeholder="Phone" maxlength="20"
+                    formControlName="phone">
             </div>
             <button type="submit" class="btn btn-primary btn-sm me-2" [disabled]="!form.valid">Save</button>
             <a class="btn btn-secondary btn-sm" (click)="cancel()">Cancel</a>

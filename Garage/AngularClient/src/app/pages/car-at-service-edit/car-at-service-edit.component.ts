@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, TemplateRef, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { Car, CarAtService, ContactPerson, WorkComplexityEnum } from '@models/garage.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { getWorkComplexityLabel } from '@utils/car-at-service.utils';
 import { ContactsTableComponent } from 'app/shared/components/contacts-table/contacts-table.component';
 import { ContactEditComponent } from '../contacts/contact-edit/contact-edit.component';
-import { GarageService } from '@services/garage.service';
 import { CarsTableComponent } from 'app/shared/components/cars-table/cars-table.component';
 import { CarEditComponent } from '../cars/car-edit/car-edit.component';
 import { provideComponentStore } from '@ngrx/component-store';
@@ -29,7 +28,7 @@ export class CarAtServiceEditComponent {
   public selectedCar!: Car;
   public workComplexities: WorkComplexityEnum[] = Object.values(WorkComplexityEnum).filter(val => typeof val === 'number') as WorkComplexityEnum[];
 
-  constructor(private service: GarageService, private router: Router) {
+  constructor(private router: Router) {
   }
 
   form = new FormGroup({
@@ -94,22 +93,13 @@ export class CarAtServiceEditComponent {
     this.carAtServiceStore.addedCarAtService$.subscribe(() => {
       this.router.navigate(['/homepage']);
     });
-
-
-    /* this.service._waitIndicator$.next(true);
-    this.service.createCarAtService(carAtService).pipe(take(1)).subscribe(() => {
-      this.service._waitIndicator$.next(false);
-      this.router.navigate(['/homepage']);
-    }); */
   }
 
   open(content: TemplateRef<any>) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      (result) => {
-        //this.closeResult = `Closed with: ${result}`;
+      () => {
       },
-      (reason) => {
-        //this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      () => {
       },
     );
   }

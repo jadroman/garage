@@ -54,10 +54,9 @@ export class CarStatusEditComponent {
 
     this.carHistoryStore.addCarHistory(carHistory);
 
-    this.carHistoryStore.carHistroyAdded$.subscribe(() => {
+    this.carHistoryStore.histroyItemAdded$.subscribe(() => {
       this.closeModal.emit();
     });
-
   }
 }
 

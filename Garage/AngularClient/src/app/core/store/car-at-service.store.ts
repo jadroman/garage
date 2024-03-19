@@ -15,7 +15,7 @@ export class CarAtServiceStore extends ComponentStore<CarsAtServiceState> {
         super({ carsAtService: [], carAtServiceDetails: {} });
     }
 
-    addedCarAtService$ = new Subject<CarAtService>();
+    addedCarAtService$ = new Subject<void>();
     carsAtService$ = this.select((store) => store.carsAtService);
     carAtServiceDetails$ = this.select((store) => store.carAtServiceDetails);
 
@@ -57,8 +57,8 @@ export class CarAtServiceStore extends ComponentStore<CarsAtServiceState> {
         car$.pipe(
             tap((carAtService) => {
                 this.garageService.createCarAtService(carAtService).subscribe({
-                    next: (value) => {
-                        this.addedCarAtService$.next(value);
+                    next: () => {
+                        this.addedCarAtService$.next();
                         this.patchState((state) => ({
                             carsAtService: [...state.carsAtService, carAtService]
                         }));

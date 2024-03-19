@@ -19,7 +19,8 @@
                 </div>
                 <div class="mb-3">
                     <label for="note" class="form-label">Note</label>
-                    <input type="text" class="form-control" id="note" placeholder="Note" formControlName="note">
+                    <input type="text" class="form-control" id="note" placeholder="Note" maxlength="200"
+                        formControlName="note">
                 </div>
                 <button type="submit" class="btn btn-primary btn-sm me-2" [disabled]="!form.valid">Save</button>
                 <a class="btn btn-secondary btn-sm" (click)="cancel(false)">Cancel</a>
