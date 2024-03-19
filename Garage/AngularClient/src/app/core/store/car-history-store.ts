@@ -41,37 +41,20 @@ export class CarHistoryStore extends ComponentStore<CarHistoryState> {
             tap((cancelation) => {
                 this.garageService.cancelHistoryStatus(cancelation).subscribe({
                     next: () => {
-                        this.patchState((state) => (
-                            {
-                                carHistory: this.changeState(state.carHistory, cancelation.carHistoryId),
-                                histroyItemCanceled: true
-                            }));
+                        this.patchState((state) => ({
+                            carHistory: state.carHistory.map(ch => {
+                                if (ch.id == cancelation.carHistoryId) {
+                                    ch.statusIsCanceled = true;
+                                    ch.note = cancelation.reasonToCancel;
+                                }
+                                return ch;
+                            }),
+                            histroyItemCanceled: true
+                        }));
                     },
                     error: err => console.error('cancelcarHistory error: ' + err)
                 });
             })
         )
     );
-
-    private changeState(carHistory: CarHistory[], carHistoryId: number): CarHistory[] {
-        let changedHistoryState: CarHistory[];
-        let itemToChangeState = carHistory.find(cs => cs.id == carHistoryId);
-        if (itemToChangeState) {
-            itemToChangeState.statusIsCanceled = true;
-            changedHistoryState = [...carHistory.filter(ch => ch.id != carHistoryId), itemToChangeState];
-
-            return changedHistoryState;
-        }
-        else {
-            return carHistory;
-        }
-    }
-
-    /* private sortHistoryItems(items: CarHistory[]): CarHistory[] {
-        return items.sort((a, b) => {
-            var c = new Date(a.dateOfStatusChange ?? new Date());
-            var d = new Date(b.dateOfStatusChange ?? new Date());
-            return c > d ? -1 : c < d ? 1 : 0;
-        });
-    } */
 }
