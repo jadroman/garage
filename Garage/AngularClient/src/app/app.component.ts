@@ -11,7 +11,7 @@ import { GarageService } from '@services/garage.service';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'AngularClient';
+  title = 'Garage';
 
   constructor(private service: GarageService, private router: Router) {
   }

@@ -12,6 +12,30 @@ export interface Car {
     vehicleIdNumber?: string
 }
 
+export interface CarAtService {
+    id?: number,
+    contactPerson?: ContactPerson,
+    car?: Car,
+    workNeedToBeDone?: string,
+    estimatedDurationInHours?: number,
+    estimatedComplexity?: WorkComplexityEnum,
+    dateOfArrival?: Date
+}
+
+export interface CarHistory {
+    id: number,
+    car?: Car,
+    carStatus: CarStatusEnum,
+    dateOfStatusChange?: Date,
+    note: string,
+    statusIsCanceled?: boolean
+}
+
+export interface CancelHistoryStatusReq {
+    carHistoryId: number;
+    reasonToCancel: string;
+}
+
 export enum WorkComplexityEnum {
     VerySimple = 1,
     Simple = 2,
@@ -44,33 +68,4 @@ export enum CarStatusEnum {
     WorkIsDone = 3,
     ReadyToPickUp = 4,
     ClientTookOverTheCar = 5
-}
-
-export interface CarAtService {
-    id?: number,
-    contactPerson?: ContactPerson,
-    car?: Car,
-    workNeedToBeDone?: string,
-    estimatedDurationInHours?: number,
-    estimatedComplexity?: WorkComplexityEnum,
-    dateOfArrival?: Date
-}
-
-export interface CarHistory {
-    id: number,
-    car?: Car,
-    carStatus: CarStatusEnum,
-    dateOfStatusChange?: Date,
-    note: string,
-    statusIsCanceled?: boolean
-}
-
-export interface CarState {
-    cars: Car[];
-    isLoading: boolean;
-}
-
-export interface CancelHistoryStatusReq {
-    carHistoryId: number;
-    reasonToCancel: string;
 }

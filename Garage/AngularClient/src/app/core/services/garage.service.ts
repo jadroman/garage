@@ -1,25 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, delay, map, switchMap, take, tap } from 'rxjs';
+import { delay, map, take, } from 'rxjs';
 import { CancelHistoryStatusReq, Car, CarAtService, CarHistory, ContactPerson } from '../models/garage.model';
+import { environment } from 'environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GarageService {
-  private _carsAtService$ = new BehaviorSubject<CarAtService[]>([]);
-  private _contacts$ = new BehaviorSubject<ContactPerson[]>([]);
-  public _cars$ = new BehaviorSubject<Car[]>([]);
-  private _carHistory$ = new BehaviorSubject<CarHistory[]>([]);
-  private _contact$ = new BehaviorSubject<ContactPerson>(null!);
-  private _car$ = new BehaviorSubject<Car>(null!);
-  private _carAtService$ = new BehaviorSubject<CarAtService>(null!);
-  public _waitIndicator$ = new BehaviorSubject<boolean>(false);
-
   constructor(private http: HttpClient) { }
+  private readonly apiUrl = environment.apiUrl;
 
   public getCarsAtService = (params?: any) => {
-    return this.http.get<any>('http://localhost:5067/api/CarAtServices', {
+    return this.http.get<any>(`${this.apiUrl}/CarAtServices`, {
       params,
       observe: 'response'
     }).pipe(
@@ -30,21 +23,8 @@ export class GarageService {
     );
   }
 
-
-
-  public getCarHistory = (carId: number) => {
-    return this.http.get<any>(`http://localhost:5067/api/CarServiceHistories/car/${carId}`, {
-      observe: 'response'
-    }).pipe(
-      delay(500),
-      map(resp => {
-        return resp.body as CarHistory[];
-      })
-    );
-  }
-
   public getCarAtService = (carId: number) => {
-    return this.http.get<any>(`http://localhost:5067/api/CarAtServices/car/${carId}`, {
+    return this.http.get<any>(`${this.apiUrl}/CarAtServices/car/${carId}`, {
       observe: 'response'
     }).pipe(
       delay(1000),
@@ -54,8 +34,40 @@ export class GarageService {
     );
   }
 
+  public createCarAtService = (carAtService: CarAtService) => {
+    return this.http.post(`${this.apiUrl}/CarAtServices`, carAtService).pipe(
+      delay(500),
+      map((car) => {
+        return car as CarAtService;
+      })
+    );
+  }
+
+  public getCarHistory = (carId: number) => {
+    return this.http.get<any>(`${this.apiUrl}/CarServiceHistories/car/${carId}`, {
+      observe: 'response'
+    }).pipe(
+      delay(500),
+      map(resp => {
+        return resp.body as CarHistory[];
+      })
+    );
+  }
+
+  public cancelHistoryStatus = (cancelation: CancelHistoryStatusReq) => {
+    return this.http.put(`${this.apiUrl}/CarServiceHistories/cancel/${cancelation.carHistoryId}`, { reasonToCancel: cancelation.reasonToCancel }).pipe(
+      delay(500)
+    );
+  }
+
+  public createHistoryStatus = (carHistory: CarHistory) => {
+    return this.http.post(`${this.apiUrl}/CarServiceHistories/car/${carHistory.car?.id}`, carHistory).pipe(
+      delay(500)
+    );
+  }
+
   public getContacts = () => {
-    return this.http.get<any>('http://localhost:5067/api/ContactPersons', {
+    return this.http.get<any>(`${this.apiUrl}/ContactPersons`, {
       observe: 'response'
     }).pipe(
       delay(500),
@@ -66,7 +78,7 @@ export class GarageService {
   }
 
   public getContact = (id: number) => {
-    return this.http.get<any>(`http://localhost:5067/api/ContactPersons/${id}`, {
+    return this.http.get<any>(`${this.apiUrl}/ContactPersons/${id}`, {
       observe: 'response'
     }).pipe(
       delay(500),
@@ -77,7 +89,7 @@ export class GarageService {
   }
 
   public updateContact = (contact: ContactPerson) => {
-    return this.http.put(`http://localhost:5067/api/ContactPersons/${contact.id}`, contact).pipe(
+    return this.http.put(`${this.apiUrl}/ContactPersons/${contact.id}`, contact).pipe(
       delay(500),
       map((contactPerson) => {
         return contactPerson as ContactPerson;
@@ -86,7 +98,7 @@ export class GarageService {
   }
 
   public createContact = (contact: ContactPerson) => {
-    return this.http.post(`http://localhost:5067/api/ContactPersons`, contact).pipe(
+    return this.http.post(`${this.apiUrl}/ContactPersons`, contact).pipe(
       delay(500),
       map((car) => {
         return car as ContactPerson;
@@ -95,14 +107,14 @@ export class GarageService {
   }
 
   public deleteContact = (contactId: number) => {
-    return this.http.delete(`http://localhost:5067/api/ContactPersons/${contactId}`).pipe(
+    return this.http.delete(`${this.apiUrl}/ContactPersons/${contactId}`).pipe(
       delay(500)
     );
   }
 
 
   public getCars = () => {
-    return this.http.get<any>('http://localhost:5067/api/Cars', {
+    return this.http.get<any>(`${this.apiUrl}/Cars`, {
       observe: 'response'
     }).pipe(
       delay(500),
@@ -113,7 +125,7 @@ export class GarageService {
   }
 
   public getCar = (id: number) => {
-    return this.http.get<any>(`http://localhost:5067/api/Cars/${id}`, {
+    return this.http.get<any>(`${this.apiUrl}/Cars/${id}`, {
       observe: 'response'
     }).pipe(
       delay(500),
@@ -124,7 +136,7 @@ export class GarageService {
   }
 
   public updateCar = (car: Car) => {
-    return this.http.put(`http://localhost:5067/api/Cars/${car.id}`, car).pipe(
+    return this.http.put(`${this.apiUrl}/Cars/${car.id}`, car).pipe(
       delay(500),
       map((car) => {
         return car as Car;
@@ -133,7 +145,7 @@ export class GarageService {
   }
 
   public createCar = (car: Car) => {
-    return this.http.post(`http://localhost:5067/api/Cars`, car).pipe(
+    return this.http.post(`${this.apiUrl}/Cars`, car).pipe(
       delay(500),
       map((car) => {
         return car as Car;
@@ -142,73 +154,15 @@ export class GarageService {
   }
 
   public deleteCar = (carId: number) => {
-    return this.http.delete(`http://localhost:5067/api/Cars/${carId}`).pipe(
+    return this.http.delete(`${this.apiUrl}/Cars/${carId}`).pipe(
       delay(500)
     );
   }
 
   public seedData = () => {
-    return this.http.post(`http://localhost:5067/api/Seed`, {}).pipe(
+    return this.http.post(`${this.apiUrl}/Seed`, {}).pipe(
       delay(500),
       take(1)
     );
   }
-
-  public cancelHistoryStatus = (cancelation: CancelHistoryStatusReq) => {
-    return this.http.put(`http://localhost:5067/api/CarServiceHistories/cancel/${cancelation.carHistoryId}`, { reasonToCancel: cancelation.reasonToCancel }).pipe(
-      delay(500)
-    );
-  }
-
-  public createHistoryStatus = (carHistory: CarHistory) => {
-    return this.http.post(`http://localhost:5067/api/CarServiceHistories/car/${carHistory.car?.id}`, carHistory).pipe(
-      delay(500)
-    );
-  }
-
-  public createCarAtService = (carAtService: CarAtService) => {
-    return this.http.post(`http://localhost:5067/api/CarAtServices`, carAtService).pipe(
-      delay(500),
-      map((car) => {
-        return car as CarAtService;
-      })
-    );
-  }
-  /* 
-    public carsAtService$ = (params: any) => {
-      this.params = params;
-      this.getCarsAtService(this.params);
-      return this._carsAtService$.asObservable();
-    } */
-
-  /* public carAtService$ = (carId: number) => {
-    this.getCarAtService(carId);
-    return this._carAtService$.asObservable();
-  }
-
-  public contacts$ = () => {
-    this.getContacts();
-    return this._contacts$.asObservable();
-  }
-
-  public cars$ = () => {
-    this.getCars();
-    return this._cars$.asObservable();
-  }
-
-  public carHistory$ = (carId: number) => {
-    this.getCarHistory(carId);
-    return this._carHistory$.asObservable();
-  }
-
-  public contact$ = (id: number) => {
-    this.getContact(id);
-    return this._contact$.asObservable();
-  } */
-
-  /* public car$ = (id: number) => {
-    this.getCar(id);
-    return this._car$.asObservable();
-  } */
 }
-/*************************************/

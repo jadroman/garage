@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Car, CarHistory, CarStatusEnum } from '@models/garage.model';
+import { RouterLink } from '@angular/router';
+import { CarHistory, CarStatusEnum } from '@models/garage.model';
 import { provideComponentStore } from '@ngrx/component-store';
-import { GarageService } from '@services/garage.service';
 import { getCarStatusLabel } from '@utils/car-history.utils';
 import { CarHistoryStore } from 'app/core/store/car-history-store';
-import { Observable, take } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-car-status-edit',
@@ -23,11 +22,6 @@ export class CarStatusEditComponent {
   @Input() carId!: string | null;
   @Output() closeModal = new EventEmitter<boolean>();
   public carStatuses: CarStatusEnum[] = Object.values(CarStatusEnum).filter(val => typeof val === 'number') as CarStatusEnum[];
-
-
-  constructor(private route: ActivatedRoute, private service: GarageService, private router: Router) {
-    this.loading$ = this.service._waitIndicator$;
-  }
 
   form = new FormGroup({
     carStatus: new FormControl('', Validators.required),
