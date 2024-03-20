@@ -57,9 +57,16 @@ namespace Garage.Controllers
         [HttpPost]
         public async Task<ActionResult<Car>> PostCar([FromBody] Car car)
         {
-            int lastCarId = _context.Cars.Result.OrderByDescending(c => c.Id).First().Id;
+            if (_context.Cars.Result.OrderByDescending(c => c.Id).FirstOrDefault() is not null)
+            {
+                int lastCarId = _context.Cars.Result.OrderByDescending(c => c.Id).First().Id;
 
-            car.Id = ++lastCarId;
+                car.Id = ++lastCarId;
+            }
+            else
+            {
+                car.Id = 1;
+            }
 
             _context.Cars.Result.Add(car);
             return car;

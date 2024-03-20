@@ -5,8 +5,7 @@ import { RouterLink } from '@angular/router';
 import { CarHistory, CarStatusEnum } from '@models/garage.model';
 import { provideComponentStore } from '@ngrx/component-store';
 import { getCarStatusLabel } from '@utils/car-history.utils';
-import { CarHistoryStore } from 'app/core/store/car-history-store';
-import { Observable } from 'rxjs';
+import { CarHistoryStore } from 'app/core/store/car-history.store';
 
 @Component({
   selector: 'app-car-status-edit',
@@ -18,7 +17,6 @@ import { Observable } from 'rxjs';
 })
 export class CarStatusEditComponent {
   private readonly carHistoryStore = inject(CarHistoryStore);
-  loading$!: Observable<boolean>;
   @Input() carId!: string | null;
   @Output() closeModal = new EventEmitter<boolean>();
   public carStatuses: CarStatusEnum[] = Object.values(CarStatusEnum).filter(val => typeof val === 'number') as CarStatusEnum[];

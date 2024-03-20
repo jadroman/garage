@@ -8,18 +8,18 @@ export class MarkCanceledCarStatusDirective implements OnInit, OnChanges {
   @Input() isCanceled!: boolean;
 
   constructor(private el: ElementRef) {
-    if (this.isCanceled) {
-      this.el.nativeElement.style.textDecoration = 'line-through';
-    }
+    this.lineThroughIt()
   }
 
   ngOnChanges(): void {
-    if (this.isCanceled) {
-      this.el.nativeElement.style.textDecoration = 'line-through';
-    }
+    this.lineThroughIt()
   }
 
   ngOnInit(): void {
+    this.lineThroughIt()
+  }
+
+  private lineThroughIt() {
     if (this.isCanceled) {
       this.el.nativeElement.style.textDecoration = 'line-through';
     }

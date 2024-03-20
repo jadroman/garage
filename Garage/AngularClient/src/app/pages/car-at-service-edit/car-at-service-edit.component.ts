@@ -5,10 +5,10 @@ import { Router } from '@angular/router';
 import { Car, CarAtService, ContactPerson, WorkComplexityEnum } from '@models/garage.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { getWorkComplexityLabel } from '@utils/car-at-service.utils';
-import { ContactsTableComponent } from 'app/shared/components/contacts-table/contacts-table.component';
-import { ContactEditComponent } from '../contacts/contact-edit/contact-edit.component';
-import { CarsTableComponent } from 'app/shared/components/cars-table/cars-table.component';
-import { CarEditComponent } from '../cars/car-edit/car-edit.component';
+import { ContactsTableComponent } from '@shared/components/contacts-table/contacts-table.component';
+import { ContactEditComponent } from '@pages/contacts/contact-edit/contact-edit.component';
+import { CarsTableComponent } from '@shared/components/cars-table/cars-table.component';
+import { CarEditComponent } from '@pages/cars/car-edit/car-edit.component';
 import { provideComponentStore } from '@ngrx/component-store';
 import { CarAtServiceStore } from 'app/core/store/car-at-service.store';
 
@@ -96,11 +96,6 @@ export class CarAtServiceEditComponent {
   }
 
   open(content: TemplateRef<any>) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      () => {
-      },
-      () => {
-      },
-    );
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(() => { }, () => { },);
   }
 }

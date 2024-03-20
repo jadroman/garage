@@ -3,28 +3,22 @@
 </div>
 <div class="card">
     <div class="card-body">
-        <ng-container *ngIf="(loading$ | async) else statusForm">
-            <div class="spinner-border" role="status">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <label for="carStatus" class="form-label">Status</label>
+                <select class="form-select" id="carStatus" formControlName="carStatus">
+                    <option *ngFor="let cs of carStatuses" [value]="cs">
+                        {{getCarStatusLabel(cs)}}
+                    </option>
+                </select>
             </div>
-        </ng-container>
-        <ng-template #statusForm>
-            <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                <div class="mb-3">
-                    <label for="carStatus" class="form-label">Status</label>
-                    <select class="form-select" id="carStatus" formControlName="carStatus">
-                        <option *ngFor="let cs of carStatuses" [value]="cs">
-                            {{getCarStatusLabel(cs)}}
-                        </option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="note" class="form-label">Note</label>
-                    <input type="text" class="form-control" id="note" placeholder="Note" maxlength="200"
-                        formControlName="note">
-                </div>
-                <button type="submit" class="btn btn-primary btn-sm me-2" [disabled]="!form.valid">Save</button>
-                <a class="btn btn-secondary btn-sm" (click)="cancel(false)">Cancel</a>
-            </form>
-        </ng-template>
+            <div class="mb-3">
+                <label for="note" class="form-label">Note</label>
+                <input type="text" class="form-control" id="note" placeholder="Note" maxlength="200"
+                    formControlName="note">
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm me-2" [disabled]="!form.valid">Save</button>
+            <a class="btn btn-secondary btn-sm" (click)="cancel(false)">Cancel</a>
+        </form>
     </div>
 </div>

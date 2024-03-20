@@ -1,5 +1,4 @@
 import { Component, Input, OnChanges, inject } from '@angular/core';
-import { Observable } from 'rxjs';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { WorkStartedEnum, CarAtService, SortCarsByEnum, WorkComplexityEnum } from '@models/garage.model';
 import { RouterLink } from '@angular/router';
@@ -19,11 +18,10 @@ import { CarAtServiceStore } from 'app/core/store/car-at-service.store';
 export class CarsAtServiceListComponent implements OnChanges {
   @Input() workStarted: WorkStartedEnum = WorkStartedEnum.both;
   @Input() sortCarsBy: SortCarsByEnum = SortCarsByEnum.newlyArrived;
-  carsAtService$!: Observable<CarAtService[]>;
   private readonly carAtServiceStore = inject(CarAtServiceStore);
+  carsAtService$ = this.carAtServiceStore.carsAtService$;
 
   ngOnChanges(): void {
-    this.carsAtService$ = this.carAtServiceStore.carsAtService$;
     this.carAtServiceStore.getCarsAtService(this.getRequestParams(this.workStarted, this.sortCarsBy));
   }
 

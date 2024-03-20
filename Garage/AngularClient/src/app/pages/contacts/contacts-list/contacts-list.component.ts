@@ -1,7 +1,7 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ContactsTableComponent } from 'app/shared/components/contacts-table/contacts-table.component';
+import { ContactsTableComponent } from '@shared/components/contacts-table/contacts-table.component';
 
 @Component({
   selector: 'app-contacts-list',

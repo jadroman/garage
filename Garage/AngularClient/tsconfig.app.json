@@ -19,6 +19,9 @@
       ],
       "@pages/*": [
         "app/pages/*"
+      ],
+      "@shared/*": [
+        "app/shared/*"
       ]
     },
   },

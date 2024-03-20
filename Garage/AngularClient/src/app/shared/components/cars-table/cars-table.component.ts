@@ -5,7 +5,6 @@ import { Car } from '@models/garage.model';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { provideComponentStore } from '@ngrx/component-store';
 import { CarStore } from 'app/core/store/car.store';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-cars-table',
@@ -19,13 +18,11 @@ import { Observable } from 'rxjs';
 export class CarsTableComponent implements OnInit {
   @Input() carPickMode: boolean = false;
   @Output() selectCar = new EventEmitter<Car>();
-  cars$!: Observable<Car[]>
-
   private readonly carStore = inject(CarStore);
+  cars$ = this.carStore.cars$;
 
   ngOnInit(): void {
     this.carStore.getCars();
-    this.cars$ = this.carStore.cars$;
   }
 
   pickCar(car: Car) {

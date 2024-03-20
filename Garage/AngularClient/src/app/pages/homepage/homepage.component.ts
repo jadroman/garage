@@ -1,6 +1,6 @@
-import { Component, TemplateRef, inject } from '@angular/core';
-import { CarsAtServiceListComponent } from '../../shared/components/cars-at-service-list/cars-at-service-list.component';
-import { SortCarsByEnum, WorkStartedEnum } from '../../core/models/garage.model';
+import { Component } from '@angular/core';
+import { CarsAtServiceListComponent } from '@shared/components/cars-at-service-list/cars-at-service-list.component';
+import { SortCarsByEnum, WorkStartedEnum } from '@models/garage.model';
 import { RouterLink } from '@angular/router';
 
 
