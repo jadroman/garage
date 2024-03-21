@@ -8,7 +8,7 @@ What is this?
 -------------
 
 Very simple Mechanic Workshop Angular web application I created for the purpose of exercise. 
-This Angular app fetches data from .NET Web API, but this API serves only as a backend mock, there is no DB (just in memory data), no authorization/authentication....
+This Angular app fetches data from the .NET Web API located inside the repo, but </strong>this API serves only as a backend mock</strong>, there is no DB (just in memory data), no authorization/authentication....
 
 
 
