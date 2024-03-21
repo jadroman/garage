@@ -12,13 +12,20 @@ import { GarageService } from '@services/garage.service';
 })
 export class AppComponent {
   title = 'Garage';
+  readonly defaultUrl = '/homepage';
+
 
   constructor(private service: GarageService, private router: Router) {
   }
 
   seedData() {
     this.service.seedData().subscribe(() => {
-      this.router.navigate(['/homepage']);
+      if (this.router.url === this.defaultUrl) {
+        window.location.reload();
+      }
+      else {
+        this.router.navigate([this.defaultUrl]);
+      }
     });
   }
 }
