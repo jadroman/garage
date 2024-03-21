@@ -28,7 +28,7 @@ How to run?
 -----------
 
 * Clone or download code
-* Open backend solution (Visual studio 2019 or later) and run it
+* Open backend solution (Visual studio 2022 or later) and run it
 * Go to "AngularClient" folder and run "npm i" from console.
 * Run "npm start" from console.
 
