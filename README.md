@@ -7,7 +7,7 @@ Short overview:
 What is this?
 -------------
 
-Very simple mechanic workshop Angular web application I created for the purpose of exercise. 
+Very simple Mechanic Workshop Angular web application I created for the purpose of exercise. 
 This Angular app fetches data from .NET Web API, but this API serves only as a backend mock, there is no DB (just in memory data), no authorization/authentication....
 
 
