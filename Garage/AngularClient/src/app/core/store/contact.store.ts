@@ -17,6 +17,7 @@ export class ContactStore extends ComponentStore<ContactState> {
 
     addedContact$ = new Subject<ContactPerson>();
     updatedContact$ = new Subject<ContactPerson>();
+    contactsLoaded$ = new Subject<boolean>();
 
     contacts$ = this.select((store) => store.contacts);
     contactDetails$ = this.select((store) => store.contactDetails);
@@ -27,6 +28,7 @@ export class ContactStore extends ComponentStore<ContactState> {
                 this.garageService.getContacts().pipe(
                     tapResponse(
                         (response) => {
+                            this.contactsLoaded$.next(true);
                             this.patchState({ contacts: response });
                         },
                         (error) => {

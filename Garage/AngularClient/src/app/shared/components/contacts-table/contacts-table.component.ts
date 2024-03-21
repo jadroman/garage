@@ -19,7 +19,7 @@ export class ContactsTableComponent implements OnInit {
   @Output() selectContact = new EventEmitter<ContactPerson>();
   private readonly contactStore = inject(ContactStore);
   contacts$ = this.contactStore.contacts$;
-
+  contactsLoaded$ = this.contactStore.contactsLoaded$;
 
   ngOnInit(): void {
     this.contactStore.getContacts();

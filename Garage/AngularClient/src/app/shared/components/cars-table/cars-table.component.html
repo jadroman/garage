@@ -9,8 +9,7 @@
         </tr>
     </thead>
     <tbody>
-
-        @defer (when !!(cars$ | async)?.length) {
+        @defer (when (carsLoaded$ | async)) {
         @for (c of cars$ | async; track c.id) {
         @if (carPickMode) {
         <tr role="button" (click)="pickCar(c)">
@@ -39,7 +38,6 @@
         } @empty {
         <tr>
             <td colspan="3" style="text-align: center">No entries found</td>
-            <td></td>
             <td></td>
             <td></td>
         </tr>

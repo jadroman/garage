@@ -17,6 +17,7 @@ export class CarHistoryStore extends ComponentStore<CarHistoryState> {
     carHistory$ = this.select((store) => store.carHistory);
     histroyItemCanceled$ = new Subject<void>;
     histroyItemAdded$ = new Subject<void>;
+    carHistoryLoaded$ = new Subject<boolean>();
 
     getCarHistory = this.effect((carId$: Observable<number>) =>
         carId$.pipe(
@@ -24,6 +25,7 @@ export class CarHistoryStore extends ComponentStore<CarHistoryState> {
                 this.garageService.getCarHistory(carId).pipe(
                     tapResponse(
                         (response) => {
+                            this.carHistoryLoaded$.next(true);
                             this.patchState({ carHistory: response });
                         },
                         (error) => {

@@ -20,6 +20,7 @@ export class CarsAtServiceListComponent implements OnChanges {
   @Input() sortCarsBy: SortCarsByEnum = SortCarsByEnum.newlyArrived;
   private readonly carAtServiceStore = inject(CarAtServiceStore);
   carsAtService$ = this.carAtServiceStore.carsAtService$;
+  carsAtServiceLoaded$ = this.carAtServiceStore.carsAtServiceLoaded$;
 
   ngOnChanges(): void {
     this.carAtServiceStore.getCarsAtService(this.getRequestParams(this.workStarted, this.sortCarsBy));

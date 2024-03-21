@@ -20,6 +20,7 @@ export class CarsTableComponent implements OnInit {
   @Output() selectCar = new EventEmitter<Car>();
   private readonly carStore = inject(CarStore);
   cars$ = this.carStore.cars$;
+  carsLoaded$ = this.carStore.carsLoaded$;
 
   ngOnInit(): void {
     this.carStore.getCars();

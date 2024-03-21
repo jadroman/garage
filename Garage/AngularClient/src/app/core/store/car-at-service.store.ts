@@ -16,6 +16,7 @@ export class CarAtServiceStore extends ComponentStore<CarsAtServiceState> {
     }
 
     addedCarAtService$ = new Subject<void>();
+    carsAtServiceLoaded$ = new Subject<boolean>();
     carsAtService$ = this.select((store) => store.carsAtService);
     carAtServiceDetails$ = this.select((store) => store.carAtServiceDetails);
 
@@ -25,6 +26,7 @@ export class CarAtServiceStore extends ComponentStore<CarsAtServiceState> {
                 this.garageService.getCarsAtService(params).pipe(
                     tapResponse(
                         (response) => {
+                            this.carsAtServiceLoaded$.next(true);
                             this.patchState({ carsAtService: response });
                         },
                         (error) => {

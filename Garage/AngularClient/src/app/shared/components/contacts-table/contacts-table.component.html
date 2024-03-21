@@ -8,7 +8,7 @@
         </tr>
     </thead>
     <tbody>
-        @defer (when !!(contacts$ | async)?.length) {
+        @defer (when (contactsLoaded$ | async)) {
         @for (c of contacts$ | async; track c.id) {
         @if (contactPickMode) {
         <tr role="button" (click)="pickContact(c)">

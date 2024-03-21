@@ -29,6 +29,7 @@ export class CarHistoryComponent implements OnInit {
   private readonly carAtServiceStore = inject(CarAtServiceStore);
   carHistory$ = this.carHistoryStore.carHistory$;
   carAtService$ = this.carAtServiceStore.carAtServiceDetails$;
+  carHistoryLoaded$ = this.carHistoryStore.carHistoryLoaded$;
 
   constructor(private route: ActivatedRoute) {
   }
