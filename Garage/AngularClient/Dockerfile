@@ -4,8 +4,8 @@ WORKDIR /usr/src/app
 
 COPY . /usr/src/app
 
-RUN npm install -g @angular/cli
+RUN npm install -g @angular/cli@^17.0.7
 
-RUN npm install
+RUN npm ci
 
 CMD ["ng", "serve", "--host", "0.0.0.0"]
